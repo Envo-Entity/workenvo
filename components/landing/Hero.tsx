@@ -1,21 +1,20 @@
+"use client";
+
 export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden"
-      style={{ background: "#0a0f0d" }}
+      style={{ background: "#FFFFFF" }}
     >
-      {/* Background effects */}
-      <div className="absolute inset-0 dot-grid opacity-40 pointer-events-none" />
-      <div className="absolute inset-0 hero-glow pointer-events-none" />
-
-      {/* Floating orbs */}
+      {/* Soft background tint */}
+      <div className="absolute inset-0 dot-pattern pointer-events-none" />
       <div
-        className="absolute right-[10%] top-[20%] w-96 h-96 orb float-orb pointer-events-none"
-        style={{ background: "rgba(20, 83, 45, 0.3)" }}
+        className="absolute top-0 right-0 w-[600px] h-[600px] orb float-orb pointer-events-none"
+        style={{ background: "rgba(22, 133, 91, 0.07)" }}
       />
       <div
-        className="absolute right-[25%] bottom-[20%] w-64 h-64 orb float-orb-2 pointer-events-none"
-        style={{ background: "rgba(34, 197, 94, 0.08)" }}
+        className="absolute bottom-0 left-[10%] w-[400px] h-[400px] orb float-orb-2 pointer-events-none"
+        style={{ background: "rgba(217, 119, 6, 0.05)" }}
       />
 
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
@@ -23,20 +22,10 @@ export default function Hero() {
           {/* Left: Text block */}
           <div className="max-w-2xl">
             {/* Eyebrow */}
-            <div
-              className="inline-flex items-center rounded-md px-3 py-1.5 mb-8 animate-fade-up"
-              style={{
-                background: "#14532d",
-                border: "1px solid rgba(34, 197, 94, 0.3)",
-              }}
-            >
+            <div className="inline-flex items-center tag-green rounded-full px-4 py-1.5 mb-8 animate-fade-up">
               <span
-                className="text-xs font-medium tracking-widest uppercase"
-                style={{
-                  color: "#4ade80",
-                  fontFamily: "var(--font-mono)",
-                  letterSpacing: "0.12em",
-                }}
+                className="text-xs font-semibold tracking-wide"
+                style={{ color: "#065F46" }}
               >
                 Behaviour Intelligence Platform
               </span>
@@ -44,15 +33,15 @@ export default function Hero() {
 
             {/* Headline */}
             <h1
-              className="text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-6 animate-fade-up delay-100"
+              className="text-5xl lg:text-[64px] leading-[1.08] tracking-tight mb-6 animate-fade-up delay-100"
               style={{
                 fontFamily: "var(--font-serif)",
-                color: "#f0fdf4",
+                color: "#111827",
                 fontWeight: 400,
               }}
             >
               Turn{" "}
-              <span className="wavy-underline" style={{ color: "#f0fdf4" }}>
+              <span className="wavy-underline" style={{ color: "#111827" }}>
                 behaviour
               </span>{" "}
               into organisational capability
@@ -62,23 +51,22 @@ export default function Hero() {
             <p
               className="text-lg leading-relaxed mb-4 animate-fade-up delay-200"
               style={{
-                color: "#86efac",
+                color: "#6B7280",
                 fontFamily: "var(--font-sans)",
                 maxWidth: "560px",
               }}
             >
-              Most organisations invest in people, culture, and
-              sustainability — but still discover problems too late. Workenvo
-              helps you detect behavioural signals early, reinforce the right
-              actions, and build the capabilities your organisation needs to
-              perform and scale.
+              Most organisations invest in people, culture, and sustainability —
+              but still discover problems too late. Workenvo helps you detect
+              behavioural signals early, reinforce the right actions, and build
+              the capabilities your organisation needs to perform and scale.
             </p>
 
             {/* Supporting line */}
             <p
-              className="text-base italic mb-10 animate-fade-up delay-300"
+              className="text-base font-medium mb-10 animate-fade-up delay-300"
               style={{
-                color: "#4ade80",
+                color: "#16855B",
                 fontFamily: "var(--font-sans)",
               }}
             >
@@ -89,29 +77,40 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-4 animate-fade-up delay-400">
               <a
                 href="#"
-                className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-lg border-2 text-base font-medium transition-all duration-200 glow"
-                style={{
-                  background: "#14532d",
-                  color: "#4ade80",
-                  borderColor: "#22c55e",
-                  fontFamily: "var(--font-sans)",
-                }}
+                className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-base font-medium"
               >
                 Book a demo
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-2 text-base transition-colors duration-200 group"
-                style={{
-                  color: "#86efac",
-                  fontFamily: "var(--font-sans)",
-                }}
+                className="inline-flex items-center gap-2 text-base font-medium transition-colors duration-200 group"
+                style={{ color: "#374151" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#16855B")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
               >
                 See how it works
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
                   →
                 </span>
               </a>
+            </div>
+
+            {/* Social proof */}
+            <div className="mt-12 flex items-center gap-6 animate-fade-up delay-500">
+              <div className="flex -space-x-2">
+                {["#16855B", "#0F6E50", "#1A9A6B", "#12785A"].map((c, i) => (
+                  <div
+                    key={i}
+                    className="w-9 h-9 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-semibold"
+                    style={{ background: c }}
+                  >
+                    {["A", "B", "C", "D"][i]}
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm" style={{ color: "#6B7280" }}>
+                Trusted by forward-thinking HR teams
+              </p>
             </div>
           </div>
 
@@ -127,89 +126,73 @@ export default function Hero() {
 
 function CapabilityDiagram() {
   const nodes = [
-    { label: "Define", angle: -90, icon: "◈" },
-    { label: "Translate", angle: -18, icon: "⇄" },
-    { label: "Detect", angle: 54, icon: "◉" },
-    { label: "Reinforce", angle: 126, icon: "↑" },
-    { label: "Build & Prove", angle: 198, icon: "✦" },
+    { label: "Define", angle: -90, emoji: "🎯" },
+    { label: "Translate", angle: -18, emoji: "🔀" },
+    { label: "Detect", angle: 54, emoji: "👁" },
+    { label: "Reinforce", angle: 126, emoji: "💪" },
+    { label: "Build & Prove", angle: 198, emoji: "📈" },
   ];
 
-  const r = 140; // radius
+  const r = 140;
 
   return (
-    <div className="relative w-[380px] h-[380px] flex items-center justify-center">
-      {/* Outer spinning ring */}
+    <div className="relative w-[400px] h-[400px] flex items-center justify-center">
+      {/* Outer ring */}
       <div
-        className="absolute inset-0 rounded-full spin-slow"
-        style={{
-          border: "1px dashed rgba(34, 197, 94, 0.2)",
-        }}
+        className="absolute inset-0 rounded-full"
+        style={{ border: "1.5px dashed #D1FAE5" }}
       />
       {/* Inner ring */}
       <div
         className="absolute rounded-full"
-        style={{
-          inset: "40px",
-          border: "1px solid rgba(34, 197, 94, 0.1)",
-        }}
+        style={{ inset: "40px", border: "1px solid #F3F4F6" }}
       />
+
       {/* Center */}
       <div
-        className="absolute w-20 h-20 rounded-full flex items-center justify-center glow"
+        className="absolute w-24 h-24 rounded-full flex items-center justify-center"
         style={{
-          background: "rgba(20, 83, 45, 0.5)",
-          border: "1px solid rgba(34, 197, 94, 0.4)",
+          background: "#ECFDF5",
+          border: "2px solid #A7F3D0",
+          boxShadow: "0 4px 16px rgba(22, 133, 91, 0.12)",
         }}
       >
-        <span
-          className="text-xs text-center leading-tight"
-          style={{
-            color: "#4ade80",
-            fontFamily: "var(--font-mono)",
-            fontSize: "9px",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-          }}
-        >
-          WORKENVO
-          <br />
-          LOOP
-        </span>
+        <div className="text-center">
+          <div className="text-2xl mb-0.5">🌿</div>
+          <span
+            className="text-[9px] font-semibold uppercase tracking-wider"
+            style={{ color: "#065F46", fontFamily: "var(--font-sans)" }}
+          >
+            Workenvo
+          </span>
+        </div>
       </div>
 
       {/* Nodes */}
       {nodes.map((node) => {
         const rad = (node.angle * Math.PI) / 180;
-        const x = 50 + (r / 3.8) * Math.cos(rad) * 100 * 0.01 * 3.8;
-        const y = 50 + (r / 3.8) * Math.sin(rad) * 100 * 0.01 * 3.8;
 
         return (
           <div
             key={node.label}
-            className="absolute flex flex-col items-center gap-1"
+            className="absolute flex flex-col items-center gap-1.5"
             style={{
-              left: `calc(${50 + ((r * Math.cos(rad)) / 190) * 100}% - 48px)`,
-              top: `calc(${50 + ((r * Math.sin(rad)) / 190) * 100}% - 36px)`,
+              left: `calc(${50 + ((r * Math.cos(rad)) / 200) * 100}% - 48px)`,
+              top: `calc(${50 + ((r * Math.sin(rad)) / 200) * 100}% - 38px)`,
               width: "96px",
             }}
           >
             <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-lg glow-hover transition-all duration-300"
-              style={{
-                background: "rgba(17, 30, 20, 0.9)",
-                border: "1px solid rgba(34, 197, 94, 0.4)",
-                color: "#4ade80",
-              }}
+              className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl soft-card lift-hover"
+              style={{ cursor: "default" }}
             >
-              {node.icon}
+              {node.emoji}
             </div>
             <span
-              className="text-center leading-tight"
+              className="text-center text-xs font-medium leading-tight"
               style={{
-                color: "#86efac",
+                color: "#374151",
                 fontFamily: "var(--font-sans)",
-                fontSize: "11px",
-                fontWeight: 500,
               }}
             >
               {node.label}
@@ -218,19 +201,19 @@ function CapabilityDiagram() {
         );
       })}
 
-      {/* Connector lines (SVG overlay) */}
+      {/* Connector lines */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox="0 0 380 380"
+        viewBox="0 0 400 400"
       >
         {nodes.map((node, i) => {
           const nextNode = nodes[(i + 1) % nodes.length];
           const rad1 = (node.angle * Math.PI) / 180;
           const rad2 = (nextNode.angle * Math.PI) / 180;
-          const x1 = 190 + r * Math.cos(rad1);
-          const y1 = 190 + r * Math.sin(rad1);
-          const x2 = 190 + r * Math.cos(rad2);
-          const y2 = 190 + r * Math.sin(rad2);
+          const x1 = 200 + r * Math.cos(rad1);
+          const y1 = 200 + r * Math.sin(rad1);
+          const x2 = 200 + r * Math.cos(rad2);
+          const y2 = 200 + r * Math.sin(rad2);
           return (
             <line
               key={i}
@@ -238,9 +221,9 @@ function CapabilityDiagram() {
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="rgba(34, 197, 94, 0.15)"
-              strokeWidth="1"
-              strokeDasharray="4 4"
+              stroke="#D1FAE5"
+              strokeWidth="1.5"
+              strokeDasharray="5 4"
             />
           );
         })}
