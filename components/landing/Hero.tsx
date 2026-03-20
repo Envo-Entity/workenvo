@@ -1,106 +1,247 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// Cubic ease-out: fast start, slow finish
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
+}
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.6;
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const NORMAL_PLAY_MS = 3000; // play at full speed for 3s
+    const DECEL_DURATION = 4000; // then decelerate over 4s
+
+    // Text appears independently after 1s
+    const textTimer = setTimeout(() => setShowContent(true), 1000);
+
+    const startDecel = () => {
+      const decelTimer = setTimeout(() => {
+        const startTime = performance.now();
+
+        const tick = (now: number) => {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / DECEL_DURATION, 1);
+          const eased = easeOutCubic(t);
+          const rate = 1 - eased; // 1.0 → 0.0
+
+          if (rate <= 0.07) {
+            video.playbackRate = 0.0625;
+            video.pause();
+          } else {
+            video.playbackRate = rate;
+          }
+
+          if (t < 1 && rate > 0.07) {
+            rafRef.current = requestAnimationFrame(tick);
+          }
+        };
+
+        rafRef.current = requestAnimationFrame(tick);
+      }, NORMAL_PLAY_MS);
+
+      return decelTimer;
+    };
+
+    let decelTimer: ReturnType<typeof setTimeout>;
+
+    video
+      .play()
+      .then(() => {
+        decelTimer = startDecel();
+      })
+      .catch(() => setShowContent(true));
+
+    return () => {
+      clearTimeout(textTimer);
+      clearTimeout(decelTimer);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Video */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+    <section
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: "100vh", backgroundColor: "#ffffff" }}
+    >
+      {/* Video Container — bottom anchored, shifted down so more top is hidden */}
+      {/* Container raised 10% (height 70% from bottom), top 10% of video cropped */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "70%",
+          overflow: "hidden",
+        }}
       >
-        <source
-          src="https://nqspbtenbeyfvpyqwigb.supabase.co/storage/v1/object/public/envo-public-assets/testvid.mp4"
-          type="video/mp4"
-        />
-      </video>
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          style={{
+            width: "100%",
+            height: "140%",
+            objectFit: "cover",
+            // 50% 10% shifts the framing down → crops top 10%, reveals more bottom
+            objectPosition: "50% 10%",
+            display: "block",
+          }}
+        >
+          <source
+            src="https://nqspbtenbeyfvpyqwigb.supabase.co/storage/v1/object/public/envo-public-assets/testvid.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
 
-      {/* Overlay */}
-      <div className="animate-overlay-in absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-black/50 via-black/25 to-black/55" />
+      {/* White Gradient Fade — extra-long transition for soft top edge */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          zIndex: 1,
+          background: `linear-gradient(
+            to bottom,
+            rgba(255,255,255,1)   0%,
+            rgba(255,255,255,1)   30%,
+            rgba(255,255,255,0.97) 38%,
+            rgba(255,255,255,0.92) 45%,
+            rgba(255,255,255,0.82) 52%,
+            rgba(255,255,255,0.65) 60%,
+            rgba(255,255,255,0.42) 68%,
+            rgba(255,255,255,0.18) 76%,
+            rgba(255,255,255,0.05) 84%,
+            rgba(255,255,255,0.0)  90%
+          )`,
+        }}
+      />
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
-        <div className="animate-hero-in liquid-glass rounded-[2.5rem] px-10 py-14 md:px-16 md:py-20 flex flex-col items-center text-center max-w-3xl w-full mx-auto">
-          {/* Headline */}
-          <h1
-            className="text-7xl sm:text-8xl md:text-[100px] leading-[1.05] tracking-tight text-white mb-6"
-            style={{ fontFamily: "var(--font-serif)", fontWeight: 400 }}
-          >
-            Turn{" "}
-            <span
-              style={{
-                textDecoration: "underline",
-                textDecorationStyle: "wavy",
-                textDecorationColor: "#22c55e",
-                textDecorationThickness: "3px",
-                textUnderlineOffset: "8px",
-              }}
-            >
-              behaviour
-            </span>{" "}
-            into{" "}
-            <em
-              className="not-italic"
-              style={{ color: "rgba(255,255,255,0.55)" }}
-            >
-              capability
-            </em>
-          </h1>
-
-          {/* One-liner */}
-          <p
-            className="text-lg sm:text-2xl leading-relaxed max-w-sm mb-10"
+      {/* Text Content — pushed lower for breathing room */}
+      <div
+        className="pt-[35%] lg:pt-[20%] xl:pt-[13%]"
+        style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "1200px",
+          margin: "0 auto",
+          paddingLeft: "24px",
+          paddingRight: "24px",
+          paddingBottom: "60px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        {/* Headline */}
+        <h1
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontWeight: 400,
+            fontSize: "clamp(52px, 8vw, 100px)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            color: "#111111",
+            marginBottom: "24px",
+            opacity: showContent ? 1 : 0,
+            transform: showContent ? "translateY(0px)" : "translateY(24px)",
+            transition: "opacity 0.9s ease, transform 0.9s ease",
+          }}
+        >
+          Turn{" "}
+          <span
             style={{
-              color: "rgba(255,255,255,0.6)",
-              fontFamily: "var(--font-sans)",
+              textDecoration: "underline",
+              textDecorationStyle: "wavy",
+              textDecorationColor: "#16855B",
+              textDecorationThickness: "3px",
+              textUnderlineOffset: "8px",
             }}
           >
-            Understand what&apos;s really happening. Then shape what comes next.
-          </p>
+            behaviour
+          </span>{" "}
+          into{" "}
+          <em className="not-italic" style={{ color: "rgba(17,17,17,0.38)" }}>
+            capability
+          </em>
+        </h1>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03]"
-              style={{
-                background: "#16855B",
-                boxShadow: "0 4px 24px rgba(22, 133, 91, 0.5)",
-                fontFamily: "var(--font-sans)",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#0F6E50")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#16855B")
-              }
-            >
-              Book a demo
-            </a>
+        {/* Subheadline */}
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(16px, 2vw, 22px)",
+            lineHeight: 1.6,
+            color: "rgba(17,17,17,0.52)",
+            maxWidth: "480px",
+            marginBottom: "40px",
+            opacity: showContent ? 1 : 0,
+            transform: showContent ? "translateY(0px)" : "translateY(24px)",
+            transition: "opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s",
+          }}
+        >
+          Understand what&apos;s really happening. Then shape what comes next.
+        </p>
 
-            <a
-              href="#"
-              className="liquid-glass-btn inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-medium text-white group"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              See how it works
-              <span className="transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
-            </a>
-          </div>
+        {/* CTA Buttons */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "12px",
+            opacity: showContent ? 1 : 0,
+            transform: showContent ? "translateY(0px)" : "translateY(24px)",
+            transition: "opacity 0.9s ease 0.24s, transform 0.9s ease 0.24s",
+          }}
+        >
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-2xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03]"
+            style={{
+              background: "#16855B",
+              boxShadow: "0 4px 24px rgba(22, 133, 91, 0.35)",
+              fontFamily: "var(--font-sans)",
+              padding: "14px 32px",
+              textDecoration: "none",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#0F6E50")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#16855B")}
+          >
+            Book a demo
+          </a>
+
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-2xl text-sm font-medium group transition-all duration-200 hover:scale-[1.02]"
+            style={{
+              fontFamily: "var(--font-sans)",
+              padding: "14px 32px",
+              color: "#111111",
+              background: "rgba(17,17,17,0.06)",
+              border: "1px solid rgba(17,17,17,0.1)",
+              textDecoration: "none",
+            }}
+          >
+            See how it works
+            <span className="transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
         </div>
       </div>
     </section>
