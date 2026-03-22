@@ -5,379 +5,392 @@ import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Minimal inline SVG icons — consistent line-art style
-function IconDefine({ color }: { color: string }) {
+// ── Logo icons (line-art SVG, no emoji) ──────────────────────────────────────
+
+function LogoDefine({ active }: { active: boolean }) {
+  const c = active ? "#fff" : "#9CA3AF";
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="4" />
-      <line x1="12" y1="2" x2="12" y2="6" />
-      <line x1="12" y1="18" x2="12" y2="22" />
-      <line x1="2" y1="12" x2="6" y2="12" />
-      <line x1="18" y1="12" x2="22" y2="12" />
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="16" cy="16" r="11" />
+      <circle cx="16" cy="16" r="4" />
+      <line x1="16" y1="5" x2="16" y2="9" />
+      <line x1="16" y1="23" x2="16" y2="27" />
+      <line x1="5" y1="16" x2="9" y2="16" />
+      <line x1="23" y1="16" x2="27" y2="16" />
     </svg>
   );
 }
 
-function IconTranslate({ color }: { color: string }) {
+function LogoTranslate({ active }: { active: boolean }) {
+  const c = active ? "#fff" : "#9CA3AF";
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="17 1 21 5 17 9" />
-      <path d="M3 11V9a4 4 0 0 1 4-4h14" />
-      <polyline points="7 23 3 19 7 15" />
-      <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 9h14" />
+      <path d="M9 9V6" />
+      <path d="M5 14s2 3 6 3 6-3 6-3" />
+      <path d="M16 20l4 8" />
+      <path d="M24 20l-4 8" />
+      <path d="M14 28h10" />
+      <path d="M19 14v6" />
+      <path d="M22 17h6" />
     </svg>
   );
 }
 
-function IconDetect({ color }: { color: string }) {
+function LogoDetect({ active }: { active: boolean }) {
+  const c = active ? "#fff" : "#9CA3AF";
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-      <circle cx="12" cy="12" r="3" />
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 16s5-9 14-9 14 9 14 9-5 9-14 9S2 16 2 16z" />
+      <circle cx="16" cy="16" r="4" />
+      <circle cx="16" cy="16" r="1.5" fill={c} stroke="none" />
+      <path d="M22 10l4-4M26 6h-2v2" />
     </svg>
   );
 }
 
-function IconReinforce({ color }: { color: string }) {
+function LogoReinforce({ active }: { active: boolean }) {
+  const c = active ? "#fff" : "#9CA3AF";
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-      <polyline points="17 6 23 6 23 12" />
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="2,26 10,16 16,21 26,9" />
+      <polyline points="20,9 26,9 26,15" />
     </svg>
   );
 }
 
-function IconBuildProve({ color }: { color: string }) {
+function LogoBuildProve({ active }: { active: boolean }) {
+  const c = active ? "#fff" : "#9CA3AF";
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-      <line x1="2" y1="20" x2="22" y2="20" />
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="28" x2="28" y2="28" />
+      <rect x="3" y="20" width="6" height="8" rx="1" />
+      <rect x="13" y="14" width="6" height="14" rx="1" />
+      <rect x="23" y="8" width="6" height="20" rx="1" />
     </svg>
   );
 }
+
+// ── Data ──────────────────────────────────────────────────────────────────────
 
 const steps = [
   {
+    id: 0,
     num: "01",
     name: "Define",
-    desc: "Identify the capabilities your organisation needs. Start with strategy, not assumption.",
-    Icon: IconDefine,
-    color: "#16855B",
+    title: "Define what good looks like",
+    detail:
+      "Start with strategy, not assumption. Identify the precise capabilities your organisation needs to execute on its goals — before any measurement begins.",
+    Logo: LogoDefine,
+    color: "#4ADE80",
+    glow: "rgba(74,222,128,0.2)",
   },
   {
+    id: 1,
     num: "02",
     name: "Translate",
-    desc: "Map the behaviours that drive those capabilities. Make the intangible concrete.",
-    Icon: IconTranslate,
-    color: "#059669",
+    title: "Translate strategy into behaviour",
+    detail:
+      "Map the specific day-to-day behaviours that drive the capabilities you've defined. Make the intangible concrete so every person knows what's expected.",
+    Logo: LogoTranslate,
+    color: "#22C55E",
+    glow: "rgba(34,197,94,0.2)",
   },
   {
+    id: 2,
     num: "03",
     name: "Detect",
-    desc: "Surface signals and risks in real time. See what's changing before it becomes a problem.",
-    Icon: IconDetect,
-    color: "#0D9488",
+    title: "Detect signals before they become problems",
+    detail:
+      "Surface real-time signals and risk indicators across your workforce. See what's changing in behaviour — and what it means — before it escalates.",
+    Logo: LogoDetect,
+    color: "#16A34A",
+    glow: "rgba(22,163,74,0.22)",
   },
   {
+    id: 3,
     num: "04",
     name: "Reinforce",
-    desc: "Drive adoption through incentives and engagement. Reward the behaviours that matter.",
-    Icon: IconReinforce,
-    color: "#0891B2",
+    title: "Reinforce the behaviours that matter",
+    detail:
+      "Drive adoption through targeted incentives and engagement. Reward the right behaviours consistently so they compound into lasting capability.",
+    Logo: LogoReinforce,
+    color: "#15803D",
+    glow: "rgba(21,128,61,0.22)",
   },
   {
+    id: 4,
     num: "05",
     name: "Build & Prove",
-    desc: "Turn behaviour into measurable capability. Prove the impact of culture.",
-    Icon: IconBuildProve,
-    color: "#6366F1",
+    title: "Build capability. Prove the impact.",
+    detail:
+      "Turn sustained behaviour into measurable capability. Generate board-ready evidence that culture investment delivers real business results.",
+    Logo: LogoBuildProve,
+    color: "#166534",
+    glow: "rgba(22,101,52,0.22)",
   },
 ];
 
-const RADIUS = 200;
-const CENTER = 260;
-const SVG_SIZE = 520;
+// ── Geometry ──────────────────────────────────────────────────────────────────
+
+const N = steps.length;
+const R = 150; // radius to node centres
+const SZ = 380; // SVG viewport size
+const CX = SZ / 2;
+const CY = SZ / 2;
 
 function nodePos(i: number) {
-  const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
-  return {
-    x: CENTER + RADIUS * Math.cos(angle),
-    y: CENTER + RADIUS * Math.sin(angle),
-  };
+  const angle = (i / N) * 2 * Math.PI - Math.PI / 2;
+  return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
 }
 
-function labelOffset(i: number) {
-  const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
-  const labelR = RADIUS + 56;
-  return {
-    x: CENTER + labelR * Math.cos(angle),
-    y: CENTER + labelR * Math.sin(angle),
-    angle,
-  };
-}
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function CapabilityLoop() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [litSteps, setLitSteps] = useState<number[]>([]);
-  const [allLit, setAllLit] = useState(false);
-  const [activeStep, setActiveStep] = useState<number | null>(null);
+  // progress: 0 → 1 across the entire scroll range
+  const progressRef = useRef(0);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [renderProgress, setRenderProgress] = useState(0);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    steps.forEach((_, i) => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: `top ${70 - i * 10}%`,
-        once: true,
-        onEnter: () => {
-          setLitSteps((prev) => {
-            const next = [...prev, i];
-            if (next.length === steps.length) setAllLit(true);
-            return next;
-          });
-        },
-      });
+    const st = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.6,
+      onUpdate: (self) => {
+        const p = self.progress;
+        progressRef.current = p;
+        setRenderProgress(p);
+        setActiveIdx(Math.min(N - 1, Math.floor(p * N)));
+      },
     });
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => st.kill();
   }, []);
 
+  const activeStep = steps[activeIdx];
+
+  // Pentagon progress per segment
+  function segProgress(i: number) {
+    const segStart = i / N;
+    const segEnd = (i + 1) / N;
+    return Math.max(0, Math.min(1, (renderProgress - segStart) / (segEnd - segStart)));
+  }
+
+  // Moving dot position
+  const totalProgress = renderProgress * N;
+  const dotSeg = Math.floor(totalProgress) % N;
+  const dotT = totalProgress - Math.floor(totalProgress);
+  const dotFrom = nodePos(dotSeg);
+  const dotTo = nodePos((dotSeg + 1) % N);
+  const dotX = dotFrom.x + (dotTo.x - dotFrom.x) * dotT;
+  const dotY = dotFrom.y + (dotTo.y - dotFrom.y) * dotT;
+
   return (
+    // Tall section for scroll track — 500vh means 4 "pages" of scroll
     <section
       ref={sectionRef}
-      className="relative py-32 px-6 overflow-hidden"
-      style={{ background: "#F5F9F7" }}
+      className="relative"
+      style={{ height: "500vh", background: "#F5F9F7" }}
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Sticky viewport-height panel */}
+      <div
+        className="sticky top-0 flex flex-col items-center justify-center overflow-hidden"
+        style={{ height: "100vh" }}
+      >
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          className="text-center mb-8 lg:mb-10 px-6"
         >
-          <span className="tag-green inline-block rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide mb-5">
+          <span
+            className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide mb-4"
+            style={{ background: "rgba(22,133,91,0.1)", color: "#16855B", fontFamily: "var(--font-sans)" }}
+          >
             The Workenvo Capability Loop
           </span>
           <h2
-            className="text-4xl lg:text-[48px] leading-tight mb-4 mx-auto"
-            style={{
-              fontFamily: "var(--font-serif)",
-              color: "#111827",
-              fontWeight: 400,
-              maxWidth: "800px",
-            }}
+            className="text-2xl lg:text-[38px] leading-snug"
+            style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
           >
             Strategy doesn&apos;t fail because it&apos;s wrong.
             <br />
-            It fails because it doesn&apos;t show up in behaviour.
+            <em style={{ color: "#16855B", fontStyle: "italic" }}>It fails because it doesn&apos;t show up in behaviour.</em>
           </h2>
-          <p
-            className="text-lg font-medium"
-            style={{ color: "#16855B", fontFamily: "var(--font-sans)" }}
-          >
-            Workenvo closes that gap.
-          </p>
         </motion.div>
 
-        {/* Orbital diagram */}
-        <div className="flex justify-center">
-          <div
-            className="relative"
-            style={{ width: `${SVG_SIZE}px`, height: `${SVG_SIZE}px` }}
-          >
+        {/* Two-column layout */}
+        <div className="w-full max-w-6xl px-4 lg:px-10 mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-14">
+
+          {/* ── LEFT: Pentagon loop ── */}
+          <div className="flex-shrink-0" style={{ width: SZ, height: SZ, maxWidth: "100%" }}>
             <svg
-              className="absolute inset-0 w-full h-full"
-              viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
+              viewBox={`0 0 ${SZ} ${SZ}`}
+              width={SZ}
+              height={SZ}
+              style={{ width: "100%", height: "auto", maxWidth: SZ, overflow: "visible" }}
             >
-              {/* Dashed orbital track */}
+              {/* Faint orbital ring */}
               <circle
-                cx={CENTER}
-                cy={CENTER}
-                r={RADIUS}
+                cx={CX} cy={CY} r={R}
                 fill="none"
                 stroke="#D1FAE5"
                 strokeWidth="1.5"
-                strokeDasharray="6 4"
+                strokeDasharray="5 4"
               />
 
-              {/* Pentagon lines — draw on scroll */}
-              <motion.g
-                style={{ transformOrigin: `${CENTER}px ${CENTER}px` }}
-                animate={{ rotate: allLit ? 360 : 0 }}
-                transition={{ duration: 360, repeat: Infinity, ease: "linear" }}
-              >
-                {steps.map((_, i) => {
-                  const from = nodePos(i);
-                  const to = nodePos((i + 1) % steps.length);
-                  const isConnected =
-                    litSteps.includes(i) && litSteps.includes((i + 1) % steps.length);
-                  return (
-                    <motion.line
-                      key={i}
-                      x1={from.x}
-                      y1={from.y}
-                      x2={to.x}
-                      y2={to.y}
-                      stroke={isConnected ? steps[i].color : "#E5E7EB"}
+              {/* Pentagon edges — dim base */}
+              {steps.map((_, i) => {
+                const a = nodePos(i);
+                const b = nodePos((i + 1) % N);
+                return (
+                  <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+                    stroke="#E5E7EB" strokeWidth="1.5" strokeOpacity="0.6" />
+                );
+              })}
+
+              {/* Pentagon edges — lit progress */}
+              {steps.map((step, i) => {
+                const a = nodePos(i);
+                const b = nodePos((i + 1) % N);
+                const sp = segProgress(i);
+                if (sp <= 0) return null;
+                return (
+                  <line key={i}
+                    x1={a.x} y1={a.y}
+                    x2={a.x + (b.x - a.x) * sp}
+                    y2={a.y + (b.y - a.y) * sp}
+                    stroke={step.color}
+                    strokeWidth="2.5"
+                    strokeOpacity="0.8"
+                    strokeLinecap="round"
+                  />
+                );
+              })}
+
+              {/* Nodes */}
+              {steps.map((step, i) => {
+                const pos = nodePos(i);
+                const isLit = i <= activeIdx;
+                const isActive = i === activeIdx;
+                const { Logo } = step;
+
+                return (
+                  <g key={i}>
+                    {/* Outer glow for active */}
+                    {isActive && (
+                      <circle cx={pos.x} cy={pos.y} r={34}
+                        fill="none"
+                        stroke={step.color}
+                        strokeWidth="1.5"
+                        strokeOpacity="0.3"
+                      />
+                    )}
+                    {/* Node fill */}
+                    <circle
+                      cx={pos.x} cy={pos.y} r={26}
+                      fill={isLit ? step.color : "#FFFFFF"}
+                      stroke={isLit ? step.color : "#E5E7EB"}
                       strokeWidth="1.5"
-                      strokeOpacity={isConnected ? 0.45 : 0.3}
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: isConnected ? 1 : 0 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
                     />
-                  );
-                })}
-              </motion.g>
-            </svg>
-
-            {/* Orbiting dot */}
-            {allLit && (
-              <div
-                className="absolute"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  width: "10px",
-                  height: "10px",
-                  marginTop: "-5px",
-                  marginLeft: "-5px",
-                  animation: "orbit-dot 4s linear infinite",
-                }}
-              >
-                <div
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{
-                    background: "#16855B",
-                    boxShadow: "0 0 8px rgba(22,133,91,0.8)",
-                  }}
-                />
-              </div>
-            )}
-
-            {/* Nodes + floating labels */}
-            {steps.map((step, i) => {
-              const pos = nodePos(i);
-              const lpos = labelOffset(i);
-              const isLit = litSteps.includes(i);
-              const { Icon } = step;
-
-              const textAlign =
-                lpos.x < CENTER - 20
-                  ? "right"
-                  : lpos.x > CENTER + 20
-                  ? "left"
-                  : "center";
-
-              return (
-                <div key={i}>
-                  {/* Node button */}
-                  <motion.button
-                    onClick={() => setActiveStep(activeStep === i ? null : i)}
-                    className="absolute flex items-center justify-center rounded-2xl cursor-pointer"
-                    style={{
-                      left: pos.x - 32,
-                      top: pos.y - 32,
-                      width: "64px",
-                      height: "64px",
-                      background: isLit ? step.color : "#FFFFFF",
-                      border: `2px solid ${isLit ? step.color : "#E5E7EB"}`,
-                      boxShadow: isLit
-                        ? `0 0 0 8px ${step.color}18, 0 8px 20px rgba(0,0,0,0.1)`
-                        : "0 2px 8px rgba(0,0,0,0.08)",
-                      transition: "all 0.4s ease",
-                      zIndex: 10,
-                    }}
-                    animate={isLit ? { scale: [1, 1.12, 1] } : { scale: 1 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <Icon color={isLit ? "#FFFFFF" : "#9CA3AF"} />
-                  </motion.button>
-
-                  {/* Label outside node */}
-                  <div
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: lpos.x,
-                      top: lpos.y,
-                      transform: "translate(-50%, -50%)",
-                      textAlign: textAlign as "left" | "right" | "center",
-                      zIndex: 5,
-                    }}
-                  >
-                    <p
-                      className="text-sm font-semibold whitespace-nowrap transition-colors duration-400"
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        color: isLit ? step.color : "#9CA3AF",
-                      }}
+                    {/* Icon */}
+                    <foreignObject x={pos.x - 13} y={pos.y - 13} width="26" height="26">
+                      {/* @ts-ignore */}
+                      <div xmlns="http://www.w3.org/1999/xhtml"
+                        style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 26, height: 26 }}
+                      >
+                        <Logo active={isLit} />
+                      </div>
+                    </foreignObject>
+                    {/* Name label below node */}
+                    <text
+                      x={pos.x} y={pos.y + 42}
+                      textAnchor="middle"
+                      fontSize="10.5"
+                      fontWeight="600"
+                      fontFamily="var(--font-sans)"
+                      fill={isLit ? step.color : "#9CA3AF"}
                     >
                       {step.name}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                    </text>
+                  </g>
+                );
+              })}
 
-            {/* Center reveal */}
-            <AnimatePresence>
-              {allLit && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="absolute rounded-full flex items-center justify-center text-center"
-                  style={{
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "130px",
-                    height: "130px",
-                    background: "rgba(22,133,91,0.08)",
-                    border: "1px solid rgba(22,133,91,0.15)",
-                    backdropFilter: "blur(4px)",
-                  }}
-                >
-                  <p
-                    className="text-xs font-medium px-3 leading-snug"
+              {/* Center label — fades in once past halfway */}
+              {renderProgress > 0.55 && (
+                <g opacity={Math.min(1, (renderProgress - 0.55) * 5)}>
+                  <text x={CX} y={CY - 7} textAnchor="middle" fontSize="10"
+                    fontFamily="var(--font-serif)" fill="#16855B" fontStyle="italic">
+                    Strategy shows up
+                  </text>
+                  <text x={CX} y={CY + 9} textAnchor="middle" fontSize="10"
+                    fontFamily="var(--font-serif)" fill="#16855B" fontStyle="italic">
+                    in behaviour.
+                  </text>
+                </g>
+              )}
+
+              {/* Moving dot along path */}
+              {renderProgress > 0 && renderProgress < 0.99 && (
+                <circle cx={dotX} cy={dotY} r={4.5}
+                  fill={steps[dotSeg]?.color ?? "#16855B"}
+                  opacity="0.9"
+                />
+              )}
+            </svg>
+          </div>
+
+          {/* ── RIGHT: Step content ── */}
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIdx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="flex flex-col gap-5"
+              >
+                {/* Small icon on the left + title */}
+                <div className="flex items-start justify-center lg:justify-start gap-4">
+                  <div
+                    className="flex items-center justify-center rounded-xl shrink-0 mt-1"
                     style={{
-                      color: "#16855B",
-                      fontFamily: "var(--font-serif)",
-                      fontStyle: "italic",
+                      width: 40,
+                      height: 40,
+                      background: activeStep.color,
+                      boxShadow: `0 0 0 8px ${activeStep.glow}`,
                     }}
                   >
-                    Strategy shows up in behaviour.
-                  </p>
-                </motion.div>
-              )}
+                    <activeStep.Logo active={true} />
+                  </div>
+                  <h3
+                    className="text-2xl lg:text-[34px] leading-snug text-center lg:text-left"
+                    style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
+                  >
+                    {activeStep.title}
+                  </h3>
+                </div>
+
+                {/* Detail */}
+                <p
+                  className="text-base lg:text-lg leading-relaxed text-center lg:text-left"
+                  style={{ color: "#4B5563", fontFamily: "var(--font-sans)", maxWidth: 460 }}
+                >
+                  {activeStep.detail}
+                </p>
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Click-expanded step description */}
-        <AnimatePresence>
-          {activeStep !== null && (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 12 }}
-              transition={{ duration: 0.3 }}
-              className="mt-8 text-center max-w-md mx-auto"
-            >
-              <p
-                className="text-base leading-relaxed"
-                style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
-              >
-                {steps[activeStep].desc}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );
