@@ -19,6 +19,9 @@ import {
 // ── Design canvas for cards ───────────────────────────────────────────────
 const CARD_W = 720;
 const CARD_H = 370;
+// Mobile: portrait canvas — taller, slightly narrower
+const CARD_W_MOBILE = 380;
+const CARD_H_MOBILE = 520;
 
 /* ── Card data ────────────────────────────────────────────────────────── */
 
@@ -96,10 +99,16 @@ function ProblemCard({
   card,
   style,
   scale = 1,
+  cardW = CARD_W,
+  cardH = CARD_H,
+  mobile = false,
 }: {
   card: CardDef;
   style?: MotionStyle;
   scale?: number;
+  cardW?: number;
+  cardH?: number;
+  mobile?: boolean;
 }) {
   return (
     <motion.div
@@ -115,13 +124,13 @@ function ProblemCard({
       {/* Inner content — fixed design-space dimensions, scaled uniformly */}
       <div
         style={{
-          width: CARD_W,
-          height: CARD_H,
+          width: cardW,
+          height: cardH,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
           display: "flex",
           flexDirection: "column",
-          padding: "40px 44px",
+          padding: mobile ? "36px 32px" : "40px 44px",
           position: "relative",
         }}
       >
@@ -183,7 +192,7 @@ function ProblemCard({
           <h3
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "44px",
+              fontSize: mobile ? "52px" : "44px",
               lineHeight: 1.08,
               fontWeight: 700,
               color: "#FFFFFF",
@@ -270,16 +279,25 @@ export default function Problem() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardStackRef = useRef<HTMLDivElement>(null);
   const [cardScale, setCardScale] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const el = cardStackRef.current;
     if (!el) return;
+    const cw = isMobile ? CARD_W_MOBILE : CARD_W;
     const ro = new ResizeObserver(([entry]) => {
-      setCardScale(entry.contentRect.width / CARD_W);
+      setCardScale(entry.contentRect.width / cw);
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [isMobile]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -412,8 +430,12 @@ export default function Problem() {
           ref={cardStackRef}
           style={{
             position: "relative",
-            width: "min(720px, calc(100vw - 40px))",
-            aspectRatio: `${CARD_W} / ${CARD_H}`,
+            width: isMobile
+              ? "min(420px, calc(100vw - 24px))"
+              : "min(720px, calc(100vw - 40px))",
+            aspectRatio: isMobile
+              ? `${CARD_W_MOBILE} / ${CARD_H_MOBILE}`
+              : `${CARD_W} / ${CARD_H}`,
             zIndex: 20,
           }}
         >
@@ -422,6 +444,9 @@ export default function Problem() {
               key={card.label}
               card={card}
               scale={cardScale}
+              cardW={isMobile ? CARD_W_MOBILE : CARD_W}
+              cardH={isMobile ? CARD_H_MOBILE : CARD_H}
+              mobile={isMobile}
               style={{
                 opacity: cardStyles[i].opacity,
                 scale: cardStyles[i].scale,
