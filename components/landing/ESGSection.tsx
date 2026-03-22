@@ -81,7 +81,7 @@ export default function ESGSection() {
     <section
       ref={sectionRef}
       className="relative py-32 px-6 overflow-hidden"
-      style={{ background: "#FFFFFF" }}
+      style={{ background: "#f0fdf4" }}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}

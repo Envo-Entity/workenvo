@@ -44,17 +44,17 @@ export default function NewCategory() {
       ref={sectionRef}
       className="relative overflow-hidden flex items-center justify-center"
       style={{
-        background: "linear-gradient(160deg, #F0FDF9 0%, #ECFDF5 45%, #F5FBF7 100%)",
+        background: "linear-gradient(160deg, #1a4731 0%, #2d6a4f 45%, #1e5c3f 100%)",
         minHeight: "100vh",
         padding: "120px 24px",
       }}
     >
       {/* Subtle dot grid */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.4]"
+        className="absolute inset-0 pointer-events-none opacity-[0.15]"
         style={{
           backgroundImage:
-            "radial-gradient(circle, rgba(22,133,91,0.12) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -63,14 +63,14 @@ export default function NewCategory() {
       <div
         className="absolute left-[10%] top-[20%] w-80 h-80 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(22,133,91,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)",
           filter: "blur(50px)",
         }}
       />
       <div
         className="absolute right-[8%] bottom-[20%] w-64 h-64 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(5,150,105,0.07) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
           filter: "blur(40px)",
         }}
       />
@@ -83,7 +83,7 @@ export default function NewCategory() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-sm font-semibold tracking-widest uppercase mb-8"
-          style={{ color: "#059669", fontFamily: "var(--font-sans)" }}
+          style={{ color: "rgba(255,255,255,0.55)", fontFamily: "var(--font-sans)" }}
         >
           A new category
         </motion.p>
@@ -97,7 +97,7 @@ export default function NewCategory() {
           className="block mb-2"
           style={{
             fontFamily: "var(--font-serif)",
-            color: "rgba(17,24,39,0.45)",
+            color: "rgba(255,255,255,0.4)",
             fontWeight: 400,
             fontSize: "clamp(22px, 3.5vw, 44px)",
           }}
@@ -110,7 +110,7 @@ export default function NewCategory() {
           className="leading-tight mb-8"
           style={{
             fontFamily: "var(--font-serif)",
-            color: "#16855B",
+            color: "#ffffff",
             fontWeight: 400,
             fontSize: "clamp(40px, 7vw, 96px)",
             minHeight: "1.2em",
@@ -128,7 +128,7 @@ export default function NewCategory() {
               display: "inline-block",
               width: "3px",
               height: "0.85em",
-              background: "#16855B",
+              background: "rgba(255,255,255,0.8)",
               marginLeft: "3px",
               verticalAlign: "middle",
               opacity: showCursor ? 1 : 0,
@@ -144,7 +144,7 @@ export default function NewCategory() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-xl leading-relaxed mx-auto"
           style={{
-            color: "#374151",
+            color: "rgba(255,255,255,0.65)",
             fontFamily: "var(--font-sans)",
             maxWidth: "560px",
           }}
@@ -162,7 +162,7 @@ export default function NewCategory() {
           style={{
             width: "80px",
             height: "2px",
-            background: "linear-gradient(90deg, transparent, #16855B, transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
             transformOrigin: "center",
           }}
         />

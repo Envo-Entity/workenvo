@@ -43,14 +43,27 @@ const steps = [
   },
 ];
 
-// Node positions on a circle (r=160, center=200,200), starting from top
-const RADIUS = 160;
-const CENTER = 200;
+// Node positions on a larger circle (r=200, center=260,260), starting from top
+const RADIUS = 200;
+const CENTER = 260;
+const SVG_SIZE = 520;
+
 function nodePos(i: number) {
   const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
   return {
     x: CENTER + RADIUS * Math.cos(angle),
     y: CENTER + RADIUS * Math.sin(angle),
+  };
+}
+
+// Label offset — push labels outward from center
+function labelOffset(i: number) {
+  const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
+  const labelR = RADIUS + 56;
+  return {
+    x: CENTER + labelR * Math.cos(angle),
+    y: CENTER + labelR * Math.sin(angle),
+    angle,
   };
 }
 
@@ -96,9 +109,7 @@ export default function CapabilityLoop() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span
-            className="tag-green inline-block rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide mb-5"
-          >
+          <span className="tag-green inline-block rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide mb-5">
             The Workenvo Capability Loop
           </span>
           <h2
@@ -122,47 +133,55 @@ export default function CapabilityLoop() {
           </p>
         </motion.div>
 
-        {/* Orbital diagram + step labels */}
-        <div className="flex flex-col lg:flex-row items-center gap-16 justify-center">
-          {/* Orbital SVG */}
-          <div className="relative flex-shrink-0" style={{ width: "400px", height: "400px" }}>
-            {/* Background ring */}
+        {/* Centered orbital diagram */}
+        <div className="flex justify-center">
+          <div
+            className="relative"
+            style={{ width: `${SVG_SIZE}px`, height: `${SVG_SIZE}px` }}
+          >
             <svg
               className="absolute inset-0 w-full h-full"
-              viewBox="0 0 400 400"
+              viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
             >
               {/* Dashed orbital track */}
               <circle
-                cx="200"
-                cy="200"
+                cx={CENTER}
+                cy={CENTER}
                 r={RADIUS}
                 fill="none"
                 stroke="#D1FAE5"
                 strokeWidth="1.5"
                 strokeDasharray="6 4"
               />
-              {/* Connecting lines between nodes */}
-              {steps.map((_, i) => {
-                const from = nodePos(i);
-                const to = nodePos((i + 1) % steps.length);
-                const isConnected =
-                  litSteps.includes(i) && litSteps.includes((i + 1) % steps.length);
-                return (
-                  <motion.line
-                    key={i}
-                    x1={from.x}
-                    y1={from.y}
-                    x2={to.x}
-                    y2={to.y}
-                    stroke={isConnected ? steps[i].color : "#E5E7EB"}
-                    strokeWidth="1.5"
-                    strokeOpacity={isConnected ? 0.5 : 0.3}
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: isConnected ? 1 : 0 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                );
-              })}
+
+              {/* Slowly rotating connecting lines group */}
+              <motion.g
+                style={{ transformOrigin: `${CENTER}px ${CENTER}px` }}
+                animate={{ rotate: allLit ? 360 : 0 }}
+                transition={{ duration: 360, repeat: Infinity, ease: "linear" }}
+              >
+                {steps.map((_, i) => {
+                  const from = nodePos(i);
+                  const to = nodePos((i + 1) % steps.length);
+                  const isConnected =
+                    litSteps.includes(i) && litSteps.includes((i + 1) % steps.length);
+                  return (
+                    <motion.line
+                      key={i}
+                      x1={from.x}
+                      y1={from.y}
+                      x2={to.x}
+                      y2={to.y}
+                      stroke={isConnected ? steps[i].color : "#E5E7EB"}
+                      strokeWidth="1.5"
+                      strokeOpacity={isConnected ? 0.45 : 0.3}
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: isConnected ? 1 : 0 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  );
+                })}
+              </motion.g>
             </svg>
 
             {/* Orbiting dot */}
@@ -189,35 +208,67 @@ export default function CapabilityLoop() {
               </div>
             )}
 
-            {/* Nodes */}
+            {/* Nodes + floating labels */}
             {steps.map((step, i) => {
               const pos = nodePos(i);
+              const lpos = labelOffset(i);
               const isLit = litSteps.includes(i);
+
+              // Determine text-anchor based on horizontal position
+              const textAlign =
+                lpos.x < CENTER - 20
+                  ? "right"
+                  : lpos.x > CENTER + 20
+                  ? "left"
+                  : "center";
+
               return (
-                <motion.button
-                  key={i}
-                  onClick={() => setActiveStep(activeStep === i ? null : i)}
-                  className="absolute flex items-center justify-center rounded-2xl cursor-pointer"
-                  style={{
-                    left: pos.x - 28,
-                    top: pos.y - 28,
-                    width: "56px",
-                    height: "56px",
-                    background: isLit ? step.color : "#FFFFFF",
-                    border: `2px solid ${isLit ? step.color : "#E5E7EB"}`,
-                    boxShadow: isLit
-                      ? `0 0 0 6px ${step.color}20, 0 8px 16px rgba(0,0,0,0.1)`
-                      : "0 2px 8px rgba(0,0,0,0.08)",
-                    transition: "all 0.4s ease",
-                    zIndex: 10,
-                  }}
-                  animate={
-                    isLit ? { scale: [1, 1.15, 1] } : { scale: 1 }
-                  }
-                  transition={{ duration: 0.4 }}
-                >
-                  <span style={{ fontSize: "20px" }}>{step.emoji}</span>
-                </motion.button>
+                <div key={i}>
+                  {/* Node button */}
+                  <motion.button
+                    onClick={() => setActiveStep(activeStep === i ? null : i)}
+                    className="absolute flex items-center justify-center rounded-2xl cursor-pointer"
+                    style={{
+                      left: pos.x - 32,
+                      top: pos.y - 32,
+                      width: "64px",
+                      height: "64px",
+                      background: isLit ? step.color : "#FFFFFF",
+                      border: `2px solid ${isLit ? step.color : "#E5E7EB"}`,
+                      boxShadow: isLit
+                        ? `0 0 0 8px ${step.color}18, 0 8px 20px rgba(0,0,0,0.1)`
+                        : "0 2px 8px rgba(0,0,0,0.08)",
+                      transition: "all 0.4s ease",
+                      zIndex: 10,
+                    }}
+                    animate={isLit ? { scale: [1, 1.12, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <span style={{ fontSize: "22px" }}>{step.emoji}</span>
+                  </motion.button>
+
+                  {/* Label outside node */}
+                  <div
+                    className="absolute pointer-events-none"
+                    style={{
+                      left: lpos.x,
+                      top: lpos.y,
+                      transform: "translate(-50%, -50%)",
+                      textAlign: textAlign as "left" | "right" | "center",
+                      zIndex: 5,
+                    }}
+                  >
+                    <p
+                      className="text-sm font-semibold whitespace-nowrap transition-colors duration-400"
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        color: isLit ? step.color : "#9CA3AF",
+                      }}
+                    >
+                      {step.name}
+                    </p>
+                  </div>
+                </div>
               );
             })}
 
@@ -233,8 +284,8 @@ export default function CapabilityLoop() {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "120px",
-                    height: "120px",
+                    width: "130px",
+                    height: "130px",
                     background: "rgba(22,133,91,0.08)",
                     border: "1px solid rgba(22,133,91,0.15)",
                     backdropFilter: "blur(4px)",
@@ -254,71 +305,27 @@ export default function CapabilityLoop() {
               )}
             </AnimatePresence>
           </div>
-
-          {/* Step labels */}
-          <div className="space-y-4 max-w-xs w-full">
-            {steps.map((step, i) => {
-              const isLit = litSteps.includes(i);
-              const isActive = activeStep === i;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  onClick={() => setActiveStep(activeStep === i ? null : i)}
-                  className="flex gap-4 items-start cursor-pointer rounded-xl p-3 transition-all duration-300"
-                  style={{
-                    background: isActive ? `${step.color}10` : "transparent",
-                    border: isActive
-                      ? `1px solid ${step.color}30`
-                      : "1px solid transparent",
-                  }}
-                >
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center text-sm flex-shrink-0 transition-all duration-400"
-                    style={{
-                      background: isLit ? step.color : "#F3F4F6",
-                      color: isLit ? "#FFFFFF" : "#9CA3AF",
-                    }}
-                  >
-                    {step.num}
-                  </div>
-                  <div>
-                    <h3
-                      className="text-base mb-0.5 transition-colors duration-400"
-                      style={{
-                        fontFamily: "var(--font-serif)",
-                        color: isLit ? "#111827" : "#9CA3AF",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {step.name}
-                    </h3>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="text-xs leading-relaxed overflow-hidden"
-                          style={{
-                            color: "#6B7280",
-                            fontFamily: "var(--font-sans)",
-                          }}
-                        >
-                          {step.desc}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
         </div>
+
+        {/* Click-expanded step description */}
+        <AnimatePresence>
+          {activeStep !== null && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.3 }}
+              className="mt-8 text-center max-w-md mx-auto"
+            >
+              <p
+                className="text-base leading-relaxed"
+                style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
+              >
+                {steps[activeStep].desc}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

@@ -97,34 +97,31 @@ export default function Differentiation() {
               style={{ background: "#F9FAFB" }}
             />
             <div className="absolute inset-0 flex flex-col justify-center p-10 lg:p-16 max-w-[50%]">
-              <div className="mb-6">
-                <p
-                  className="text-xs font-semibold uppercase tracking-wider mb-3"
-                  style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
-                >
-                  Traditional Tools
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {tradKeywords.map((kw, i) => (
-                    <motion.span
-                      key={kw}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 }}
-                      className="px-3 py-1.5 rounded-full text-sm"
-                      style={{
-                        background: "#F3F4F6",
-                        color: "#9CA3AF",
-                        border: "1px solid #E5E7EB",
-                        fontFamily: "var(--font-sans)",
-                        textDecoration: "line-through",
-                      }}
-                    >
-                      {kw}
-                    </motion.span>
-                  ))}
-                </div>
+              <p
+                className="text-xs font-semibold uppercase tracking-wider mb-4"
+                style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
+              >
+                Traditional Tools
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {tradKeywords.map((kw, i) => (
+                  <motion.span
+                    key={kw}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="px-3 py-1.5 rounded-full text-sm"
+                    style={{
+                      background: "#F3F4F6",
+                      color: "#9CA3AF",
+                      border: "1px solid #E5E7EB",
+                      fontFamily: "var(--font-sans)",
+                    }}
+                  >
+                    {kw}
+                  </motion.span>
+                ))}
               </div>
               <div className="space-y-3">
                 {comparisons.map((row, i) => (
@@ -137,11 +134,13 @@ export default function Differentiation() {
                     className="flex items-center gap-3"
                   >
                     <span
-                      className="w-4 h-4 rounded-full flex-shrink-0 opacity-40"
-                      style={{ background: "#D1D5DB" }}
-                    />
+                      className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold"
+                      style={{ background: "#FEE2E2", color: "#EF4444" }}
+                    >
+                      ✕
+                    </span>
                     <span
-                      className="text-sm line-through"
+                      className="text-sm"
                       style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                     >
                       {row.traditional}

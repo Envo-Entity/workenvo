@@ -40,7 +40,7 @@ export default function FinalCTA() {
     <section
       className="relative overflow-hidden flex items-center justify-center"
       style={{
-        background: "linear-gradient(180deg, #F0FDF9 0%, #ECFDF5 30%, #FFFFFF 80%)",
+        background: "linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #2d6a4f 100%)",
         minHeight: "90vh",
         padding: "120px 24px",
       }}
@@ -52,7 +52,7 @@ export default function FinalCTA() {
           width: "700px",
           height: "260px",
           background:
-            "radial-gradient(ellipse at bottom, rgba(22,133,91,0.12) 0%, transparent 70%)",
+            "radial-gradient(ellipse at bottom, rgba(45,106,79,0.3) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />
@@ -68,9 +68,9 @@ export default function FinalCTA() {
             width: "1px",
             height: "180px",
             background:
-              "linear-gradient(to top, rgba(22,133,91,0.3), rgba(22,133,91,0.08), transparent)",
+              "linear-gradient(to top, rgba(255,255,255,0.15), rgba(255,255,255,0.04), transparent)",
           }}
-          animate={{ y: [0, -220], opacity: [0, 0.6, 0] }}
+          animate={{ y: [0, -220], opacity: [0, 0.5, 0] }}
           transition={{
             duration: ray.duration,
             delay: ray.delay,
@@ -92,12 +92,12 @@ export default function FinalCTA() {
             height: `${p.size}px`,
             background:
               p.id % 3 === 0
-                ? "rgba(22,133,91,0.35)"
+                ? "rgba(255,255,255,0.3)"
                 : p.id % 3 === 1
-                ? "rgba(5,150,105,0.25)"
-                : "rgba(22,133,91,0.15)",
+                ? "rgba(255,255,255,0.18)"
+                : "rgba(255,255,255,0.1)",
           }}
-          animate={{ y: [0, -35, 0], opacity: [0, 0.7, 0] }}
+          animate={{ y: [0, -35, 0], opacity: [0, 0.6, 0] }}
           transition={{
             duration: p.duration,
             delay: p.delay,
@@ -112,7 +112,7 @@ export default function FinalCTA() {
         className="absolute left-[12%] top-[25%] w-72 h-72 rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(22,133,91,0.07) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(45,106,79,0.2) 0%, transparent 70%)",
           filter: "blur(40px)",
         }}
       />
@@ -120,7 +120,7 @@ export default function FinalCTA() {
         className="absolute right-[8%] bottom-[20%] w-56 h-56 rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(5,150,105,0.06) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />
@@ -134,9 +134,9 @@ export default function FinalCTA() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center rounded-full px-4 py-1.5 mb-10 text-xs font-semibold tracking-wide"
           style={{
-            background: "rgba(22,133,91,0.1)",
-            color: "#16855B",
-            border: "1px solid rgba(22,133,91,0.25)",
+            background: "rgba(255,255,255,0.1)",
+            color: "rgba(255,255,255,0.75)",
+            border: "1px solid rgba(255,255,255,0.2)",
             fontFamily: "var(--font-sans)",
           }}
         >
@@ -152,14 +152,14 @@ export default function FinalCTA() {
           className="leading-tight mb-8"
           style={{
             fontFamily: "var(--font-serif)",
-            color: "#111827",
+            color: "#ffffff",
             fontWeight: 400,
             fontSize: "clamp(44px, 7vw, 88px)",
           }}
         >
           Stop reacting.
           <br />
-          <span style={{ color: "#16855B" }}>Start seeing.</span>
+          <span style={{ color: "rgba(255,255,255,0.55)" }}>Start seeing.</span>
         </motion.h2>
 
         {/* Sub copy */}
@@ -170,7 +170,7 @@ export default function FinalCTA() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-xl leading-relaxed mb-12 mx-auto"
           style={{
-            color: "#6B7280",
+            color: "rgba(255,255,255,0.55)",
             fontFamily: "var(--font-sans)",
             maxWidth: "520px",
           }}
@@ -193,10 +193,10 @@ export default function FinalCTA() {
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-xl text-lg font-medium"
             style={{
-              background: "#16855B",
-              color: "#FFFFFF",
+              background: "#ffffff",
+              color: "#1a1a2e",
               fontFamily: "var(--font-sans)",
-              boxShadow: "0 4px 20px rgba(22,133,91,0.3)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
               textDecoration: "none",
             }}
           >
@@ -208,10 +208,10 @@ export default function FinalCTA() {
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-xl text-lg font-medium"
             style={{
-              background: "rgba(17,24,39,0.05)",
-              color: "#111827",
+              background: "rgba(255,255,255,0.1)",
+              color: "rgba(255,255,255,0.85)",
               fontFamily: "var(--font-sans)",
-              border: "1.5px solid rgba(17,24,39,0.12)",
+              border: "1.5px solid rgba(255,255,255,0.2)",
               textDecoration: "none",
             }}
           >
@@ -226,7 +226,7 @@ export default function FinalCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.65 }}
           className="mt-10 text-sm"
-          style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
+          style={{ color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-sans)" }}
         >
           No credit card required · Free 30-day trial
         </motion.p>

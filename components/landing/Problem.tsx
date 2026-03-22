@@ -65,7 +65,7 @@ export default function Problem() {
   return (
     <section
       ref={sectionRef}
-      style={{ minHeight: "320vh", background: "#FFFFFF" }}
+      style={{ minHeight: "320vh", background: "#f8faf9" }}
       className="relative"
     >
       <div
@@ -96,7 +96,7 @@ export default function Problem() {
         {/* Card stack */}
         <div
           className="relative z-10"
-          style={{ width: "300px", height: "210px" }}
+          style={{ width: "360px", height: "260px" }}
         >
           {/* Card 0 */}
           <motion.div
@@ -111,15 +111,15 @@ export default function Problem() {
               border: `1px solid ${problems[0].border}`,
               borderTop: `3px solid ${problems[0].accent}`,
               borderRadius: "16px",
-              padding: "28px",
+              padding: "36px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 1,
             }}
           >
             <div className="text-3xl mb-3">{problems[0].icon}</div>
             <h3
-              className="text-xl mb-2"
-              style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
+              className="text-2xl mb-2"
+              style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 600 }}
             >
               {problems[0].label}
             </h3>
@@ -142,14 +142,14 @@ export default function Problem() {
               border: `1px solid ${problems[1].border}`,
               borderTop: `3px solid ${problems[1].accent}`,
               borderRadius: "16px",
-              padding: "28px",
+              padding: "36px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 2,
             }}
           >
             <div className="text-3xl mb-3">{problems[1].icon}</div>
             <h3
-              className="text-xl mb-2"
+              className="text-2xl mb-2"
               style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
             >
               {problems[1].label}
@@ -175,14 +175,14 @@ export default function Problem() {
               border: `1px solid ${problems[2].border}`,
               borderTop: `3px solid ${problems[2].accent}`,
               borderRadius: "16px",
-              padding: "28px",
+              padding: "36px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 1,
             }}
           >
             <div className="text-3xl mb-3">{problems[2].icon}</div>
             <h3
-              className="text-xl mb-2"
+              className="text-2xl mb-2"
               style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
             >
               {problems[2].label}

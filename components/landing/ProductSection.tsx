@@ -149,7 +149,21 @@ export default function ProductSection() {
           {/* Layout: device + pills */}
           <div className="flex flex-col items-center">
             {/* Laptop frame */}
-            <div className="relative w-full max-w-xl">
+            <motion.div
+              className="relative w-full max-w-xl"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              {/* Green glow beneath frame */}
+              <div
+                className="absolute -bottom-4 left-1/2 -translate-x-1/2 pointer-events-none"
+                style={{
+                  width: "70%",
+                  height: "40px",
+                  background: "radial-gradient(ellipse, rgba(22,133,91,0.2) 0%, transparent 70%)",
+                  filter: "blur(12px)",
+                }}
+              />
               {/* Screen body */}
               <div
                 className="rounded-2xl overflow-hidden"
@@ -258,7 +272,7 @@ export default function ProductSection() {
                 className="mx-auto h-1.5 rounded-b-xl"
                 style={{ width: "90%", background: "#E2E8F0" }}
               />
-            </div>
+            </motion.div>
 
             {/* Feature pills — stable keys, imperatively staggered, zero opacity touch */}
             <div className="flex flex-wrap justify-center gap-2 mt-5">
