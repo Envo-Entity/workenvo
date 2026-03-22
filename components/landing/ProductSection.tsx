@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
+import { useRef, useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useAnimation } from "motion/react";
 
 const personas = [
   {
@@ -57,6 +57,7 @@ const personas = [
 export default function ProductSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
+  const chipControls = useAnimation();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -69,6 +70,15 @@ export default function ProductSection() {
     else if (v < 0.66) setActiveIdx(1);
     else setActiveIdx(2);
   });
+
+  // Staggered chip slide on every tab change — chips stay mounted, no flash
+  useEffect(() => {
+    chipControls.set({ y: 6 });
+    chipControls.start((i) => ({
+      y: 0,
+      transition: { delay: (i as number) * 0.08, duration: 0.3, ease: "easeOut" },
+    }));
+  }, [activeIdx, chipControls]);
 
   const persona = personas[activeIdx];
 
@@ -135,20 +145,6 @@ export default function ProductSection() {
             ))}
           </div>
 
-          {/* Scroll progress dots */}
-          <div className="flex justify-center gap-1.5 mb-6">
-            {personas.map((_, i) => (
-              <div
-                key={i}
-                className="rounded-full transition-all duration-500"
-                style={{
-                  width: activeIdx === i ? "24px" : "6px",
-                  height: "6px",
-                  background: activeIdx === i ? "#16855B" : "#D1FAE5",
-                }}
-              />
-            ))}
-          </div>
 
           {/* Layout: device + pills */}
           <div className="flex flex-col items-center">
@@ -264,22 +260,18 @@ export default function ProductSection() {
               />
             </div>
 
-            {/* Feature pills — morph with tab */}
+            {/* Feature pills — stable keys, imperatively staggered, zero opacity touch */}
             <div className="flex flex-wrap justify-center gap-2 mt-5">
-              <AnimatePresence>
-                {persona.pills.map((pill, i) => (
-                  <motion.span
-                    key={`${persona.id}-${pill}`}
-                    initial={{ opacity: 0, y: 10, scale: 0.92 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.92 }}
-                    transition={{ duration: 0.25, delay: i * 0.05 }}
-                    className="tag-green px-4 py-2 rounded-full text-xs font-medium"
-                  >
-                    {pill}
-                  </motion.span>
-                ))}
-              </AnimatePresence>
+              {personas[activeIdx].pills.map((pill, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  animate={chipControls}
+                  className="tag-green px-4 py-2 rounded-full text-xs font-medium"
+                >
+                  {pill}
+                </motion.span>
+              ))}
             </div>
           </div>
         </div>
