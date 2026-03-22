@@ -1,18 +1,26 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 
-const particles = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 3 + 1,
-  duration: Math.random() * 8 + 6,
-  delay: Math.random() * 4,
-}));
+type Particle = { id: number; x: number; y: number; size: number; duration: number; delay: number };
 
 export default function FinalCTA() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1,
+        duration: Math.random() * 8 + 6,
+        delay: Math.random() * 4,
+      }))
+    );
+  }, []);
+
   return (
     <section
       className="relative overflow-hidden flex items-center justify-center"

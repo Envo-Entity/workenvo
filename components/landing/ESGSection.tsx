@@ -236,7 +236,7 @@ export default function ESGSection() {
                       ? { scale: [0, 1.15, 1], opacity: [0, 1, 1] }
                       : {}
                   }
-                  transition={{ duration: 0.5, type: "spring", stiffness: 300 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                   className="inline-flex items-center gap-3 rounded-full px-4 py-2"
                   style={{
                     background: "#ECFDF5",

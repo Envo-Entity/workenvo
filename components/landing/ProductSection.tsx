@@ -281,7 +281,7 @@ export default function ProductSection() {
 
           {/* Feature pills */}
           <div className="flex flex-wrap justify-center gap-2 mt-8">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {persona.pills.map((pill, i) => (
                 <motion.span
                   key={`${persona.id}-${pill}`}
