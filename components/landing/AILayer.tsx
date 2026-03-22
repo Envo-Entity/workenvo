@@ -139,33 +139,33 @@ const insightFields = [
     label: "Signal detected",
     value: "Declining motivation — perceived unfair lead distribution",
     Icon: IconSignal,
-    color: "#92400E",
-    bg: "#FEF9EC",
-    border: "#FDE68A",
+    color: "#F59E0B",
+    bg: "#FAFAFA",
+    border: "1px solid #F3F4F6",
   },
   {
     label: "Activity trend",
     value: "−34% over 6 weeks",
     Icon: IconTrend,
-    color: "#991B1B",
-    bg: "#FEF2F2",
-    border: "#FECACA",
+    color: "#EF4444",
+    bg: "rgba(239,68,68,0.04)",
+    border: "1px solid rgba(239,68,68,0.12)",
   },
   {
     label: "Confidence",
     value: "91% · High priority",
     Icon: IconConfidence,
-    color: "#065F46",
-    bg: "#ECFDF5",
-    border: "#A7F3D0",
+    color: "#16855B",
+    bg: "rgba(22,133,91,0.04)",
+    border: "1px solid rgba(22,133,91,0.12)",
   },
   {
     label: "Recommended action",
     value: "Manager review + rebalancing of lead assignments",
     Icon: IconAction,
-    color: "#16855B",
-    bg: "#F5F9F7",
-    border: "#D1FAE5",
+    color: "#3B82F6",
+    bg: "#FAFAFA",
+    border: "1px solid #F3F4F6",
   },
 ];
 
@@ -173,7 +173,7 @@ const insightFields = [
 function Avatar() {
   return (
     <div
-      className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-semibold"
+      className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-semibold"
       style={{ background: "#16855B", color: "#FFFFFF", fontFamily: "var(--font-sans)" }}
     >
       JS
@@ -295,12 +295,13 @@ export default function AILayer() {
             <div
               className="flex items-center justify-between px-5 py-4"
               style={{
+                height: "76px",
                 background: "#F5F9F7",
                 borderBottom: "1px solid #E5E7EB",
               }}
             >
               <div className="flex items-center gap-2.5">
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{ background: "#16855B" }}
@@ -342,7 +343,7 @@ export default function AILayer() {
                     initial={{ opacity: 0, x: 16, height: 0 }}
                     animate={{ opacity: 1, x: 0, height: "auto" }}
                     transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="flex items-start gap-3 rounded-xl p-4"
+                    className="flex items-start rounded-xl p-4"
                     style={{
                       background:
                         notif.priority === "high"
@@ -358,22 +359,6 @@ export default function AILayer() {
                           : "1px solid #F3F4F6",
                     }}
                   >
-                    {/* Colored dot */}
-                    <div className="relative mt-1.5 flex-shrink-0">
-                      <div
-                        className="w-2.5 h-2.5 rounded-full"
-                        style={{ background: notif.dot }}
-                      />
-                      {i === 0 && feedVisible <= 2 && (
-                        <motion.div
-                          className="absolute inset-0 rounded-full"
-                          style={{ background: notif.dot }}
-                          animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
-                          transition={{ duration: 1.2, repeat: Infinity }}
-                        />
-                      )}
-                    </div>
-
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-1.5">
@@ -388,7 +373,7 @@ export default function AILayer() {
                           </p>
                         </div>
                         <span
-                          className="text-xs flex-shrink-0 font-mono"
+                          className="text-xs shrink-0 font-mono"
                           style={{ color: "#9CA3AF" }}
                         >
                           {notif.time}
@@ -423,8 +408,9 @@ export default function AILayer() {
             <div
               className="flex items-center justify-between px-5 py-4"
               style={{
-                background: "#ECFDF5",
-                borderBottom: "1px solid #D1FAE5",
+                height: "76px",
+                background: "#F5F9F7",
+                borderBottom: "1px solid #E5E7EB",
               }}
             >
               <div className="flex items-center gap-3">
@@ -450,48 +436,42 @@ export default function AILayer() {
             </div>
 
             {/* Insight fields */}
-            <div className="p-4 space-y-2.5" style={{ height: "320px", overflow: "hidden" }}>
+            <div className="p-3 space-y-2" style={{ height: "320px", overflow: "hidden" }}>
               <AnimatePresence>
                 {insightFields.slice(0, insightVisible).map((field) => {
                   const { Icon } = field;
                   return (
                     <motion.div
                       key={field.label}
-                      initial={{ opacity: 0, x: -16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: 0.4,
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 22,
-                      }}
-                      className="rounded-xl p-4"
+                      initial={{ opacity: 0, x: 16, height: 0 }}
+                      animate={{ opacity: 1, x: 0, height: "auto" }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      className="flex items-start rounded-xl p-4"
                       style={{
                         background: field.bg,
-                        border: `1px solid ${field.border}`,
+                        border: field.border,
                       }}
                     >
-                      <div className="flex items-start gap-3">
-                        <span
-                          className="mt-0.5 flex-shrink-0"
-                          style={{ color: field.color }}
-                        >
-                          <Icon />
-                        </span>
-                        <div>
-                          <p
-                            className="text-xs font-semibold mb-1"
-                            style={{ color: field.color, fontFamily: "var(--font-sans)" }}
-                          >
-                            {field.label}
-                          </p>
-                          <p
-                            className="text-sm"
-                            style={{ color: "#374151", fontFamily: "var(--font-sans)" }}
-                          >
-                            {field.value}
-                          </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-1.5">
+                            <span style={{ color: field.color }}>
+                              <Icon />
+                            </span>
+                            <p
+                              className="text-sm font-medium"
+                              style={{ color: "#111827", fontFamily: "var(--font-sans)" }}
+                            >
+                              {field.label}
+                            </p>
+                          </div>
                         </div>
+                        <p
+                          className="text-xs mt-0.5"
+                          style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
+                        >
+                          {field.value}
+                        </p>
                       </div>
                     </motion.div>
                   );
