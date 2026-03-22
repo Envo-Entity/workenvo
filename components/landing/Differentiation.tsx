@@ -1,45 +1,47 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 
-const comparisons = [
-  { traditional: "Dashboards", workenvo: "Behavioural signals" },
-  { traditional: "Surveys", workenvo: "Real-time insights" },
-  { traditional: "Reports", workenvo: "Action + capability building" },
-  { traditional: "Past data", workenvo: "What's changing now" },
-  { traditional: "Reactive", workenvo: "Predictive" },
-  { traditional: "Siloed tools", workenvo: "Connected intelligence" },
+// X icon for traditional tools
+function IconX() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+// Check icon for Workenvo
+function IconCheck() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+const traditional = [
+  "Annual surveys, months-old data",
+  "Static dashboards and reports",
+  "Reactive — problems found too late",
+  "Disconnected from strategy",
+  "Compliance-only ESG reporting",
+  "No behavioural context",
 ];
 
-const tradKeywords = ["Dashboards", "Surveys", "Reports", "Lagging"];
-const workenvoKeywords = ["Signals", "Real-time", "Action", "Capability"];
+const workenvo = [
+  "Real-time behavioural signals",
+  "AI-driven insights and nudges",
+  "Predictive — risks surfaced early",
+  "Strategy connected to daily behaviour",
+  "Behavioural ESG with measured impact",
+  "Full organisational intelligence",
+];
 
 export default function Differentiation() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const dividerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Divider: starts at 80% (Traditional dominates) → 20% (Workenvo takes over)
-  const dividerLeft = useTransform(scrollYProgress, [0.15, 0.85], ["80%", "20%"]);
-
-  // Traditional side fades and blurs out dramatically
-  const tradOpacity = useTransform(scrollYProgress, [0.2, 0.85], [0.85, 0.18]);
-  const tradBlur = useTransform(scrollYProgress, [0.2, 0.85], [0, 3]);
-
-  // Workenvo side grows from small to dominant
-  const workenvoScale = useTransform(scrollYProgress, [0.15, 0.85], [0.95, 1.02]);
-
-  // Blur filter string for traditional side
-  const tradFilter = useTransform(tradBlur, (b) => `blur(${b}px)`);
-
   return (
     <section
-      ref={sectionRef}
       className="relative py-32 px-6 overflow-hidden"
       style={{ background: "#FFFFFF" }}
     >
@@ -69,183 +71,149 @@ export default function Differentiation() {
           >
             Traditional tools vs Workenvo
           </h2>
-          <p
-            className="text-lg mx-auto"
-            style={{
-              color: "#6B7280",
-              fontFamily: "var(--font-sans)",
-              maxWidth: "520px",
-            }}
-          >
-            Workenvo is not HR software. It is a system for understanding,
-            influencing, and scaling organisational behaviour.
-          </p>
         </motion.div>
 
-        {/* Split screen */}
-        <div
-          className="relative rounded-2xl overflow-hidden"
-          style={{ minHeight: "500px" }}
+        {/* Comparison card */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="rounded-2xl overflow-hidden"
+          style={{
+            border: "1px solid #E5E7EB",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
+          }}
         >
-          {/* Traditional side */}
-          <motion.div
-            style={{ opacity: tradOpacity, filter: tradFilter }}
-            className="absolute inset-0"
-          >
+          <div className="grid md:grid-cols-2">
+            {/* Left: Traditional */}
             <div
-              className="absolute inset-0"
-              style={{ background: "#F9FAFB" }}
-            />
-            <div className="absolute inset-0 flex flex-col justify-center p-10 lg:p-16 max-w-[50%]">
-              <p
-                className="text-xs font-semibold uppercase tracking-wider mb-4"
-                style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
-              >
-                Traditional Tools
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {tradKeywords.map((kw, i) => (
-                  <motion.span
-                    key={kw}
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="px-3 py-1.5 rounded-full text-sm"
-                    style={{
-                      background: "#F3F4F6",
-                      color: "#9CA3AF",
-                      border: "1px solid #E5E7EB",
-                      fontFamily: "var(--font-sans)",
-                    }}
-                  >
-                    {kw}
-                  </motion.span>
-                ))}
+              className="p-8 lg:p-12 relative"
+              style={{ background: "#F9FAFB", borderRight: "1px solid #E5E7EB" }}
+            >
+              {/* Muted header */}
+              <div className="mb-8">
+                <p
+                  className="text-xs font-semibold uppercase tracking-wider mb-2"
+                  style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
+                >
+                  Traditional tools
+                </p>
+                <p
+                  className="text-sm"
+                  style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
+                >
+                  The way it&apos;s always been done.
+                </p>
               </div>
-              <div className="space-y-3">
-                {comparisons.map((row, i) => (
+
+              <div className="space-y-3.5">
+                {traditional.map((item, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.08 }}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
                     className="flex items-center gap-3"
                   >
                     <span
-                      className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 text-xs font-bold"
+                      className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
                       style={{ background: "#FEE2E2", color: "#EF4444" }}
                     >
-                      ✕
+                      <IconX />
                     </span>
                     <span
                       className="text-sm"
                       style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                     >
-                      {row.traditional}
+                      {item}
                     </span>
                   </motion.div>
                 ))}
               </div>
             </div>
-          </motion.div>
 
-          {/* Workenvo side — clips from right */}
-          <motion.div
-            style={{ scale: workenvoScale }}
-            className="absolute inset-0"
-          >
-            {/* Background */}
+            {/* Right: Workenvo */}
             <div
-              className="absolute inset-0"
+              className="p-8 lg:p-12 relative"
               style={{
-                background:
-                  "linear-gradient(135deg, #F0FDF9 0%, #ECFDF5 100%)",
+                background: "linear-gradient(135deg, #F0FDF9 0%, #ECFDF5 100%)",
               }}
-            />
-
-            {/* Content, positioned right half */}
-            <div className="absolute inset-0 flex flex-col justify-center p-10 lg:p-16 items-end">
-              <div className="max-w-xs w-full">
-                <div className="mb-6">
+            >
+              {/* Brand header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-2">
                   <p
-                    className="text-xs font-semibold uppercase tracking-wider mb-3"
+                    className="text-xs font-semibold uppercase tracking-wider"
                     style={{ color: "#16855B", fontFamily: "var(--font-sans)" }}
                   >
-                    ✦ Workenvo
+                    Workenvo
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {workenvoKeywords.map((kw, i) => (
-                      <motion.span
-                        key={kw}
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 + i * 0.1 }}
-                        className="px-3 py-1.5 rounded-full text-sm font-medium"
-                        style={{
-                          background: "rgba(22,133,91,0.12)",
-                          color: "#065F46",
-                          border: "1px solid rgba(22,133,91,0.25)",
-                          fontFamily: "var(--font-sans)",
-                        }}
-                      >
-                        {kw}
-                      </motion.span>
-                    ))}
-                  </div>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    style={{
+                      background: "rgba(22,133,91,0.12)",
+                      color: "#16855B",
+                      fontFamily: "var(--font-sans)",
+                    }}
+                  >
+                    New category
+                  </span>
                 </div>
-                <div className="space-y-3">
-                  {comparisons.map((row, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + i * 0.08 }}
-                      className="flex items-center gap-3"
+                <p
+                  className="text-sm"
+                  style={{ color: "#065F46", fontFamily: "var(--font-sans)" }}
+                >
+                  Behaviour Intelligence — built for what&apos;s next.
+                </p>
+              </div>
+
+              <div className="space-y-3.5">
+                {workenvo.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.15 + i * 0.07 }}
+                    className="flex items-center gap-3"
+                  >
+                    <span
+                      className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ background: "#16855B", color: "#FFFFFF" }}
                     >
-                      <span
-                        className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 text-xs"
-                        style={{ background: "#16855B", color: "#FFFFFF" }}
-                      >
-                        ✓
-                      </span>
-                      <span
-                        className="text-sm font-medium"
-                        style={{ color: "#111827", fontFamily: "var(--font-sans)" }}
-                      >
-                        {row.workenvo}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
+                      <IconCheck />
+                    </span>
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: "#111827", fontFamily: "var(--font-sans)" }}
+                    >
+                      {item}
+                    </span>
+                  </motion.div>
+                ))}
               </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Divider line */}
-          <motion.div
-            ref={dividerRef}
-            className="absolute top-0 bottom-0 z-20 pointer-events-none"
-            style={{
-              left: dividerLeft,
-              background:
-                "linear-gradient(180deg, transparent 0%, #16855B 20%, #16855B 80%, transparent 100%)",
-              width: "2px",
-            }}
-          >
-            {/* Divider dot */}
-            <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full"
-              style={{
-                background: "#16855B",
-                boxShadow: "0 0 12px rgba(22,133,91,0.6)",
-              }}
-            />
-          </motion.div>
-        </div>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-10 text-lg mx-auto"
+          style={{
+            color: "#6B7280",
+            fontFamily: "var(--font-sans)",
+            maxWidth: "560px",
+          }}
+        >
+          Workenvo is not HR software. It is a system for understanding,
+          influencing, and scaling organisational behaviour.
+        </motion.p>
       </div>
     </section>
   );

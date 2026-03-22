@@ -135,13 +135,21 @@ export default function EmotionalReality() {
               className="flex-1 max-w-sm mx-auto lg:mx-0"
             >
               <div
-                className="h-full rounded-2xl p-7 relative overflow-hidden"
+                className="h-full rounded-2xl p-7 relative overflow-hidden transition-all duration-300"
                 style={{
                   background: "rgba(255,255,255,0.06)",
                   backdropFilter: "blur(16px)",
                   WebkitBackdropFilter: "blur(16px)",
                   border: "1px solid rgba(255,255,255,0.1)",
                   boxShadow: "0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.border = "1px solid rgba(52,211,153,0.3)";
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 1px rgba(52,211,153,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.border = "1px solid rgba(255,255,255,0.1)";
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)";
                 }}
               >
                 {/* Inner top shine */}
@@ -172,7 +180,7 @@ export default function EmotionalReality() {
                   {quote.text}
                 </p>
 
-                <p className="text-xs" style={{ color: "#475569", fontFamily: "var(--font-sans)" }}>
+                <p className="text-xs" style={{ color: "#64748B", fontFamily: "var(--font-sans)" }}>
                   — {quote.role}
                 </p>
 

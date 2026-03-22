@@ -1,22 +1,73 @@
 "use client";
 
+import React from "react";
 import { motion } from "motion/react";
+
+// Inline SVG icons — consistent minimal line-art style
+function IconEye() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function IconLightbulb() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="9" y1="18" x2="15" y2="18" />
+      <line x1="10" y1="22" x2="14" y2="22" />
+      <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
+    </svg>
+  );
+}
+
+function IconUsers() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function IconShield() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <polyline points="9 12 11 14 15 10" />
+    </svg>
+  );
+}
+
+function IconGlobe() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  );
+}
 
 const topRow = [
   {
-    emoji: "🔭",
+    Icon: IconEye,
     label: "Early Visibility",
     quote: "We saw this coming sooner.",
     desc: "Surface risks before they become crises.",
   },
   {
-    emoji: "🧠",
+    Icon: IconLightbulb,
     label: "Better Decisions",
     quote: "We knew what to do.",
     desc: "AI-powered recommendations, not just data.",
   },
   {
-    emoji: "🤝",
+    Icon: IconUsers,
     label: "Leadership Consistency",
     quote: "Managers behave more consistently.",
     desc: "Align behaviour with intent across the org.",
@@ -25,14 +76,14 @@ const topRow = [
 
 const bottomRow = [
   {
-    emoji: "🌱",
+    Icon: IconShield,
     label: "Culture Strength",
     quote: "Culture is visible and reinforced.",
     desc: "Make culture measurable, not just aspirational.",
     wide: true,
   },
   {
-    emoji: "🌍",
+    Icon: IconGlobe,
     label: "ESG Impact",
     quote: "We can prove behavioural change.",
     desc: "From commitments to evidence.",
@@ -41,13 +92,13 @@ const bottomRow = [
 ];
 
 function OutcomeCard({
-  emoji,
+  Icon,
   label,
   quote,
   desc,
   delay,
 }: {
-  emoji: string;
+  Icon: () => React.ReactElement;
   label: string;
   quote: string;
   desc: string;
@@ -80,15 +131,13 @@ function OutcomeCard({
         }}
       />
 
-      {/* Emoji with hover bounce */}
-      <motion.div
-        whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.15 }}
-        transition={{ duration: 0.5 }}
-        className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
-        style={{ background: "#ECFDF5" }}
+      {/* Icon */}
+      <div
+        className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
+        style={{ background: "#ECFDF5", color: "#16855B" }}
       >
-        {emoji}
-      </motion.div>
+        <Icon />
+      </div>
 
       <p
         className="text-xs font-semibold uppercase tracking-wider mb-3"
@@ -119,7 +168,7 @@ export default function OutcomesSection() {
   return (
     <section
       className="relative py-32 px-6 overflow-hidden"
-      style={{ background: "#FFFFFF" }}
+      style={{ background: "#F9FAFB" }}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -151,14 +200,14 @@ export default function OutcomesSection() {
           </p>
         </motion.div>
 
-        {/* Top row — 3 equal cards, stagger first */}
+        {/* Top row — 3 equal cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {topRow.map((outcome, i) => (
             <OutcomeCard key={outcome.label} {...outcome} delay={i * 0.1} />
           ))}
         </div>
 
-        {/* Bottom row — wide + narrow, stagger after top row */}
+        {/* Bottom row — wide + narrow */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {bottomRow.map((outcome, i) => (
             <div key={outcome.label} className={outcome.wide ? "md:col-span-2" : ""}>

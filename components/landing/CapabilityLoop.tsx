@@ -5,45 +5,98 @@ import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Minimal inline SVG icons — consistent line-art style
+function IconDefine({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+      <line x1="12" y1="2" x2="12" y2="6" />
+      <line x1="12" y1="18" x2="12" y2="22" />
+      <line x1="2" y1="12" x2="6" y2="12" />
+      <line x1="18" y1="12" x2="22" y2="12" />
+    </svg>
+  );
+}
+
+function IconTranslate({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="17 1 21 5 17 9" />
+      <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+      <polyline points="7 23 3 19 7 15" />
+      <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+    </svg>
+  );
+}
+
+function IconDetect({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function IconReinforce({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+      <polyline points="17 6 23 6 23 12" />
+    </svg>
+  );
+}
+
+function IconBuildProve({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+      <line x1="2" y1="20" x2="22" y2="20" />
+    </svg>
+  );
+}
+
 const steps = [
   {
     num: "01",
     name: "Define",
     desc: "Identify the capabilities your organisation needs. Start with strategy, not assumption.",
-    emoji: "🎯",
+    Icon: IconDefine,
     color: "#16855B",
   },
   {
     num: "02",
     name: "Translate",
     desc: "Map the behaviours that drive those capabilities. Make the intangible concrete.",
-    emoji: "🔀",
+    Icon: IconTranslate,
     color: "#059669",
   },
   {
     num: "03",
     name: "Detect",
     desc: "Surface signals and risks in real time. See what's changing before it becomes a problem.",
-    emoji: "👁️",
+    Icon: IconDetect,
     color: "#0D9488",
   },
   {
     num: "04",
     name: "Reinforce",
     desc: "Drive adoption through incentives and engagement. Reward the behaviours that matter.",
-    emoji: "💪",
+    Icon: IconReinforce,
     color: "#0891B2",
   },
   {
     num: "05",
     name: "Build & Prove",
     desc: "Turn behaviour into measurable capability. Prove the impact of culture.",
-    emoji: "📈",
+    Icon: IconBuildProve,
     color: "#6366F1",
   },
 ];
 
-// Node positions on a larger circle (r=200, center=260,260), starting from top
 const RADIUS = 200;
 const CENTER = 260;
 const SVG_SIZE = 520;
@@ -56,7 +109,6 @@ function nodePos(i: number) {
   };
 }
 
-// Label offset — push labels outward from center
 function labelOffset(i: number) {
   const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
   const labelR = RADIUS + 56;
@@ -133,7 +185,7 @@ export default function CapabilityLoop() {
           </p>
         </motion.div>
 
-        {/* Centered orbital diagram */}
+        {/* Orbital diagram */}
         <div className="flex justify-center">
           <div
             className="relative"
@@ -154,7 +206,7 @@ export default function CapabilityLoop() {
                 strokeDasharray="6 4"
               />
 
-              {/* Slowly rotating connecting lines group */}
+              {/* Pentagon lines — draw on scroll */}
               <motion.g
                 style={{ transformOrigin: `${CENTER}px ${CENTER}px` }}
                 animate={{ rotate: allLit ? 360 : 0 }}
@@ -177,7 +229,7 @@ export default function CapabilityLoop() {
                       strokeOpacity={isConnected ? 0.45 : 0.3}
                       initial={{ pathLength: 0 }}
                       animate={{ pathLength: isConnected ? 1 : 0 }}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
                     />
                   );
                 })}
@@ -213,8 +265,8 @@ export default function CapabilityLoop() {
               const pos = nodePos(i);
               const lpos = labelOffset(i);
               const isLit = litSteps.includes(i);
+              const { Icon } = step;
 
-              // Determine text-anchor based on horizontal position
               const textAlign =
                 lpos.x < CENTER - 20
                   ? "right"
@@ -244,7 +296,7 @@ export default function CapabilityLoop() {
                     animate={isLit ? { scale: [1, 1.12, 1] } : { scale: 1 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <span style={{ fontSize: "22px" }}>{step.emoji}</span>
+                    <Icon color={isLit ? "#FFFFFF" : "#9CA3AF"} />
                   </motion.button>
 
                   {/* Label outside node */}
