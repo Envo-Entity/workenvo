@@ -35,33 +35,30 @@ export default function EmotionalReality() {
     offset: ["start end", "end start"],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  // Scroll-driven focus: each quote becomes active as user scrolls through
+  const q0opacity = useTransform(scrollYProgress, [0, 0.25, 0.45, 0.65], [0.35, 1, 1, 0.3]);
+  const q1opacity = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [0.3, 1, 1, 0.3]);
+  const q2opacity = useTransform(scrollYProgress, [0.45, 0.65, 0.85, 1], [0.3, 1, 1, 1]);
+
+  const opacities = [q0opacity, q1opacity, q2opacity];
 
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: "#131825", minHeight: "100vh", paddingTop: "120px", paddingBottom: "120px" }}
+      style={{
+        background: "#FAFDF9",
+        minHeight: "100vh",
+        paddingTop: "120px",
+        paddingBottom: "120px",
+      }}
     >
-      {/* Blurred dashboard background */}
+      {/* Subtle noise texture */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg width='800' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='500' fill='%230F172A'/%3E%3Crect x='40' y='40' width='200' height='120' rx='8' fill='%231E293B'/%3E%3Crect x='260' y='40' width='200' height='120' rx='8' fill='%231E293B'/%3E%3Crect x='480' y='40' width='280' height='120' rx='8' fill='%231E293B'/%3E%3Crect x='40' y='180' width='480' height='200' rx='8' fill='%231E293B'/%3E%3Crect x='540' y='180' width='220' height='200' rx='8' fill='%231E293B'/%3E%3Crect x='60' y='60' width='80' height='8' rx='4' fill='%2316855B' opacity='0.4'/%3E%3Crect x='60' y='76' width='120' height='6' rx='3' fill='%23334155' opacity='0.6'/%3E%3Crect x='60' y='200' width='200' height='6' rx='3' fill='%23334155' opacity='0.4'/%3E%3Crect x='60' y='216' width='160' height='6' rx='3' fill='%23334155' opacity='0.3'/%3E%3C/svg%3E\")",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(12px)",
-          opacity: 0.08,
-        }}
-      />
-
-      {/* Atmospheric gradient */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 50%, rgba(22,133,91,0.06) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(99,102,241,0.06) 0%, transparent 60%)",
+            "radial-gradient(circle at 15% 60%, rgba(22,133,91,0.04) 0%, transparent 55%), radial-gradient(circle at 85% 30%, rgba(22,133,91,0.03) 0%, transparent 55%)",
         }}
       />
 
@@ -86,7 +83,7 @@ export default function EmotionalReality() {
           className="text-4xl lg:text-5xl leading-tight text-center mb-6 mx-auto"
           style={{
             fontFamily: "var(--font-serif)",
-            color: "#E2E8F0",
+            color: "#111827",
             fontWeight: 400,
             maxWidth: "640px",
           }}
@@ -100,23 +97,20 @@ export default function EmotionalReality() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-base text-center mb-24 mx-auto"
-          style={{
-            color: "#64748B",
-            fontFamily: "var(--font-sans)",
-            maxWidth: "480px",
-          }}
+          style={{ color: "#6B7280", fontFamily: "var(--font-sans)", maxWidth: "480px" }}
         >
           There&apos;s uncertainty that data doesn&apos;t capture — and
           conversations that happen before the reports.
         </motion.p>
 
-        {/* Floating quotes */}
+        {/* Floating quotes — scroll-focus driven */}
         <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6 lg:gap-8">
           {quotes.map((quote, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 50 + quote.depth, x: quote.x * 0.5 }}
-              whileInView={{ opacity: 1, y: 0, x: 0 }}
+              style={{ opacity: opacities[i] }}
+              initial={{ y: 50 + quote.depth, x: quote.x * 0.5 }}
+              whileInView={{ y: 0, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{
                 duration: 0.9,
@@ -129,29 +123,19 @@ export default function EmotionalReality() {
               className="flex-1 max-w-sm mx-auto lg:mx-0"
             >
               <div
-                className="h-full rounded-2xl p-7 relative overflow-hidden"
+                className="h-full rounded-2xl p-7 relative overflow-hidden bg-white"
                 style={{
-                  background: "rgba(30,41,59,0.6)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  boxShadow:
-                    "0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  borderLeft: "3px solid #16855B",
+                  border: "1px solid #E5E7EB",
+                  borderLeftWidth: "3px",
+                  borderLeftColor: "#16855B",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
                 }}
               >
-                {/* Inner shine */}
-                <div
-                  className="absolute top-0 left-0 right-0 h-px"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
-                  }}
-                />
-
                 {/* Quote mark */}
                 <div
                   className="text-5xl leading-none mb-4 font-serif"
-                  style={{ color: "rgba(22,133,91,0.3)", fontFamily: "Georgia, serif" }}
+                  style={{ color: "rgba(22,133,91,0.2)", fontFamily: "Georgia, serif" }}
                 >
                   &ldquo;
                 </div>
@@ -159,7 +143,7 @@ export default function EmotionalReality() {
                 <p
                   className="text-lg leading-relaxed mb-6"
                   style={{
-                    color: "#CBD5E1",
+                    color: "#374151",
                     fontFamily: "var(--font-serif)",
                     fontStyle: "italic",
                     fontWeight: 400,
@@ -170,17 +154,16 @@ export default function EmotionalReality() {
 
                 <p
                   className="text-xs"
-                  style={{ color: "#475569", fontFamily: "var(--font-sans)" }}
+                  style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                 >
                   — {quote.role}
                 </p>
 
-                {/* Subtle glow */}
+                {/* Subtle green glow bottom-right */}
                 <div
-                  className="absolute bottom-0 right-0 w-20 h-20 rounded-full pointer-events-none"
+                  className="absolute bottom-0 right-0 w-24 h-24 rounded-full pointer-events-none"
                   style={{
-                    background: "radial-gradient(circle, rgba(22,133,91,0.1) 0%, transparent 70%)",
-                    filter: "blur(10px)",
+                    background: "radial-gradient(circle, rgba(22,133,91,0.06) 0%, transparent 70%)",
                   }}
                 />
               </div>

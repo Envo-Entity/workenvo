@@ -3,14 +3,26 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
-const notifications = [
+function buildTimestamps() {
+  const now = new Date();
+  const fmt = (d: Date) =>
+    d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return [
+    fmt(now),
+    fmt(new Date(now.getTime() - 2 * 60 * 1000)),
+    fmt(new Date(now.getTime() - 7 * 60 * 1000)),
+    fmt(new Date(now.getTime() - 14 * 60 * 1000)),
+    fmt(new Date(now.getTime() - 22 * 60 * 1000)),
+  ];
+}
+
+const notificationDefs = [
   {
     id: 1,
     dot: "#EF4444",
     icon: "🔴",
     title: "Burnout risk detected",
     body: "Marketing team — 3 members flagged",
-    time: "just now",
     priority: "high",
   },
   {
@@ -19,7 +31,6 @@ const notifications = [
     icon: "⚠️",
     title: "3 reviews overdue",
     body: "Engineering leads — action required",
-    time: "2m ago",
     priority: "medium",
   },
   {
@@ -28,7 +39,6 @@ const notifications = [
     icon: "📉",
     title: "Engagement drop detected",
     body: "London office — −22% this week",
-    time: "5m ago",
     priority: "medium",
   },
   {
@@ -37,7 +47,6 @@ const notifications = [
     icon: "🌊",
     title: "Culture drift signal",
     body: "Finance team — values misalignment",
-    time: "12m ago",
     priority: "medium",
   },
   {
@@ -46,8 +55,7 @@ const notifications = [
     icon: "✅",
     title: "Capability milestone reached",
     body: "Product team — collaboration score +14%",
-    time: "18m ago",
-    priority: "low",
+    priority: "positive",
   },
 ];
 
@@ -55,13 +63,17 @@ export default function AILayer() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(0);
   const [hasEntered, setHasEntered] = useState(false);
+  const [timestamps] = useState<string[]>(() => buildTimestamps());
+
+  const notifications = notificationDefs.map((n, i) => ({
+    ...n,
+    time: timestamps[i] ?? "",
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasEntered) {
-          setHasEntered(true);
-        }
+        if (entry.isIntersecting && !hasEntered) setHasEntered(true);
       },
       { threshold: 0.3 }
     );
@@ -71,31 +83,27 @@ export default function AILayer() {
 
   useEffect(() => {
     if (!hasEntered) return;
-    const interval = setInterval(() => {
-      setVisibleCount((prev) => {
-        if (prev >= notifications.length) {
-          clearInterval(interval);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 400);
-    return () => clearInterval(interval);
+    const delays = [0, 350, 700, 1100, 1550];
+    const timers = delays.map((d, i) =>
+      setTimeout(() => setVisibleCount((p) => Math.max(p, i + 1)), d)
+    );
+    return () => timers.forEach(clearTimeout);
   }, [hasEntered]);
 
   return (
     <section
       ref={sectionRef}
       className="relative py-32 px-6 overflow-hidden"
-      style={{ background: "#0F172A" }}
+      style={{ background: "#FFFFFF" }}
     >
-      {/* Atmospheric glow */}
+      {/* Subtle bg glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(22,133,91,0.12) 0%, transparent 70%)",
-          filter: "blur(40px)",
-          top: "-50px",
+          width: "600px",
+          height: "300px",
+          background:
+            "radial-gradient(ellipse at top, rgba(22,133,91,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -118,13 +126,19 @@ export default function AILayer() {
             className="text-4xl lg:text-[48px] leading-tight mb-4 mx-auto"
             style={{
               fontFamily: "var(--font-serif)",
-              color: "#E2E8F0",
+              color: "#111827",
               fontWeight: 400,
               maxWidth: "640px",
             }}
           >
             Your organisation, live
           </h2>
+          <p
+            className="text-lg"
+            style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
+          >
+            Surface risks before they escalate. Act before it's too late.
+          </p>
         </motion.div>
 
         {/* Live feed card */}
@@ -135,37 +149,38 @@ export default function AILayer() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="rounded-2xl overflow-hidden max-w-xl mx-auto"
           style={{
-            background: "#1E293B",
-            border: "1px solid rgba(255,255,255,0.07)",
-            boxShadow: "0 40px 80px rgba(0,0,0,0.4)",
+            background: "#FFFFFF",
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)",
           }}
         >
           {/* Feed header */}
           <div
             className="flex items-center justify-between px-5 py-4"
             style={{
-              background: "#0F172A",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              background: "#F5F9F7",
+              borderBottom: "1px solid #E5E7EB",
             }}
           >
             <div className="flex items-center gap-2">
               <div
                 className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: "#22C55E" }}
+                style={{ background: "#16855B" }}
               />
               <span
                 className="text-sm font-medium"
-                style={{ color: "#94A3B8", fontFamily: "var(--font-sans)" }}
+                style={{ color: "#374151", fontFamily: "var(--font-sans)" }}
               >
                 Workenvo Intelligence Feed
               </span>
             </div>
             <span
-              className="text-xs px-2 py-1 rounded-md"
+              className="text-xs px-2 py-1 rounded-md font-medium"
               style={{
-                background: "rgba(34,197,94,0.1)",
-                color: "#22C55E",
-                border: "1px solid rgba(34,197,94,0.2)",
+                background: "rgba(22,133,91,0.1)",
+                color: "#16855B",
+                border: "1px solid rgba(22,133,91,0.2)",
                 fontFamily: "var(--font-sans)",
               }}
             >
@@ -181,16 +196,21 @@ export default function AILayer() {
                   key={notif.id}
                   initial={{ opacity: 0, x: 20, height: 0 }}
                   animate={{ opacity: 1, x: 0, height: "auto" }}
-                  transition={{
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 200,
-                    damping: 20,
-                  }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
                   className="flex items-start gap-3 rounded-xl p-4"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.05)",
+                    background:
+                      notif.priority === "high"
+                        ? "rgba(239,68,68,0.04)"
+                        : notif.priority === "positive"
+                        ? "rgba(22,133,91,0.04)"
+                        : "#FAFAFA",
+                    border:
+                      notif.priority === "high"
+                        ? "1px solid rgba(239,68,68,0.12)"
+                        : notif.priority === "positive"
+                        ? "1px solid rgba(22,133,91,0.12)"
+                        : "1px solid #F3F4F6",
                   }}
                 >
                   {/* Pulse dot */}
@@ -213,20 +233,20 @@ export default function AILayer() {
                     <div className="flex items-start justify-between gap-2">
                       <p
                         className="text-sm font-medium truncate"
-                        style={{ color: "#E2E8F0", fontFamily: "var(--font-sans)" }}
+                        style={{ color: "#111827", fontFamily: "var(--font-sans)" }}
                       >
                         {notif.icon} {notif.title}
                       </p>
                       <span
-                        className="text-xs flex-shrink-0"
-                        style={{ color: "#475569", fontFamily: "var(--font-sans)" }}
+                        className="text-xs flex-shrink-0 font-mono"
+                        style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                       >
                         {notif.time}
                       </span>
                     </div>
                     <p
                       className="text-xs mt-0.5"
-                      style={{ color: "#64748B", fontFamily: "var(--font-sans)" }}
+                      style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
                     >
                       {notif.body}
                     </p>
@@ -234,6 +254,19 @@ export default function AILayer() {
                 </motion.div>
               ))}
             </AnimatePresence>
+
+            {/* Loading placeholder */}
+            {visibleCount === 0 && (
+              <div className="space-y-2 py-1">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-16 rounded-xl animate-pulse"
+                    style={{ background: "#F9FAFB", border: "1px solid #F3F4F6" }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -245,17 +278,14 @@ export default function AILayer() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center mt-12 text-xl max-w-xl mx-auto"
           style={{
-            color: "#94A3B8",
+            color: "#6B7280",
             fontFamily: "var(--font-serif)",
             fontStyle: "italic",
             fontWeight: 400,
           }}
         >
-          Workenvo doesn&apos;t just show data.
-          <br />
-          <span style={{ color: "#E2E8F0" }}>
-            It tells you what to do next.
-          </span>
+          Workenvo doesn&apos;t just show data.{" "}
+          <span style={{ color: "#111827" }}>It tells you what to do next.</span>
         </motion.p>
       </div>
     </section>

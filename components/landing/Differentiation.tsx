@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 const comparisons = [
@@ -24,15 +24,18 @@ export default function Differentiation() {
     offset: ["start end", "end start"],
   });
 
-  // Divider shifts right: 50% → 60%
-  const dividerLeft = useTransform(scrollYProgress, [0.2, 0.8], ["50%", "62%"]);
+  // Divider: starts at 80% (Traditional dominates) → 20% (Workenvo takes over)
+  const dividerLeft = useTransform(scrollYProgress, [0.15, 0.85], ["80%", "20%"]);
 
-  // Traditional side dims
-  const tradOpacity = useTransform(scrollYProgress, [0.2, 0.8], [1, 0.45]);
-  const tradBlur = useTransform(scrollYProgress, [0.2, 0.8], [0, 1.5]);
+  // Traditional side fades and blurs out dramatically
+  const tradOpacity = useTransform(scrollYProgress, [0.2, 0.85], [0.85, 0.18]);
+  const tradBlur = useTransform(scrollYProgress, [0.2, 0.85], [0, 3]);
 
-  // Workenvo side brightens
-  const workenvoScale = useTransform(scrollYProgress, [0.2, 0.8], [0.97, 1]);
+  // Workenvo side grows from small to dominant
+  const workenvoScale = useTransform(scrollYProgress, [0.15, 0.85], [0.95, 1.02]);
+
+  // Blur filter string for traditional side
+  const tradFilter = useTransform(tradBlur, (b) => `blur(${b}px)`);
 
   return (
     <section
@@ -86,7 +89,7 @@ export default function Differentiation() {
         >
           {/* Traditional side */}
           <motion.div
-            style={{ opacity: tradOpacity }}
+            style={{ opacity: tradOpacity, filter: tradFilter }}
             className="absolute inset-0"
           >
             <div

@@ -8,22 +8,25 @@ const problems = [
     label: "Teams burn out",
     sub: "Undetected until it's too late",
     icon: "🔥",
-    accent: "rgba(239,68,68,0.25)",
-    border: "rgba(239,68,68,0.3)",
+    accent: "#EF4444",
+    border: "rgba(239,68,68,0.2)",
+    bg: "#FFF5F5",
   },
   {
     label: "Managers underperform",
     sub: "Support is guesswork without signals",
     icon: "📉",
-    accent: "rgba(245,158,11,0.25)",
-    border: "rgba(245,158,11,0.3)",
+    accent: "#F59E0B",
+    border: "rgba(245,158,11,0.2)",
+    bg: "#FFFBEB",
   },
   {
     label: "Culture drifts",
     sub: "Values on the wall, not in the workflow",
     icon: "🌊",
-    accent: "rgba(139,92,246,0.25)",
-    border: "rgba(139,92,246,0.3)",
+    accent: "#6366F1",
+    border: "rgba(99,102,241,0.2)",
+    bg: "#F5F5FF",
   },
 ];
 
@@ -38,7 +41,7 @@ export default function Problem() {
   // Card 0 — fans left
   const c0x = useTransform(scrollYProgress, [0.05, 0.45], [0, -300]);
   const c0r = useTransform(scrollYProgress, [0.05, 0.45], [-2, -22]);
-  const c0y = useTransform(scrollYProgress, [0.05, 0.45], [0, 50]);
+  const c0y = useTransform(scrollYProgress, [0.05, 0.45], [0, 60]);
   const c0opacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
 
   // Card 1 — stays center
@@ -48,7 +51,7 @@ export default function Problem() {
   // Card 2 — fans right
   const c2x = useTransform(scrollYProgress, [0.05, 0.45], [0, 300]);
   const c2r = useTransform(scrollYProgress, [0.05, 0.45], [2, 22]);
-  const c2y = useTransform(scrollYProgress, [0.05, 0.45], [-16, 50]);
+  const c2y = useTransform(scrollYProgress, [0.05, 0.45], [-16, 60]);
   const c2opacity = useTransform(scrollYProgress, [0.05, 0.3], [0, 1]);
 
   // Headline reveal
@@ -62,19 +65,19 @@ export default function Problem() {
   return (
     <section
       ref={sectionRef}
-      style={{ minHeight: "320vh", background: "#0F172A" }}
+      style={{ minHeight: "320vh", background: "#FFFFFF" }}
       className="relative"
     >
       <div
         style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}
         className="flex flex-col items-center justify-center px-6"
       >
-        {/* Background texture */}
+        {/* Subtle bg texture */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 50%, rgba(22,133,91,0.04) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(139,92,246,0.04) 0%, transparent 60%)",
+              "radial-gradient(circle at 20% 50%, rgba(22,133,91,0.03) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(99,102,241,0.03) 0%, transparent 60%)",
           }}
         />
 
@@ -93,9 +96,9 @@ export default function Problem() {
         {/* Card stack */}
         <div
           className="relative z-10"
-          style={{ width: "300px", height: "200px" }}
+          style={{ width: "300px", height: "210px" }}
         >
-          {/* Card 0 - left */}
+          {/* Card 0 */}
           <motion.div
             style={{
               x: c0x,
@@ -104,70 +107,62 @@ export default function Problem() {
               opacity: c0opacity,
               position: "absolute",
               inset: 0,
-              background:
-                "linear-gradient(135deg, #1E2D45 0%, #0F1A2B 100%)",
+              background: problems[0].bg,
               border: `1px solid ${problems[0].border}`,
+              borderTop: `3px solid ${problems[0].accent}`,
               borderRadius: "16px",
               padding: "28px",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 1,
             }}
           >
             <div className="text-3xl mb-3">{problems[0].icon}</div>
             <h3
               className="text-xl mb-2"
-              style={{
-                fontFamily: "var(--font-serif)",
-                color: "#F1F5F9",
-                fontWeight: 400,
-              }}
+              style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
             >
               {problems[0].label}
             </h3>
             <p
               className="text-xs leading-relaxed"
-              style={{ color: "#64748B", fontFamily: "var(--font-sans)" }}
+              style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
             >
               {problems[0].sub}
             </p>
           </motion.div>
 
-          {/* Card 1 - center */}
+          {/* Card 1 */}
           <motion.div
             style={{
               y: c1y,
               opacity: c1opacity,
               position: "absolute",
               inset: 0,
-              background:
-                "linear-gradient(135deg, #1E2D45 0%, #0F1A2B 100%)",
+              background: problems[1].bg,
               border: `1px solid ${problems[1].border}`,
+              borderTop: `3px solid ${problems[1].accent}`,
               borderRadius: "16px",
               padding: "28px",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 2,
             }}
           >
             <div className="text-3xl mb-3">{problems[1].icon}</div>
             <h3
               className="text-xl mb-2"
-              style={{
-                fontFamily: "var(--font-serif)",
-                color: "#F1F5F9",
-                fontWeight: 400,
-              }}
+              style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
             >
               {problems[1].label}
             </h3>
             <p
               className="text-xs leading-relaxed"
-              style={{ color: "#64748B", fontFamily: "var(--font-sans)" }}
+              style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
             >
               {problems[1].sub}
             </p>
           </motion.div>
 
-          {/* Card 2 - right */}
+          {/* Card 2 */}
           <motion.div
             style={{
               x: c2x,
@@ -176,29 +171,25 @@ export default function Problem() {
               opacity: c2opacity,
               position: "absolute",
               inset: 0,
-              background:
-                "linear-gradient(135deg, #1E2D45 0%, #0F1A2B 100%)",
+              background: problems[2].bg,
               border: `1px solid ${problems[2].border}`,
+              borderTop: `3px solid ${problems[2].accent}`,
               borderRadius: "16px",
               padding: "28px",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
               zIndex: 1,
             }}
           >
             <div className="text-3xl mb-3">{problems[2].icon}</div>
             <h3
               className="text-xl mb-2"
-              style={{
-                fontFamily: "var(--font-serif)",
-                color: "#F1F5F9",
-                fontWeight: 400,
-              }}
+              style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
             >
               {problems[2].label}
             </h3>
             <p
               className="text-xs leading-relaxed"
-              style={{ color: "#64748B", fontFamily: "var(--font-sans)" }}
+              style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
             >
               {problems[2].sub}
             </p>
@@ -212,11 +203,7 @@ export default function Problem() {
         >
           <h2
             className="text-4xl lg:text-6xl leading-tight mb-5"
-            style={{
-              fontFamily: "var(--font-serif)",
-              color: "#F1F5F9",
-              fontWeight: 400,
-            }}
+            style={{ fontFamily: "var(--font-serif)", color: "#111827", fontWeight: 400 }}
           >
             Why didn&apos;t we see this{" "}
             <span
@@ -238,7 +225,7 @@ export default function Problem() {
         >
           <p
             className="text-lg leading-relaxed"
-            style={{ color: "#94A3B8", fontFamily: "var(--font-sans)" }}
+            style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}
           >
             Organisations invest in surveys, performance tools, and ESG
             platforms — but these only show what already happened, not
