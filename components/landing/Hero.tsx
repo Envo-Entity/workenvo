@@ -2,68 +2,40 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Cubic ease-out: fast start, slow finish
-function easeOutCubic(t: number): number {
-  return 1 - Math.pow(1 - t, 3);
-}
+// Discrete deceleration steps: [playbackRate, ms after decel starts]
+// Browsers render stable rates smoothly — rapid continuous changes cause stutter.
+const DECEL_STEPS: [rate: number, offset: number][] = [
+  [0.3, 0],
+];
+const PAUSE_OFFSET = 100;
+const NORMAL_PLAY_MS = 3000;
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const rafRef = useRef<number | null>(null);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const NORMAL_PLAY_MS = 3000; // play at full speed for 3s
-    const DECEL_DURATION = 4000; // then decelerate over 4s
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-    // Text appears independently after 1s
-    const textTimer = setTimeout(() => setShowContent(true), 1000);
+    timers.push(setTimeout(() => setShowContent(true), 1000));
 
-    const startDecel = () => {
-      const decelTimer = setTimeout(() => {
-        const startTime = performance.now();
+    video.playbackRate = 1;
+    video.play().catch(() => setShowContent(true));
 
-        const tick = (now: number) => {
-          const elapsed = now - startTime;
-          const t = Math.min(elapsed / DECEL_DURATION, 1);
-          const eased = easeOutCubic(t);
-          const rate = 1 - eased; // 1.0 → 0.0
+    // After normal play, step down rate at stable intervals then pause
+    DECEL_STEPS.forEach(([rate, offset]) => {
+      timers.push(
+        setTimeout(() => { video.playbackRate = rate; }, NORMAL_PLAY_MS + offset)
+      );
+    });
+    timers.push(
+      setTimeout(() => { video.pause(); }, NORMAL_PLAY_MS + PAUSE_OFFSET)
+    );
 
-          if (rate <= 0.07) {
-            video.playbackRate = 0.0625;
-            video.pause();
-          } else {
-            video.playbackRate = rate;
-          }
-
-          if (t < 1 && rate > 0.07) {
-            rafRef.current = requestAnimationFrame(tick);
-          }
-        };
-
-        rafRef.current = requestAnimationFrame(tick);
-      }, NORMAL_PLAY_MS);
-
-      return decelTimer;
-    };
-
-    let decelTimer: ReturnType<typeof setTimeout>;
-
-    video
-      .play()
-      .then(() => {
-        decelTimer = startDecel();
-      })
-      .catch(() => setShowContent(true));
-
-    return () => {
-      clearTimeout(textTimer);
-      clearTimeout(decelTimer);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-    };
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
