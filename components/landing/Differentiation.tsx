@@ -2,6 +2,8 @@
 
 import { motion } from "motion/react";
 
+import Image from "next/image";
+
 // X icon for traditional tools
 function IconX() {
   return (
@@ -69,7 +71,7 @@ export default function Differentiation() {
               maxWidth: "640px",
             }}
           >
-            Traditional tools vs Workenvo
+            Traditional tools vs <span style={{ fontWeight: 900, textTransform: "lowercase", fontFamily: "var(--font-serif)" }}>workenvo</span>
           </h2>
         </motion.div>
 
@@ -144,14 +146,15 @@ export default function Differentiation() {
               {/* Brand header */}
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-2">
+                  <Image src="/logo.png" alt="Workenvo logo" width={72} height={20} className="h-4 w-auto object-contain opacity-80" />
                   <p
-                    className="text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: "#16855B", fontFamily: "var(--font-sans)" }}
+                    className="text-xl font-semibold tracking-wider flex items-center"
+                    style={{ color: "#16855B", fontFamily: "var(--font-serif)", fontWeight: 900, textTransform: "lowercase", fontSize: "1.2rem", marginLeft: "4px" }}
                   >
-                    Workenvo
+                    workenvo
                   </p>
                   <span
-                    className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    className="text-xs px-2 py-0.5 rounded-full font-semibold ml-2"
                     style={{
                       background: "rgba(22,133,91,0.12)",
                       color: "#16855B",

@@ -20,13 +20,13 @@ export default function Home() {
       <Problem />
       <EmotionalReality />
       <CapabilityLoop />
-      <ProductSection />
+      <div id="platform"><ProductSection /></div>
       <AILayer />
-      <ESGSection />
-      <OutcomesSection />
-      <Differentiation />
+      <div id="esg"><ESGSection /></div>
+      <div id="for-hr"><OutcomesSection /></div>
+      <div id="for-leaders"><Differentiation /></div>
       <NewCategory />
-      <FinalCTA />
+      <div id="pricing"><FinalCTA /></div>
       <Footer />
     </main>
   );

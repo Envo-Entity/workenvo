@@ -76,18 +76,6 @@ export default function NewCategory() {
       />
 
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-sm font-semibold tracking-widest uppercase mb-8"
-          style={{ color: "rgba(255,255,255,0.55)", fontFamily: "var(--font-sans)" }}
-        >
-          A new category
-        </motion.p>
-
         {/* Pre-line */}
         <motion.span
           initial={{ opacity: 0, y: 20 }}

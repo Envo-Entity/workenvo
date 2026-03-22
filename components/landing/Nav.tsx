@@ -38,17 +38,23 @@ export default function Nav() {
 
         {/* Center Nav Links */}
         <div className="hidden md:flex items-center gap-8">
-          {["Platform", "ESG", "For HR", "For Leaders", "Pricing"].map(
+          {[
+            { name: "Platform", href: "#platform" },
+            { name: "ESG", href: "#esg" },
+            { name: "For HR", href: "#for-hr" },
+            { name: "For Leaders", href: "#for-leaders" },
+            { name: "Pricing", href: "#pricing" },
+          ].map(
             (link) => (
               <a
-                key={link}
-                href="#"
+                key={link.name}
+                href={link.href}
                 className="text-sm font-medium transition-colors duration-200"
                 style={{ color: "#6B7280" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
               >
-                {link}
+                {link.name}
               </a>
             )
           )}

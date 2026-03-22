@@ -47,7 +47,7 @@ export default function EmotionalReality() {
       className="relative overflow-hidden"
       style={{
         background: "#0f172a",
-        minHeight: "100vh",
+        minHeight: "min(100vh, 800px)",
         paddingTop: "120px",
         paddingBottom: "120px",
       }}
