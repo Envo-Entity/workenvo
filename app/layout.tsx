@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans } from "next/font/google";
 import "./globals.css";
-
+import { Analytics } from "@vercel/analytics/next";
 const instrumentSerif = Instrument_Serif({
   weight: "400",
   subsets: ["latin"],
@@ -31,6 +31,7 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${dmSans.variable} h-full antialiased relative`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
+      <Analytics />
     </html>
   );
 }
