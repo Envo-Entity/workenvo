@@ -137,8 +137,9 @@ export default function NewCategory() {
             maxWidth: "560px",
           }}
         >
-          Not HR software. Not engagement surveys. A system for understanding,
-          influencing, and scaling organisational behaviour.
+          Not HR software. Not engagement surveys.{" "}
+          <br />
+          A system for understanding, influencing, and scaling organisational behaviour in real time.
         </motion.p>
 
         {/* Decorative line */}

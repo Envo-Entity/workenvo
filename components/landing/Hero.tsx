@@ -165,7 +165,7 @@ export default function Hero() {
             transition: "opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s",
           }}
         >
-          Understand what&apos;s really happening. Then shape what comes next.
+          See how your organisation is really operating today and build the capability you&apos;ll need tomorrow.
         </p>
 
         {/* CTA Buttons */}

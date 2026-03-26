@@ -214,8 +214,7 @@ export default function Differentiation() {
             maxWidth: "560px",
           }}
         >
-          Workenvo is not HR software. It is a system for understanding,
-          influencing, and scaling organisational behaviour.
+          HR software tracks what happened. Workenvo is the system that understands, influences, and scales behaviour as it happens.
         </motion.p>
       </div>
     </section>

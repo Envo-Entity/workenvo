@@ -159,7 +159,7 @@ export default function FinalCTA() {
         >
           Stop reacting.
           <br />
-          <span style={{ color: "rgba(255,255,255,0.55)" }}>Start seeing.</span>
+          <span style={{ color: "rgba(255,255,255,0.55)" }}>Start seeing behaviour.</span>
         </motion.h2>
 
         {/* Sub copy */}
@@ -175,8 +175,7 @@ export default function FinalCTA() {
             maxWidth: "520px",
           }}
         >
-          Understand what&apos;s changing before it becomes a problem. Build
-          the organisation you&apos;ll need in the future.
+          Understand what&apos;s changing across your organisation — before it becomes a problem. Act early. Build the capability you&apos;ll need next.
         </motion.p>
 
         {/* CTAs */}
