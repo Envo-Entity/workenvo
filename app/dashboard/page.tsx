@@ -17,10 +17,10 @@ export default function DashboardPage() {
     <div className={`${styles.page} flex min-h-screen`}>
       <Sidebar />
 
-      <main className="mx-auto max-w-7xl flex-1 space-y-12 p-6 md:p-12">
+      <main className="mx-auto max-w-7xl flex-1 space-y-8 p-5 md:p-8">
         <DashboardHeader />
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
           <CapabilityIndexCard />
           <AIRecommendationsPanel />
           <BehaviouralSignalsCard />

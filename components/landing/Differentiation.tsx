@@ -1,8 +1,7 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import { motion } from "motion/react";
-
-import Image from "next/image";
 
 // X icon for traditional tools
 function IconX() {
@@ -146,13 +145,11 @@ export default function Differentiation() {
               {/* Brand header */}
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <Image src="/logo.png" alt="Workenvo logo" width={72} height={20} className="h-4 w-auto object-contain opacity-80" />
-                  <p
-                    className="text-xl font-semibold tracking-wider flex items-center"
-                    style={{ color: "#16855B", fontFamily: "var(--font-serif)", fontWeight: 900, textTransform: "lowercase", fontSize: "1.2rem", marginLeft: "4px" }}
-                  >
-                    workenvo
-                  </p>
+                  <BrandLogo
+                    logoHeightClassName="h-5"
+                    imageClassName="opacity-80"
+                    textClassName="text-[1.2rem] tracking-[-0.03em]"
+                  />
                   <span
                     className="text-xs px-2 py-0.5 rounded-full font-semibold ml-2"
                     style={{

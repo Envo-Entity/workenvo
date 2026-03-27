@@ -1,5 +1,6 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "motion/react";
 
@@ -2272,11 +2273,9 @@ export default function WorkenvoDashboard({
             >
               {/* Logo */}
               <div style={{ marginBottom: 20 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logo.png"
-                  alt="Workenvo"
-                  style={{ height: 34, width: "auto", display: "block" }}
+                <BrandLogo
+                  logoHeightClassName="h-[34px]"
+                  textClassName="text-[28px] tracking-[-0.04em]"
                 />
               </div>
 

@@ -21,8 +21,8 @@ const signals = [
 
 export default function BehaviouralSignalsCard() {
   return (
-    <div className="space-y-6 rounded-[3rem] bg-[#f6f3f2] p-8 md:col-span-7">
-      <h2 className="text-2xl font-bold tracking-tight text-[#1c1b1b]">
+    <div className="space-y-6 rounded-[1.5rem] bg-[#f6f3f2] p-6 md:col-span-7">
+      <h2 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
         Real-time Behavioural Signals
       </h2>
 
@@ -30,7 +30,7 @@ export default function BehaviouralSignalsCard() {
         {signals.map((signal) => (
           <div
             key={signal.title}
-            className="flex items-center justify-between rounded-[2rem] bg-[#ffffff] p-6"
+            className="flex items-center justify-between rounded-[1rem] bg-[#ffffff] p-5"
           >
             <div className="flex items-center gap-4">
               <div

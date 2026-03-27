@@ -9,6 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
+  --font-brand: var(--font-brand);
 
   /* Workenvo Brand Tokens — warm, light, human */
   --color-we-bg: #FFFFFF;

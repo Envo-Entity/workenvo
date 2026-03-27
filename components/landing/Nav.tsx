@@ -1,7 +1,7 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,13 +26,10 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Workenvo"
-            width={120}
-            height={36}
-            className="h-8 w-auto"
+          <BrandLogo
             priority
+            logoHeightClassName="h-8 md:h-9"
+            textClassName="text-xl md:text-2xl tracking-[-0.03em]"
           />
         </a>
 

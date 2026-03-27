@@ -23,11 +23,11 @@ const metrics = [
 export default function CapabilityIndexCard() {
   return (
     <div
-      className={`flex flex-col justify-between rounded-[3rem] bg-[#ffffff] p-8 md:col-span-8 md:p-10 ${styles.ambientShadow}`}
+      className={`flex flex-col justify-between rounded-[1.5rem] bg-[#ffffff] p-6 md:col-span-8 md:p-8 ${styles.ambientShadow}`}
     >
       <div className="mb-12 flex items-start justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[#1c1b1b]">
+          <h2 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
             Capability Index
           </h2>
           <p className="mt-1 text-sm text-[#3e4941]">
@@ -35,14 +35,14 @@ export default function CapabilityIndexCard() {
           </p>
         </div>
         <div className="text-right">
-          <span className="text-4xl font-black text-[#006841]">84.2</span>
+          <span className="text-3xl font-black text-[#006841]">84.2</span>
           <p className="text-[10px] font-bold text-emerald-600">
             +12% vs last month
           </p>
         </div>
       </div>
 
-      <div className="relative flex h-64 w-full items-end gap-2 overflow-hidden rounded-[2rem]">
+      <div className="relative flex h-52 w-full items-end gap-2 overflow-hidden rounded-[1rem]">
         {bars.map((bar, index) => (
           <div key={index} className={`flex-1 rounded-t-full ${bar}`} />
         ))}

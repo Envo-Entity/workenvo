@@ -9,17 +9,17 @@ export default function DashboardHeader() {
             Organisation-wide insights
           </span>
         </div>
-        <h1 className="text-4xl font-bold tracking-tighter text-[#1c1b1b] md:text-5xl">
+        <h1 className="text-3xl font-bold tracking-tighter text-[#1c1b1b] md:text-4xl">
           Capability tracking
         </h1>
       </div>
 
       <div className="flex gap-4">
-        <button className="rounded-full bg-[#ebe7e7] px-6 py-4 text-sm font-semibold transition-all hover:bg-[#e5e2e1]">
+        <button className="rounded-full bg-[#ebe7e7] px-6 py-3 text-sm font-semibold transition-all hover:bg-[#e5e2e1]">
           Download Report
         </button>
         <button
-          className={`rounded-full bg-[#008454] px-8 py-4 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
+          className={`rounded-full bg-[#008454] px-6 py-3 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
         >
           Generate AI View
         </button>

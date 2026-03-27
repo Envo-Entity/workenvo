@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, DM_Sans } from "next/font/google";
+import { Instrument_Serif, DM_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+
 const instrumentSerif = Instrument_Serif({
   weight: "400",
   subsets: ["latin"],
@@ -12,6 +13,11 @@ const instrumentSerif = Instrument_Serif({
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-brand",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${dmSans.variable} h-full antialiased relative`}
+      className={`${instrumentSerif.variable} ${dmSans.variable} ${montserrat.variable} h-full antialiased relative`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
       <Analytics />
