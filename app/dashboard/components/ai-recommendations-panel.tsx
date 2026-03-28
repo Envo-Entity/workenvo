@@ -1,6 +1,16 @@
 import DashboardIcon from "./dashboard-icon";
 
-export default function AIRecommendationsPanel() {
+type AIRecommendationsPanelProps = {
+  insight: string;
+  recommendation: string;
+  ctaLabel: string;
+};
+
+export default function AIRecommendationsPanel({
+  insight,
+  recommendation,
+  ctaLabel,
+}: AIRecommendationsPanelProps) {
   return (
     <div className="flex flex-col justify-between space-y-8 rounded-[1.5rem] bg-[#008454] p-6 text-white md:col-span-4">
       <div>
@@ -16,26 +26,20 @@ export default function AIRecommendationsPanel() {
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#8ff8b4]">
               Primary Insight
             </p>
-            <p className="text-sm leading-relaxed">
-              Engagement in the Marketing team has dipped by 14%. Potential
-              alignment gap detected in Q3 goals.
-            </p>
+            <p className="text-sm leading-relaxed">{insight}</p>
           </div>
 
           <div className="rounded-[1rem] border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#8ff8b4]">
               Recommendation
             </p>
-            <p className="text-sm leading-relaxed">
-              Schedule a &quot;Sync &amp; Soul&quot; session for middle managers
-              to recalibrate project ownership.
-            </p>
+            <p className="text-sm leading-relaxed">{recommendation}</p>
           </div>
         </div>
       </div>
 
       <button className="w-full rounded-full bg-white py-3 font-bold text-[#006841] transition-all hover:bg-stone-100 active:scale-95">
-        Execute Strategy
+        {ctaLabel}
       </button>
     </div>
   );

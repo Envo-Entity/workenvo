@@ -1,29 +1,27 @@
 import DashboardIcon from "./dashboard-icon";
 
-const signals = [
-  {
-    title: "Burnout Risk: Engineering",
-    description: "High frequency of after-hours communication",
-    icon: "warning",
-    iconWrapClass: "bg-[#ffdad6]/30 text-[#ba1a1a]",
-    badgeClass: "bg-[#ffdad6] text-[#93000a]",
-    badge: "ACTION REQUIRED",
-  },
-  {
-    title: "Engagement Drops: Sales",
-    description: "Meeting participation rates down 22%",
-    icon: "trending_down",
-    iconWrapClass: "bg-[#006841]/10 text-[#006841]",
-    badgeClass: "bg-[#e5e2e1] text-[#3e4941]",
-    badge: "MONITORING",
-  },
-];
+type Signal = {
+  title: string;
+  description: string;
+  icon: string;
+  iconWrapClass: string;
+  badgeClass: string;
+  badge: string;
+};
 
-export default function BehaviouralSignalsCard() {
+type BehaviouralSignalsCardProps = {
+  title: string;
+  signals: Signal[];
+};
+
+export default function BehaviouralSignalsCard({
+  title,
+  signals,
+}: BehaviouralSignalsCardProps) {
   return (
     <div className="space-y-6 rounded-[1.5rem] bg-[#f6f3f2] p-6 md:col-span-7">
       <h2 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
-        Real-time Behavioural Signals
+        {title}
       </h2>
 
       <div className="space-y-4">

@@ -1,16 +1,21 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
 import DashboardIcon from "./dashboard-icon";
 import styles from "../dashboard.module.css";
 
 const navItems = [
-  { label: "Dashboard", icon: "dashboard", active: true, fill: true },
-  { label: "Insights", icon: "analytics" },
-  { label: "Teams", icon: "groups" },
-  { label: "ESG Tracking", icon: "verified" },
-  { label: "Settings", icon: "settings" },
+  { label: "Culture", icon: "groups", fill: true, href: "/dashboard/envo-culture" },
+  { label: "Performance", icon: "analytics", href: "/dashboard/envo-performance" },
+  { label: "Sustainability", icon: "eco", href: "/dashboard/envo-sustainability" },
+  { label: "Employees", icon: "person", href: "/dashboard/envo-employees" },
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="sticky top-0 hidden h-screen w-64 flex-col gap-8 bg-[#f6f3f2] p-6 md:flex">
       <div className="flex items-center gap-3 px-4 py-2">
@@ -24,24 +29,27 @@ export default function Sidebar() {
         <p className="mb-2 px-4 text-[10px] font-bold uppercase tracking-[0.25em] text-[#3e4941]">
           Main Menu
         </p>
-        {navItems.map((item) => (
-          <a
-            key={item.label}
-            href="#"
-            className={
-              item.active
-                ? "flex items-center gap-4 rounded-[2rem] bg-[#008454] px-3.5 py-3 font-semibold text-[#ecfff0] transition-all active:scale-95"
-                : "flex items-center gap-4 rounded-[2rem] px-3.5 py-3 text-stone-600 transition-all hover:text-emerald-600"
-            }
-          >
-            <DashboardIcon
-              name={item.icon}
-              fill={item.fill}
-              className="text-[24px]"
-            />
-            <span>{item.label}</span>
-          </a>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={
+                isActive
+                  ? "flex items-center gap-4 rounded-[2rem] bg-[#008454] px-3.5 py-3 font-semibold text-[#ecfff0] transition-all active:scale-95"
+                  : "flex items-center gap-4 rounded-[2rem] px-3.5 py-3 text-stone-600 transition-all hover:text-emerald-600"
+              }
+            >
+              <DashboardIcon
+                name={item.icon}
+                fill={item.fill}
+                className="text-[24px]"
+              />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
       <div className={`flex items-center gap-3 rounded-[2rem] bg-[#e5e2e1] p-4 ${styles.glassNav}`}>

@@ -1,26 +1,26 @@
 import styles from "../dashboard.module.css";
 
-const bars = [
-  "h-[40%] bg-[#006841]/10",
-  "h-[55%] bg-[#006841]/20",
-  "h-[45%] bg-[#006841]/30",
-  "h-[70%] bg-[#006841]/40",
-  "h-[65%] bg-[#006841]/50",
-  "h-[85%] bg-[#006841]/60",
-  "h-[95%] bg-[#008454]",
-  "h-[90%] bg-[#008454]",
-  "h-[75%] bg-[#006841]/60",
-  "h-[60%] bg-[#006841]/40",
-];
+type Metric = { label: string; value: string };
 
-const metrics = [
-  { label: "Tech Stack", value: "High" },
-  { label: "Soft Skills", value: "Emerging" },
-  { label: "Resilience", value: "Stable" },
-  { label: "Agility", value: "Peak" },
-];
+type CapabilityIndexCardProps = {
+  title: string;
+  subtitle: string;
+  score: string;
+  trend: string;
+  trendPositive: boolean;
+  bars: string[];
+  metrics: Metric[];
+};
 
-export default function CapabilityIndexCard() {
+export default function CapabilityIndexCard({
+  title,
+  subtitle,
+  score,
+  trend,
+  trendPositive,
+  bars,
+  metrics,
+}: CapabilityIndexCardProps) {
   return (
     <div
       className={`flex flex-col justify-between rounded-[1.5rem] bg-[#ffffff] p-6 md:col-span-8 md:p-8 ${styles.ambientShadow}`}
@@ -28,16 +28,16 @@ export default function CapabilityIndexCard() {
       <div className="mb-12 flex items-start justify-between">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
-            Capability Index
+            {title}
           </h2>
-          <p className="mt-1 text-sm text-[#3e4941]">
-            Real-time aggregate of workforce skill velocity
-          </p>
+          <p className="mt-1 text-sm text-[#3e4941]">{subtitle}</p>
         </div>
         <div className="text-right">
-          <span className="text-3xl font-black text-[#006841]">84.2</span>
-          <p className="text-[10px] font-bold text-emerald-600">
-            +12% vs last month
+          <span className="text-3xl font-black text-[#006841]">{score}</span>
+          <p
+            className={`text-[10px] font-bold ${trendPositive ? "text-emerald-600" : "text-red-500"}`}
+          >
+            {trend}
           </p>
         </div>
       </div>
