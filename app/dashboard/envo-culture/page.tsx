@@ -4,6 +4,13 @@ import CapabilityIndexCard from "../components/capability-index-card";
 import AIRecommendationsPanel from "../components/ai-recommendations-panel";
 import BehaviouralSignalsCard from "../components/behavioural-signals-card";
 import ESGMetricsCard from "../components/esg-metrics-card";
+import CultOrgHealthPulse from "../components/cult-org-health-pulse";
+import CultEmotionalMap from "../components/cult-emotional-map";
+import CultMotivationIndex from "../components/cult-motivation-index";
+import CultEngagementOverview from "../components/cult-engagement-overview";
+import CultSatisfactionDeepdive from "../components/cult-satisfaction-deepdive";
+import CultLeadershipTrust from "../components/cult-leadership-trust";
+import CultAlertsPatterns from "../components/cult-alerts-patterns";
 
 export const metadata: Metadata = {
   title: "Workenvo | Culture",
@@ -33,6 +40,7 @@ export default function CulturePage() {
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
+        {/* ── Sections 1–4 (existing) ── */}
         <CapabilityIndexCard
           title="Culture Health Score"
           subtitle="Real-time pulse of your team's cultural health"
@@ -86,6 +94,23 @@ export default function CulturePage() {
           ]}
           callout="Your team's belonging score is 18% higher than the company median."
         />
+
+        {/* ── Section 5 — Org Health Pulse ── */}
+        <CultOrgHealthPulse />
+
+        {/* ── Sections 6 + 7 — Emotional Map + Motivation Index ── */}
+        <CultEmotionalMap />
+        <CultMotivationIndex />
+
+        {/* ── Section 8 — Engagement Overview ── */}
+        <CultEngagementOverview />
+
+        {/* ── Sections 9 + 10 — Satisfaction + Leadership Trust ── */}
+        <CultSatisfactionDeepdive />
+        <CultLeadershipTrust />
+
+        {/* ── Section 11 — Culture Alerts ── */}
+        <CultAlertsPatterns />
       </div>
     </>
   );
