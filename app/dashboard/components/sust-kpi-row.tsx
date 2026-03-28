@@ -53,7 +53,7 @@ function Sparkline({ data }: { data: number[] }) {
     ` L ${pts[pts.length - 1][0]} ${H} L ${pts[0][0]} ${H} Z`;
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none" style={{ overflow: "hidden" }}>
       <defs>
         <linearGradient id={`spark-fill-${data[0]}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#006841" stopOpacity="0.15" />
@@ -72,7 +72,7 @@ export default function SustKpiRow() {
       {kpis.map((kpi) => (
         <div
           key={kpi.label}
-          className={`flex flex-col justify-between rounded-[1.5rem] bg-white p-6 ${styles.ambientShadow}`}
+          className={`flex flex-col justify-between overflow-hidden rounded-[1.5rem] bg-white p-6 ${styles.ambientShadow}`}
         >
           <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#3e4941]">
             {kpi.label}

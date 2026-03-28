@@ -117,27 +117,29 @@ export default function SustainabilityShell() {
           {/* ── Section 6 — Carbon by Category + Sustainability Signals ── */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
             <SustCarbonByCategory />
-            <BehaviouralSignalsCard
-              title="Sustainability Signals"
-              signals={[
-                {
-                  title: "Commute Emissions Rising: Dublin Office",
-                  description: "Average commute carbon up 18% since hybrid policy change",
-                  icon: "warning",
-                  iconWrapClass: "bg-amber-100 text-amber-700",
-                  badgeClass: "bg-amber-100 text-amber-800",
-                  badge: "INVESTIGATE",
-                },
-                {
-                  title: "Zero Waste Target Hit: Berlin Office",
-                  description: "Waste diversion rate exceeded 95% for 3 consecutive months",
-                  icon: "verified",
-                  iconWrapClass: "bg-[#006841]/10 text-[#006841]",
-                  badgeClass: "bg-[#dcfce7] text-[#166534]",
-                  badge: "MILESTONE",
-                },
-              ]}
-            />
+            <div className="md:col-span-6">
+              <BehaviouralSignalsCard
+                title="Sustainability Signals"
+                signals={[
+                  {
+                    title: "Commute Emissions Rising: Dublin Office",
+                    description: "Average commute carbon up 18% since hybrid policy change",
+                    icon: "warning",
+                    iconWrapClass: "bg-amber-100 text-amber-700",
+                    badgeClass: "bg-amber-100 text-amber-800",
+                    badge: "INVESTIGATE",
+                  },
+                  {
+                    title: "Zero Waste Target Hit: Berlin Office",
+                    description: "Waste diversion rate exceeded 95% for 3 consecutive months",
+                    icon: "verified",
+                    iconWrapClass: "bg-[#006841]/10 text-[#006841]",
+                    badgeClass: "bg-[#dcfce7] text-[#166534]",
+                    badge: "MILESTONE",
+                  },
+                ]}
+              />
+            </div>
           </div>
 
           {/* ── Section 7 — Behaviour Adoption + Popular Actions ── */}
