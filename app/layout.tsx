@@ -54,7 +54,7 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${dmSans.variable} ${montserrat.variable} h-full antialiased relative`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#111111]">{children}</body>
       <Analytics />
     </html>
   );
