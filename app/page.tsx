@@ -15,7 +15,7 @@ import Footer from "@/components/landing/Footer";
 export default function Home() {
   return (
     <>
-      <main className="relative z-10 mb-[320px]">
+      <main className="relative z-10">
         <Nav />
         <Hero />
         <Problem />
