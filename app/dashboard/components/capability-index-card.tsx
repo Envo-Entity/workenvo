@@ -36,7 +36,7 @@ export default function CapabilityIndexCard({
 
   return (
     <div
-      className={`flex flex-col justify-between rounded-[1.5rem] bg-[#ffffff] p-6 md:col-span-8 md:p-8 ${styles.ambientShadow}`}
+      className={`self-start flex flex-col justify-between rounded-[1.5rem] bg-[#ffffff] p-6 md:col-span-8 md:p-8 ${styles.ambientShadow}`}
     >
       {href ? (
         <Link

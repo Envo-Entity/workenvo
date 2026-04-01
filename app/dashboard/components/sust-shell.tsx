@@ -79,7 +79,6 @@ export default function SustainabilityShell() {
               because="Commute-related emissions in Dublin rose 18% after the February attendance policy change reduced remote working days from 2.4 to 1.6 per week."
               recommendation="Introduce a green commute incentive programme and set department-level carbon budgets reviewed quarterly."
               ctaLabel="Launch ESG Nudge"
-              impacts={sustainabilityImpacts}
             />
 
             <BehaviouralSignalsCard

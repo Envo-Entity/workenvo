@@ -66,7 +66,6 @@ export default function PerformancePage() {
           because="Product sprint velocity dropped 22% after two senior engineers were redirected to urgent infrastructure work, leaving key launch milestones under-resourced."
           recommendation="Revisit workload distribution in your next planning session. Consider reducing Marcus's active project count from 4 to 2."
           ctaLabel="Review Workload"
-          impacts={performanceImpacts.slice(0, 2)}
         />
 
         <BehaviouralSignalsCard

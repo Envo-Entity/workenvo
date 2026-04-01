@@ -66,7 +66,6 @@ export default function CulturePage() {
           because="Peer recognition in Design dropped 35% when the team lead went on leave, and no backup process was put in place to keep the ritual running."
           recommendation="Launch a peer recognition prompt this week. Teams that increased recognition by even 10% saw engagement recover within 3 weeks."
           ctaLabel="Activate Nudge"
-          impacts={cultureImpacts.slice(0, 2)}
         />
 
         <BehaviouralSignalsCard
