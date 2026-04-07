@@ -11,7 +11,6 @@ import {
   Mic,
   MicOff,
   Sparkles,
-  Waves,
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 
@@ -156,6 +155,46 @@ const initialAnswers: Answers = {
   friction: [],
   voice: "",
 };
+
+const beliefStates = [
+  "Doubtful, honestly",
+  "Not really seeing it",
+  "Open, but unconvinced",
+  "Yes, mostly",
+  "Strongly believe this",
+] as const;
+
+function getWorkloadStateIndex(value: number | null) {
+  if (value === null) {
+    return 2;
+  }
+
+  if (value <= 20) return 0;
+  if (value <= 40) return 1;
+  if (value <= 60) return 2;
+  if (value <= 80) return 3;
+  return 4;
+}
+
+function getWorkloadState(value: number | null) {
+  return workloadStates[getWorkloadStateIndex(value)];
+}
+
+function getBeliefStateIndex(value: number | null) {
+  if (value === null) {
+    return 2;
+  }
+
+  if (value <= 20) return 0;
+  if (value <= 40) return 1;
+  if (value <= 60) return 2;
+  if (value <= 80) return 3;
+  return 4;
+}
+
+function getBeliefState(value: number | null) {
+  return beliefStates[getBeliefStateIndex(value)];
+}
 
 const screenDetails: Record<
   Exclude<ScreenId, "done">,
@@ -371,18 +410,14 @@ export default function SurveyDemoExperience() {
     const cultureTone = answers.belonging
       ? ["fragile", "warming", "steady", "strong", "thriving"][answers.belonging - 1]
       : "unknown";
-    const performanceTone = answers.workload
-      ? workloadStates[answers.workload - 1].label
-      : "unknown";
-    const sustainabilityTone = answers.belief
-      ? [
-          "skeptical",
-          "unconvinced",
-          "open-minded",
-          "engaged",
-          "fully bought in",
-        ][answers.belief - 1]
-      : "unknown";
+    const performanceTone =
+      answers.workload !== null ? getWorkloadState(answers.workload).label : "unknown";
+    const sustainabilityTone =
+      answers.belief !== null
+        ? ["skeptical", "unconvinced", "open-minded", "engaged", "fully bought in"][
+            getBeliefStateIndex(answers.belief)
+          ]
+        : "unknown";
 
     return { cultureTone, performanceTone, sustainabilityTone };
   }, [answers.belief, answers.belonging, answers.workload]);
@@ -581,23 +616,22 @@ function ScreenShell({
 
 function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
   return (
-    <div className="mx-auto w-full max-w-5xl">
-        <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/6 p-5 backdrop-blur-2xl sm:p-8 md:rounded-[2.5rem] md:p-10">
-          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-emerald-400/14 to-transparent" />
-          <p className="relative text-xs font-semibold uppercase tracking-[0.28em] text-[#d5d0c7]/65">
+    <div className="mx-auto flex min-h-[calc(100dvh-8.5rem)] w-full max-w-5xl flex-col justify-between px-3 sm:px-4 md:px-0">
+      <div className="grid gap-8 md:gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div className="flex min-h-[58dvh] flex-col justify-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#d5d0c7]/65">
             Workenvo Monthly Pulse
           </p>
-          <h1 className="relative mt-4 max-w-2xl text-[2.5rem] font-semibold tracking-[-0.06em] text-[#f7f1e7] sm:mt-5 sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mt-5 max-w-2xl text-[2.7rem] font-semibold tracking-[-0.065em] text-[#f7f1e7] sm:text-5xl md:text-6xl lg:text-7xl">
             Hey Alex, this&apos;ll take about 2 minutes.
           </h1>
-          <p className="relative mt-4 max-w-xl text-[15px] leading-7 text-white/68 sm:mt-6 sm:text-lg sm:leading-8">
+          <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/68 sm:mt-6 sm:text-lg sm:leading-8">
             This is designed to feel like a live check-in, not a boring form.
             Your answers feed the culture, performance, and sustainability
             signals leadership actually uses to act.
           </p>
 
-          <div className="relative mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
+          <div className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
             {[
               "Anonymous by default",
               "7 screens after this",
@@ -611,15 +645,6 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
               </span>
             ))}
           </div>
-
-          <button
-            type="button"
-            onClick={onBegin}
-            className="relative mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#f3eee5] px-6 py-3.5 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98] sm:mt-10 sm:w-auto"
-          >
-            Start the pulse
-            <ArrowRight className="h-4 w-4" />
-          </button>
         </div>
 
         <div className="hidden gap-3 sm:grid-cols-3 lg:grid">
@@ -650,6 +675,17 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
           ))}
         </div>
       </div>
+
+      <div className="pt-8">
+        <button
+          type="button"
+          onClick={onBegin}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#f3eee5] px-6 py-4 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98] sm:w-auto sm:min-w-[220px]"
+        >
+          Start the pulse
+          <ArrowRight className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -667,74 +703,79 @@ function BelongingScreen({
       title="Do you feel like you truly belong in your team right now?"
       description="The selection should feel emotional, not clinical. We want a quick gut answer here, because belonging is usually felt before it is articulated."
     >
-      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <div className="flex min-h-[340px] flex-col items-center justify-center sm:min-h-[360px]">
-          <motion.div
-            key={value ?? 0}
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.26, ease: [0.23, 1, 0.32, 1] }}
-            className="relative flex flex-col items-center"
-          >
-            <div className="absolute -inset-10 rounded-full bg-[#fbbf24]/10 blur-[40px]" />
-            <div
-              className="relative flex h-28 w-28 items-center justify-center rounded-[2.2rem] text-[3.2rem] shadow-[0_36px_100px_-36px_rgba(251,191,36,0.48)] sm:h-36 sm:w-36 sm:rounded-[2.7rem] sm:text-[4.1rem] md:h-40 md:w-40 md:rounded-[3rem] md:text-[4.6rem]"
-              style={{
-                background:
-                  value !== null
-                    ? "linear-gradient(180deg,#ffd46b 0%, #ffb800 100%)"
-                    : "linear-gradient(180deg,rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%)",
-              }}
+      <div className="flex min-h-[calc(100dvh-23rem)] flex-col justify-between gap-4 sm:min-h-0 sm:gap-6">
+        <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
+          <div className="flex min-h-[300px] flex-col items-center justify-center sm:min-h-[360px]">
+            <motion.div
+              key={value ?? 0}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.26, ease: [0.23, 1, 0.32, 1] }}
+              className="relative flex flex-col items-center"
             >
-              <span>{value !== null ? belongingFaces[value - 1].emoji : "🙂"}</span>
-            </div>
-            <div className="mt-4 text-center text-[1.85rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-4xl md:text-5xl">
-              {value ? belongingFaces[value - 1].label : "How does it feel?"}
-            </div>
-            <p className="mt-3 max-w-[17rem] text-center text-sm leading-6 text-white/54 sm:max-w-sm sm:leading-7">
-              {value
-                ? "Trust the immediate answer. It is usually the right one."
-                : "Choose the face that matches your real feeling today."}
-            </p>
-          </motion.div>
+              <div className="absolute -inset-12 rounded-full bg-[#fbbf24]/12 blur-[48px]" />
+              <div
+                className="relative flex h-36 w-36 items-center justify-center rounded-[2.8rem] text-[4.3rem] shadow-[0_42px_120px_-42px_rgba(251,191,36,0.6)] sm:h-40 sm:w-40 sm:rounded-[3rem] sm:text-[4.7rem] md:h-46 md:w-46 md:text-[5.2rem]"
+                style={{
+                  background:
+                    value !== null
+                      ? "linear-gradient(180deg,#ffd46b 0%, #ffb800 100%)"
+                      : "linear-gradient(180deg,rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%)",
+                }}
+              >
+                <span>{value !== null ? belongingFaces[value - 1].emoji : "🙂"}</span>
+              </div>
+              <div className="mt-5 text-center text-[2.15rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-4xl md:text-5xl">
+                {value ? belongingFaces[value - 1].label : "How does it feel?"}
+              </div>
+              <p className="mt-3 max-w-[17rem] text-center text-sm leading-6 text-white/54 sm:max-w-sm sm:leading-7">
+                {value
+                  ? "Trust the immediate answer. It is usually the right one."
+                  : "Choose the face that matches your real feeling today."}
+              </p>
+            </motion.div>
+          </div>
+        </div>
 
-          <div className="mt-6 w-full max-w-xl rounded-[1.7rem] border border-white/8 bg-[#f7f1e7]/88 p-2 text-[#161616] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] sm:mt-12 sm:rounded-[2rem] sm:p-3">
-            <div className="grid grid-cols-5 gap-0.5 sm:gap-1">
-              {belongingFaces.map((face, index) => {
-                const selected = value === index + 1;
+        <div className="mx-auto mb-2 w-full max-w-[360px] rounded-[2rem] border border-white/8 bg-white/5 px-3 py-2.5 shadow-2xl backdrop-blur-2xl sm:max-w-[400px] sm:rounded-[2.4rem] sm:px-3.5 sm:py-3">
+          <div className="grid grid-cols-5 place-items-center gap-1.5 sm:gap-2">
+            {belongingFaces.map((face, index) => {
+              const selected = value === index + 1;
 
-                return (
-                  <button
-                    key={face.label}
-                    type="button"
-                    onClick={() => onChange(index + 1)}
-                    className="group relative flex flex-col items-center justify-center gap-1.5 rounded-[1.05rem] px-1 py-2.5 sm:gap-2 sm:rounded-[1.35rem] sm:px-2 sm:py-3"
+              return (
+                <button
+                  key={face.label}
+                  type="button"
+                  onClick={() => onChange(index + 1)}
+                  className="group relative flex h-14 w-full items-center justify-center rounded-[1.2rem] px-1 py-1 sm:h-16 sm:rounded-[1.4rem]"
+                >
+                  <motion.div
+                    animate={{
+                      scale: selected ? 1.55 : 1,
+                      y: 0,
+                      opacity: selected ? 1 : 0.45,
+                    }}
+                    whileHover={{ scale: selected ? 1.55 : 1.15 }}
+                    transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                    className="relative z-10 flex items-center justify-center text-[1.45rem] sm:text-[1.7rem]"
                   >
+                    {face.emoji}
+                  </motion.div>
+                  {selected ? (
                     <motion.div
-                      animate={{
-                        scale: selected ? 1.18 : 1,
-                        y: selected ? -12 : 0,
-                        opacity: selected ? 1 : 0.62,
+                      layoutId="belonging-selector"
+                      className="absolute inset-0 rounded-[1.2rem] border sm:rounded-[1.4rem]"
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.08)",
+                        borderColor: `${face.glow}88`,
+                        boxShadow: `0 16px 40px -16px ${face.glow}66, inset 0 1px 1px rgba(255,255,255,0.1)`,
                       }}
-                      transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                      className="text-[1.35rem] sm:text-2xl"
-                    >
-                      {face.emoji}
-                    </motion.div>
-                    <span className="text-[10px] font-semibold text-black/48 sm:text-[11px]">
-                      {index + 1}
-                    </span>
-                    {selected ? (
-                      <motion.div
-                        layoutId="belonging-selector"
-                        className="absolute inset-0 rounded-[1.35rem] bg-black/[0.06]"
-                        transition={{ type: "spring", duration: 0.45, bounce: 0.18 }}
-                      />
-                    ) : null}
-                  </button>
-                );
-              })}
-            </div>
+                      transition={{ type: "spring", duration: 0.5, bounce: 0.22 }}
+                    />
+                  ) : null}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -749,8 +790,9 @@ function WorkloadScreen({
   value: number | null;
   onChange: (value: number) => void;
 }) {
-  const current = value ? workloadStates[value - 1] : workloadStates[2];
-  const level = value ?? 3;
+  const sliderValue = value ?? 50;
+  const current = getWorkloadState(sliderValue);
+  const fillPercent = Math.max(12, sliderValue);
 
   return (
     <ScreenShell
@@ -764,9 +806,9 @@ function WorkloadScreen({
             <motion.div
               className="absolute inset-x-0 bottom-0"
               animate={{
-                height: `${16 + level * 15}%`,
+                height: `${fillPercent}%`,
                 background:
-                  level <= 3
+                  sliderValue <= 60
                     ? `linear-gradient(180deg, ${current.color}cc 0%, ${current.color} 100%)`
                     : `linear-gradient(180deg, ${current.color}ee 0%, #7c2d12 100%)`,
               }}
@@ -783,7 +825,7 @@ function WorkloadScreen({
                   opacity: [0.5, 0.85, 0.5],
                 }}
                 transition={{
-                  duration: level >= 4 ? 1.3 : 2.4,
+                  duration: sliderValue >= 75 ? 1.3 : 2.4,
                   repeat: Number.POSITIVE_INFINITY,
                   ease: "easeInOut",
                 }}
@@ -802,36 +844,40 @@ function WorkloadScreen({
               </p>
             </div>
 
-            <div className="mt-4 grid w-full grid-cols-5 gap-2 sm:mt-6 sm:gap-3">
-              {workloadStates.map((state, index) => {
-                const selected = value === index + 1;
-
-                return (
-                  <button
-                    key={state.label}
-                    type="button"
-                    onClick={() => onChange(index + 1)}
-                    className="group flex flex-col items-center gap-3"
-                  >
-                    <motion.div
-                      animate={{
-                        height: `${42 + index * 16}px`,
-                        backgroundColor: selected ? state.color : "rgba(255,255,255,0.11)",
-                        scale: selected ? 1.06 : 1,
-                        y: selected ? -5 : 0,
-                        boxShadow: selected
-                          ? `0 22px 60px -26px ${state.color}`
-                          : "0 0 0 0 transparent",
-                      }}
-                      transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-                      className="w-full rounded-[0.95rem] sm:rounded-[1.2rem]"
-                    />
-                    <span className="text-xs font-medium text-white/52 group-hover:text-white/72">
-                      {index + 1}
-                    </span>
-                  </button>
-                );
-              })}
+            <div className="mt-5 rounded-[1.5rem] bg-black/14 px-4 py-4 sm:mt-6 sm:rounded-[1.8rem] sm:px-5">
+              <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.2em] text-white/36">
+                <span>Calm</span>
+                <span>Overloaded</span>
+              </div>
+              <div className="relative mt-4">
+                <div className="h-3 w-full rounded-full bg-white/10" />
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  animate={{
+                    width: `${sliderValue}%`,
+                    background: `linear-gradient(90deg, #d8f7e8 0%, ${current.color} 68%, ${
+                      sliderValue >= 75 ? "#f59e0b" : current.color
+                    } 100%)`,
+                    boxShadow: `0 8px 26px -10px ${current.color}`,
+                  }}
+                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <motion.div
+                  className="pointer-events-none absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full border border-white/70 bg-[#f7f1e7] shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)]"
+                  animate={{ left: `calc(${sliderValue}% - 14px)` }}
+                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={sliderValue}
+                  onChange={(event) => onChange(Number(event.target.value))}
+                  className="absolute inset-0 h-7 w-full cursor-pointer opacity-0"
+                  aria-label="Workload slider"
+                />
+              </div>
             </div>
 
             <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/38 sm:mt-5 sm:text-xs sm:tracking-[0.2em]">
@@ -859,7 +905,7 @@ function ManagerScreen({
       title="Does your manager make it easier to do your best work?"
       description="This is a calm judgment question. The interaction should still feel beautiful, but the tone should stay composed so the answer feels safe to give."
     >
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         {managerCards.map((card) => {
           const selected = value === card.value;
 
@@ -877,25 +923,27 @@ function ManagerScreen({
                   ? `0 30px 80px -40px ${card.accent}`
                   : "0 0 0 0 transparent",
               }}
-              className="rounded-[1.45rem] border p-4 text-left backdrop-blur-xl sm:rounded-[2.1rem] sm:p-6"
+              className="rounded-[1.35rem] border p-3.5 text-left backdrop-blur-xl sm:rounded-[2.1rem] sm:p-6"
             >
               <div className="flex items-center justify-between">
                 <span
-                  className="text-2xl font-semibold sm:text-3xl"
+                  className="text-[1.7rem] font-semibold sm:text-3xl"
                   style={{ color: selected ? "#f7f1e7" : card.accent }}
                 >
                   {card.icon}
                 </span>
                 {selected ? (
-                  <span className="rounded-full bg-white/16 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/82 sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
+                  <span className="rounded-full bg-white/16 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-white/82 sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
                     Selected
                   </span>
                 ) : null}
               </div>
-              <h3 className="mt-4 text-lg font-semibold tracking-[-0.04em] text-[#f7f1e7] sm:mt-8 sm:text-2xl">
+              <h3 className="mt-4 text-base font-semibold tracking-[-0.04em] text-[#f7f1e7] sm:mt-8 sm:text-2xl">
                 {card.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-white/62 sm:mt-3 sm:leading-7">{card.body}</p>
+              <p className="mt-2 text-[13px] leading-5 text-white/62 sm:mt-3 sm:text-sm sm:leading-7">
+                {card.body}
+              </p>
             </motion.button>
           );
         })}
@@ -911,14 +959,9 @@ function BeliefScreen({
   value: number | null;
   onChange: (value: number) => void;
 }) {
-  const labels = [
-    "Doubtful, honestly",
-    "Not really seeing it",
-    "Open, but unconvinced",
-    "Yes, mostly",
-    "Strongly believe this",
-  ];
-  const activeLevel = value ?? 3;
+  const sliderValue = value ?? 50;
+  const activeLevel = getBeliefStateIndex(sliderValue) + 1;
+  const currentLabel = getBeliefState(sliderValue);
 
   return (
     <ScreenShell
@@ -962,34 +1005,39 @@ function BeliefScreen({
 
           <div className="space-y-3 sm:space-y-5">
             <p className="text-2xl font-medium tracking-[-0.05em] text-[#f7f1e7] sm:text-3xl">
-              {labels[activeLevel - 1]}
+              {currentLabel}
             </p>
-            <div className="grid grid-cols-5 gap-2 sm:gap-3">
-              {labels.map((label, index) => {
-                const step = index + 1;
-                const active = step <= activeLevel;
-
-                return (
-                  <button
-                    key={label}
-                    type="button"
-                    onClick={() => onChange(step)}
-                    className="group text-left"
-                  >
-                    <motion.div
-                      animate={{
-                        height: `${42 + step * 16}px`,
-                        backgroundColor: active ? "#169c67" : "rgba(255,255,255,0.10)",
-                        scale: value === step ? 1.03 : 1,
-                      }}
-                      className="rounded-[0.9rem] sm:rounded-[1.1rem]"
-                    />
-                    <p className="mt-2 text-[10px] leading-4 text-white/56 group-hover:text-white/76 sm:text-[11px] sm:leading-5">
-                      {step}
-                    </p>
-                  </button>
-                );
-              })}
+            <div className="rounded-[1.5rem] bg-black/14 px-4 py-4 sm:rounded-[1.8rem] sm:px-5">
+              <div className="relative">
+                <div className="h-3 w-full rounded-full bg-white/10" />
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full bg-[#16a34a]"
+                  animate={{
+                    width: `${sliderValue}%`,
+                    boxShadow: "0 8px 26px -10px rgba(22,163,74,0.8)",
+                  }}
+                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <motion.div
+                  className="pointer-events-none absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full border border-white/70 bg-[#f7f1e7] shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)]"
+                  animate={{ left: `calc(${sliderValue}% - 14px)` }}
+                  transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={sliderValue}
+                  onChange={(event) => onChange(Number(event.target.value))}
+                  className="absolute inset-0 h-7 w-full cursor-pointer opacity-0"
+                  aria-label="Sustainability belief slider"
+                />
+              </div>
+              <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/38 sm:text-xs sm:tracking-[0.2em]">
+                <span>Doubtful</span>
+                <span>Strong belief</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1065,29 +1113,22 @@ function VoiceScreen({
       description="This is the emotional release valve. The input should feel spacious, supportive, and slightly alive, with voice capture sitting there as a natural option rather than a gimmick."
     >
       <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <textarea
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder="Write freely. This is the part people remember."
-          className="h-44 w-full resize-none rounded-[1.5rem] border border-white/10 bg-[#08110f]/70 px-4 py-4 text-base leading-7 text-[#f7f1e7] outline-none placeholder:text-white/28 sm:h-56 sm:rounded-[2rem] sm:px-6 sm:py-5 sm:text-lg sm:leading-8"
-        />
-
-        <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3 text-sm text-white/58">
-            <Waves className="h-4 w-4" />
-            {isRecording
-              ? "Listening live and streaming transcript..."
-              : "You can type, speak, or do both."}
-          </div>
-
+        <div className="relative">
+          <textarea
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            placeholder="Write freely. This is the part people remember."
+            className="h-52 w-full resize-none rounded-[1.5rem] border border-white/10 bg-[#08110f]/70 px-4 py-4 pr-4 pb-18 text-base leading-7 text-[#f7f1e7] outline-none placeholder:text-white/28 sm:h-56 sm:rounded-[2rem] sm:px-6 sm:py-5 sm:pr-6 sm:pb-20 sm:text-lg sm:leading-8"
+          />
           <button
             type="button"
             onClick={onToggleRecording}
             className={
               isRecording
-                ? "inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#ef4444] px-5 py-3 text-sm font-semibold text-white sm:w-auto"
-                : "inline-flex w-full items-center justify-center gap-3 rounded-full bg-white/8 px-5 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl sm:w-auto"
+                ? "absolute right-3 bottom-3 inline-flex items-center justify-center gap-3 rounded-full bg-[#ef4444] px-4 py-3 text-sm font-semibold text-white shadow-[0_18px_42px_-18px_rgba(239,68,68,0.9)] sm:right-5 sm:bottom-5 sm:px-5"
+                : "absolute right-3 bottom-3 inline-flex items-center justify-center gap-3 rounded-full bg-white/8 px-3.5 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl sm:right-5 sm:bottom-5 sm:px-4"
             }
+            aria-label={isRecording ? "Stop recording" : "Use voice input"}
           >
             <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/16">
               {isRecording ? (
@@ -1103,14 +1144,8 @@ function VoiceScreen({
                 <MicOff className="h-4 w-4" />
               )}
             </span>
-            {isRecording ? "Stop recording" : "Use voice input"}
+            <span>{isRecording ? "Recording" : "Voice"}</span>
           </button>
-        </div>
-
-        <div className="mt-4 rounded-[1.2rem] bg-black/14 px-4 py-4 text-sm leading-6 text-white/56 sm:mt-5 sm:rounded-[1.5rem] sm:leading-7">
-          {value.trim()
-            ? value
-            : "Live transcript will appear here as you speak, which makes voice feel reliable instead of mysterious."}
         </div>
       </div>
     </ScreenShell>
