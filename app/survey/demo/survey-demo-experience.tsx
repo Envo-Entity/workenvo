@@ -146,6 +146,9 @@ const frictionOptions = [
   "It feels unclear what difference they make",
 ];
 
+const beliefVideoSrc =
+  "https://nqspbtenbeyfvpyqwigb.supabase.co/storage/v1/object/public/envo-public-assets/tree_video.mp4";
+
 const initialAnswers: Answers = {
   belonging: null,
   workload: null,
@@ -290,6 +293,8 @@ function createLeafVeinPath(length: number, height: number, direction: 1 | -1) {
   } ${-height * 0.3} ${direction * length * 0.8} ${-height * 0.8}`;
 }
 
+// Legacy fallback retained intentionally while the stepped video version is active.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function PlantGrowthIllustration({ value }: { value: number }) {
   const progress = clamp(value / 100, 0, 1);
   const stemBaseX = 160;
@@ -494,6 +499,180 @@ function PlantGrowthIllustration({ value }: { value: number }) {
   );
 }
 
+function preloadBeliefVideo() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const existing = document.querySelector<HTMLVideoElement>(
+    'video[data-belief-preload="true"]'
+  );
+
+  if (existing) {
+    existing.load();
+    return;
+  }
+
+  const video = document.createElement("video");
+  video.src = beliefVideoSrc;
+  video.preload = "auto";
+  video.muted = true;
+  video.playsInline = true;
+  video.crossOrigin = "anonymous";
+  video.setAttribute("data-belief-preload", "true");
+  video.style.position = "absolute";
+  video.style.width = "1px";
+  video.style.height = "1px";
+  video.style.opacity = "0";
+  video.style.pointerEvents = "none";
+  video.style.left = "-9999px";
+  video.style.top = "-9999px";
+  document.body.appendChild(video);
+  video.load();
+}
+
+function BeliefGrowthVideo({ value }: { value: number | null }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const currentTargetRef = useRef(0);
+  const [isReady, setIsReady] = useState(false);
+  const progress = clamp((value ?? 50) / 100, 0, 1);
+  const beliefStep = getBeliefStateIndex(value);
+  const targetProgress = [0, 0.2, 0.4, 0.6, 0.8][beliefStep] ?? 0;
+
+  useEffect(() => {
+    preloadBeliefVideo();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    const stopAnimation = () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+
+    const settleAtTarget = () => {
+      if (!video.duration || Number.isNaN(video.duration)) {
+        return;
+      }
+
+      stopAnimation();
+      const targetTime = video.duration * currentTargetRef.current;
+      const direction = targetTime >= video.currentTime ? 1 : -1;
+
+      const tick = () => {
+        const distance = targetTime - video.currentTime;
+
+        if (Math.abs(distance) < 0.035) {
+          video.pause();
+          video.currentTime = targetTime;
+          stopAnimation();
+          return;
+        }
+
+        video.currentTime += distance * 0.16 + direction * 0.012;
+        animationFrameRef.current = requestAnimationFrame(tick);
+      };
+
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    const handleReady = () => {
+      setIsReady(true);
+      video.pause();
+      settleAtTarget();
+    };
+
+    if (video.readyState >= 1) {
+      handleReady();
+    } else {
+      video.addEventListener("loadedmetadata", handleReady, { once: true });
+      video.load();
+    }
+
+    return () => {
+      stopAnimation();
+      video.removeEventListener("loadedmetadata", handleReady);
+    };
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video || !isReady || !video.duration || Number.isNaN(video.duration)) {
+      currentTargetRef.current = targetProgress;
+      return;
+    }
+
+    currentTargetRef.current = targetProgress;
+
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    const targetTime = video.duration * targetProgress;
+    const direction = targetTime >= video.currentTime ? 1 : -1;
+
+    const tick = () => {
+      const distance = targetTime - video.currentTime;
+
+      if (Math.abs(distance) < 0.035) {
+        video.pause();
+        video.currentTime = targetTime;
+        animationFrameRef.current = null;
+        return;
+      }
+
+      video.currentTime += distance * 0.16 + direction * 0.012;
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+  }, [isReady, targetProgress]);
+
+  return (
+    <div className="relative mx-auto h-[248px] w-full max-w-[280px] overflow-hidden rounded-[1.35rem] border border-white/8 bg-[radial-gradient(circle_at_50%_68%,rgba(34,197,94,0.12),transparent_44%),linear-gradient(180deg,rgba(7,16,13,0.16),rgba(7,16,13,0.02))] sm:h-[292px] sm:max-w-[320px] sm:rounded-[1.8rem] md:h-[330px] md:max-w-[360px]">
+      <motion.div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(74,222,128,0.12),transparent_38%)]"
+        animate={{ opacity: [0.6, 0.95, 0.6] }}
+        transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+      <video
+        ref={videoRef}
+        src={beliefVideoSrc}
+        preload="auto"
+        muted
+        playsInline
+        crossOrigin="anonymous"
+        className="h-full w-full object-cover"
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(8,17,15,0) 0%, rgba(8,17,15,0.16) 38%, rgba(8,17,15,0.42) 100%)",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
+      <div className="pointer-events-none absolute left-1/2 top-4 h-20 w-20 -translate-x-1/2 rounded-full bg-[#22c55e]/8 blur-[42px] sm:top-6 sm:h-24 sm:w-24" />
+    </div>
+  );
+}
+
 const screenDetails: Record<
   Exclude<ScreenId, "done">,
   { pillar: string; signal: string; helper: string }
@@ -633,6 +812,10 @@ export default function SurveyDemoExperience() {
     updateViewport();
     window.addEventListener("resize", updateViewport);
     return () => window.removeEventListener("resize", updateViewport);
+  }, []);
+
+  useEffect(() => {
+    preloadBeliefVideo();
   }, []);
 
   const setAnswer = <K extends keyof Answers>(key: K, value: Answers[K]) => {
@@ -1279,7 +1462,10 @@ function BeliefScreen({
         <div className="grid gap-5 sm:gap-8 lg:grid-cols-[0.96fr_1.04fr] lg:items-center">
           <div className="relative overflow-hidden rounded-[1.8rem] border border-white/7 bg-[radial-gradient(circle_at_50%_72%,rgba(22,163,74,0.16),transparent_42%),linear-gradient(180deg,rgba(7,16,13,0.5),rgba(7,16,13,0.18))] px-3 py-4 sm:rounded-[2.3rem] sm:px-5 sm:py-5">
             <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
+            {/* Legacy fallback kept on purpose:
             <PlantGrowthIllustration value={sliderValue} />
+            */}
+            <BeliefGrowthVideo value={value} />
           </div>
 
           <div className="space-y-3.5 sm:space-y-5">
