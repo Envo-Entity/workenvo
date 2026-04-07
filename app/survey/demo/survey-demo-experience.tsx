@@ -214,7 +214,7 @@ function ProgressBar({ currentIndex }: { currentIndex: number }) {
           transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
         />
       </div>
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/50">
+      <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50 sm:text-xs sm:tracking-[0.22em]">
         {currentIndex}/{screens.length - 1}
       </p>
     </div>
@@ -406,17 +406,17 @@ export default function SurveyDemoExperience() {
     currentScreen === "done" ? null : screenDetails[currentScreen];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0b1010] text-white">
+    <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#0b1010] text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.24),_transparent_28%),radial-gradient(circle_at_80%_16%,_rgba(251,191,36,0.14),_transparent_18%),radial-gradient(circle_at_50%_120%,_rgba(110,231,183,0.12),_transparent_40%),linear-gradient(180deg,_#08100f_0%,_#0a1211_52%,_#07100f_100%)]" />
       <FloatingParticles />
       <div className="pointer-events-none absolute left-[-10%] top-[18%] h-72 w-72 rounded-full bg-[#16a34a]/10 blur-[120px]" />
       <div className="pointer-events-none absolute right-[-8%] top-[48%] h-80 w-80 rounded-full bg-[#f59e0b]/10 blur-[140px]" />
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-10">
-        <header className="flex items-center justify-between rounded-[2rem] border border-white/8 bg-white/5 px-4 py-3 backdrop-blur-xl sm:px-6">
+      <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[440px] flex-col px-3 py-3 sm:max-w-[520px] sm:px-4 md:max-w-7xl md:px-6 lg:px-10">
+        <header className="flex items-center justify-between rounded-[1.35rem] border border-white/8 bg-white/5 px-3 py-3 backdrop-blur-xl sm:rounded-[1.75rem] sm:px-5">
           <BrandLogo
-            logoHeightClassName="h-8"
-            textClassName="text-[1.3rem] tracking-[-0.04em] text-white"
+            logoHeightClassName="h-7 sm:h-8"
+            textClassName="text-[1.08rem] tracking-[-0.04em] text-white sm:text-[1.3rem]"
           />
           <div className="hidden items-center gap-3 sm:flex">
             <span className="rounded-full bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/75">
@@ -428,8 +428,8 @@ export default function SurveyDemoExperience() {
           </div>
         </header>
 
-        <div className="mt-4 flex flex-1 flex-col">
-          <div className="mb-4 rounded-[1.6rem] border border-white/8 bg-white/5 px-4 py-4 backdrop-blur-xl sm:px-6">
+        <div className="mt-3 flex flex-1 flex-col md:mt-4">
+          <div className="mb-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-3 py-3 backdrop-blur-xl sm:mb-4 sm:rounded-[1.6rem] sm:px-5 sm:py-4 md:px-6">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
               <ProgressBar currentIndex={screenIndex} />
               {currentDetails ? (
@@ -448,7 +448,7 @@ export default function SurveyDemoExperience() {
             </div>
           </div>
 
-          <div className="relative flex flex-1 items-center justify-center">
+          <div className="relative flex flex-1 items-start justify-center md:items-center">
             <AnimatePresence mode="wait">
               <motion.section
                 key={currentScreen}
@@ -514,18 +514,18 @@ export default function SurveyDemoExperience() {
           </div>
 
           {currentDetails ? (
-            <div className="mt-4 rounded-[1.4rem] border border-white/8 bg-white/5 px-4 py-3 text-sm text-white/56 backdrop-blur-xl lg:hidden">
+            <div className="mt-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-3 text-sm leading-6 text-white/56 backdrop-blur-xl lg:hidden">
               {currentDetails.helper}
             </div>
           ) : null}
 
           {currentScreen !== "welcome" && currentScreen !== "done" ? (
-            <div className="mt-6 flex items-center justify-between">
+            <div className="sticky bottom-0 mt-5 flex items-center justify-between gap-3 rounded-[1.25rem] border border-white/8 bg-[#08110fe8] px-3 py-3 backdrop-blur-2xl [padding-bottom:calc(env(safe-area-inset-bottom)+0.75rem)] sm:mt-6 sm:rounded-[1.7rem] sm:px-4">
               <button
                 type="button"
                 onClick={back}
                 disabled={!canGoBack}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none sm:px-5"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back
@@ -534,7 +534,7 @@ export default function SurveyDemoExperience() {
                 type="button"
                 onClick={next}
                 disabled={!canGoForward}
-                className="inline-flex items-center gap-2 rounded-full bg-[#16a34a] px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:bg-[#2a5644] disabled:text-white/50"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#16a34a] px-5 py-3 text-sm font-semibold text-white transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#2a5644] disabled:text-white/50 sm:flex-none sm:px-6"
               >
                 Continue
                 <ArrowRight className="h-4 w-4" />
@@ -559,15 +559,15 @@ function ScreenShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-start">
-      <div className="max-w-xl flex-1 space-y-5 lg:sticky lg:top-8">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 md:gap-7 lg:grid lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-start lg:gap-8">
+      <div className="max-w-xl flex-1 space-y-4 lg:sticky lg:top-8 lg:space-y-5">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#d5d0c7]/58">
           {eyebrow}
         </p>
-        <h1 className="text-4xl leading-[0.98] font-semibold tracking-[-0.05em] text-[#f7f1e7] sm:text-5xl md:text-6xl">
+        <h1 className="text-[2rem] leading-[0.98] font-semibold tracking-[-0.05em] text-[#f7f1e7] sm:text-[2.75rem] md:text-5xl lg:text-6xl">
           {title}
         </h1>
-        <p className="max-w-lg text-base leading-8 text-white/64 sm:text-lg">
+        <p className="max-w-lg text-[15px] leading-7 text-white/64 sm:text-base sm:leading-8 md:text-lg">
           {description}
         </p>
         <div className="hidden max-w-md rounded-[1.6rem] border border-white/8 bg-white/4 p-4 text-sm leading-7 text-white/52 lg:block">
@@ -584,22 +584,22 @@ function ScreenShell({
 function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
   return (
     <div className="mx-auto w-full max-w-5xl">
-      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/8 bg-white/6 p-8 backdrop-blur-2xl sm:p-10">
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/6 p-5 backdrop-blur-2xl sm:p-8 md:rounded-[2.5rem] md:p-10">
           <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-emerald-400/14 to-transparent" />
           <p className="relative text-xs font-semibold uppercase tracking-[0.28em] text-[#d5d0c7]/65">
             Workenvo Monthly Pulse
           </p>
-          <h1 className="relative mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.06em] text-[#f7f1e7] sm:text-6xl lg:text-7xl">
+          <h1 className="relative mt-4 max-w-2xl text-[2.5rem] font-semibold tracking-[-0.06em] text-[#f7f1e7] sm:mt-5 sm:text-5xl md:text-6xl lg:text-7xl">
             Hey Alex, this&apos;ll take about 2 minutes.
           </h1>
-          <p className="relative mt-6 max-w-xl text-lg leading-8 text-white/68">
+          <p className="relative mt-4 max-w-xl text-[15px] leading-7 text-white/68 sm:mt-6 sm:text-lg sm:leading-8">
             This is designed to feel like a live check-in, not a boring form.
             Your answers feed the culture, performance, and sustainability
             signals leadership actually uses to act.
           </p>
 
-          <div className="relative mt-8 flex flex-wrap gap-3">
+          <div className="relative mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
             {[
               "Anonymous by default",
               "7 screens after this",
@@ -607,7 +607,7 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
             ].map((item) => (
               <span
                 key={item}
-                className="rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white/78"
+                className="rounded-full bg-white/8 px-3 py-1.5 text-xs font-medium text-white/78 sm:px-4 sm:py-2 sm:text-sm"
               >
                 {item}
               </span>
@@ -617,14 +617,14 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
           <button
             type="button"
             onClick={onBegin}
-            className="relative mt-10 inline-flex items-center gap-2 rounded-full bg-[#f3eee5] px-6 py-3.5 text-sm font-semibold text-[#08100f] transition-transform hover:scale-[1.02]"
+            className="relative mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#f3eee5] px-6 py-3.5 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98] sm:mt-10 sm:w-auto"
           >
             Start the pulse
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
           {[
             {
               title: "Culture",
@@ -644,7 +644,7 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + index * 0.08 }}
-              className="rounded-[2rem] border border-white/8 bg-[#101716]/75 p-5 backdrop-blur-xl"
+              className="rounded-[1.6rem] border border-white/8 bg-[#101716]/75 p-4 backdrop-blur-xl sm:rounded-[2rem] sm:p-5"
             >
               <p className="text-sm font-semibold text-[#f7f1e7]">{card.title}</p>
               <p className="mt-2 text-sm leading-7 text-white/60">{card.body}</p>
@@ -669,8 +669,8 @@ function BelongingScreen({
       title="Do you feel like you truly belong in your team right now?"
       description="The selection should feel emotional, not clinical. We want a quick gut answer here, because belonging is usually felt before it is articulated."
     >
-      <div className="rounded-[2.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-6 backdrop-blur-2xl sm:p-8">
-        <div className="flex min-h-[360px] flex-col items-center justify-center">
+      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
+        <div className="flex min-h-[420px] flex-col items-center justify-center sm:min-h-[360px]">
           <motion.div
             key={value ?? 0}
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -680,7 +680,7 @@ function BelongingScreen({
           >
             <div className="absolute -inset-10 rounded-full bg-[#fbbf24]/10 blur-[40px]" />
             <div
-              className="relative flex h-40 w-40 items-center justify-center rounded-[3rem] text-[4.6rem] shadow-[0_36px_100px_-36px_rgba(251,191,36,0.48)]"
+              className="relative flex h-28 w-28 items-center justify-center rounded-[2.2rem] text-[3.2rem] shadow-[0_36px_100px_-36px_rgba(251,191,36,0.48)] sm:h-36 sm:w-36 sm:rounded-[2.7rem] sm:text-[4.1rem] md:h-40 md:w-40 md:rounded-[3rem] md:text-[4.6rem]"
               style={{
                 background:
                   value !== null
@@ -690,18 +690,18 @@ function BelongingScreen({
             >
               <span>{value !== null ? belongingFaces[value - 1].emoji : "🙂"}</span>
             </div>
-            <div className="mt-8 text-center text-5xl font-medium tracking-[-0.06em] text-[#f7f1e7]">
+            <div className="mt-6 text-center text-[2rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-4xl md:text-5xl">
               {value ? belongingFaces[value - 1].label : "How does it feel?"}
             </div>
-            <p className="mt-3 max-w-sm text-center text-sm leading-7 text-white/54">
+            <p className="mt-3 max-w-[17rem] text-center text-sm leading-6 text-white/54 sm:max-w-sm sm:leading-7">
               {value
                 ? "Trust the immediate answer. It is usually the right one."
                 : "Choose the face that matches your real feeling today."}
             </p>
           </motion.div>
 
-          <div className="mt-12 w-full max-w-xl rounded-[2rem] border border-white/8 bg-[#f7f1e7]/88 p-3 text-[#161616] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)]">
-            <div className="grid grid-cols-5 gap-1">
+          <div className="mt-8 w-full max-w-xl rounded-[1.7rem] border border-white/8 bg-[#f7f1e7]/88 p-2 text-[#161616] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] sm:mt-12 sm:rounded-[2rem] sm:p-3">
+            <div className="grid grid-cols-5 gap-0.5 sm:gap-1">
               {belongingFaces.map((face, index) => {
                 const selected = value === index + 1;
 
@@ -710,7 +710,7 @@ function BelongingScreen({
                     key={face.label}
                     type="button"
                     onClick={() => onChange(index + 1)}
-                    className="group relative flex flex-col items-center justify-center gap-2 rounded-[1.35rem] px-2 py-3"
+                    className="group relative flex flex-col items-center justify-center gap-1.5 rounded-[1.05rem] px-1 py-2.5 sm:gap-2 sm:rounded-[1.35rem] sm:px-2 sm:py-3"
                   >
                     <motion.div
                       animate={{
@@ -719,11 +719,11 @@ function BelongingScreen({
                         opacity: selected ? 1 : 0.62,
                       }}
                       transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                      className="text-2xl"
+                      className="text-[1.35rem] sm:text-2xl"
                     >
                       {face.emoji}
                     </motion.div>
-                    <span className="text-[11px] font-semibold text-black/48">
+                    <span className="text-[10px] font-semibold text-black/48 sm:text-[11px]">
                       {index + 1}
                     </span>
                     {selected ? (
@@ -760,9 +760,9 @@ function WorkloadScreen({
       title="How full is your plate this week?"
       description="This one should feel alive. Instead of asking people to translate pressure into abstract numbers, we let them feel the state in a visual object."
     >
-      <div className="rounded-[2.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-6 backdrop-blur-2xl sm:p-8">
-        <div className="mx-auto grid max-w-3xl gap-8 lg:grid-cols-[220px_1fr] lg:items-center">
-          <div className="relative mx-auto h-[300px] w-[190px] overflow-hidden rounded-b-[3.7rem] rounded-t-[2.1rem] border border-white/16 bg-white/5">
+      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
+        <div className="mx-auto grid max-w-3xl gap-6 sm:gap-8 lg:grid-cols-[220px_1fr] lg:items-center">
+          <div className="relative mx-auto h-[240px] w-[150px] overflow-hidden rounded-b-[3rem] rounded-t-[1.7rem] border border-white/16 bg-white/5 sm:h-[280px] sm:w-[180px] sm:rounded-b-[3.4rem] sm:rounded-t-[2rem] md:h-[300px] md:w-[190px] md:rounded-b-[3.7rem] md:rounded-t-[2.1rem]">
             <motion.div
               className="absolute inset-x-0 bottom-0"
               animate={{
@@ -795,8 +795,8 @@ function WorkloadScreen({
           </div>
 
           <div>
-            <div className="rounded-[1.8rem] bg-black/14 p-5">
-              <p className="text-3xl font-medium tracking-[-0.05em] text-[#f7f1e7]">
+            <div className="rounded-[1.35rem] bg-black/14 p-4 sm:rounded-[1.8rem] sm:p-5">
+              <p className="text-2xl font-medium tracking-[-0.05em] text-[#f7f1e7] sm:text-3xl">
                 {current.label}
               </p>
               <p className="mt-2 text-sm leading-7 text-white/62">
@@ -804,7 +804,7 @@ function WorkloadScreen({
               </p>
             </div>
 
-            <div className="mt-6 grid w-full grid-cols-5 gap-3">
+            <div className="mt-5 grid w-full grid-cols-5 gap-2 sm:mt-6 sm:gap-3">
               {workloadStates.map((state, index) => {
                 const selected = value === index + 1;
 
@@ -817,7 +817,7 @@ function WorkloadScreen({
                   >
                     <motion.div
                       animate={{
-                        height: `${54 + index * 22}px`,
+                        height: `${42 + index * 16}px`,
                         backgroundColor: selected ? state.color : "rgba(255,255,255,0.11)",
                         scale: selected ? 1.06 : 1,
                         y: selected ? -5 : 0,
@@ -826,7 +826,7 @@ function WorkloadScreen({
                           : "0 0 0 0 transparent",
                       }}
                       transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-                      className="w-full rounded-[1.2rem]"
+                      className="w-full rounded-[0.95rem] sm:rounded-[1.2rem]"
                     />
                     <span className="text-xs font-medium text-white/52 group-hover:text-white/72">
                       {index + 1}
@@ -836,7 +836,7 @@ function WorkloadScreen({
               })}
             </div>
 
-            <div className="mt-5 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/38">
+            <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/38 sm:mt-5 sm:text-xs sm:tracking-[0.2em]">
               <span>Calm</span>
               <span>At capacity</span>
               <span>Overloaded</span>
@@ -861,7 +861,7 @@ function ManagerScreen({
       title="Does your manager make it easier to do your best work?"
       description="This is a calm judgment question. The interaction should still feel beautiful, but the tone should stay composed so the answer feels safe to give."
     >
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
         {managerCards.map((card) => {
           const selected = value === card.value;
 
@@ -879,7 +879,7 @@ function ManagerScreen({
                   ? `0 30px 80px -40px ${card.accent}`
                   : "0 0 0 0 transparent",
               }}
-              className="rounded-[2.1rem] border p-6 text-left backdrop-blur-xl"
+              className="rounded-[1.7rem] border p-4 text-left backdrop-blur-xl sm:rounded-[2.1rem] sm:p-6"
             >
               <div className="flex items-center justify-between">
                 <span
@@ -894,7 +894,7 @@ function ManagerScreen({
                   </span>
                 ) : null}
               </div>
-              <h3 className="mt-8 text-2xl font-semibold tracking-[-0.04em] text-[#f7f1e7]">
+              <h3 className="mt-6 text-xl font-semibold tracking-[-0.04em] text-[#f7f1e7] sm:mt-8 sm:text-2xl">
                 {card.title}
               </h3>
               <p className="mt-3 text-sm leading-7 text-white/62">{card.body}</p>
@@ -928,10 +928,10 @@ function BeliefScreen({
       title="Do you think our sustainability efforts actually make a real difference?"
       description="This step should feel unexpectedly tactile. The more conviction rises, the more the visual comes alive, so the answer feels embodied instead of administrative."
     >
-      <div className="rounded-[2.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-6 backdrop-blur-2xl sm:p-8">
-        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex items-center justify-center">
-            <div className="relative flex h-64 w-64 items-end justify-center">
+            <div className="relative flex h-48 w-48 items-end justify-center sm:h-56 sm:w-56 md:h-64 md:w-64">
               <motion.div
                 animate={{ scale: 0.88 + activeLevel * 0.04, rotate: activeLevel * 1.5 }}
                 className="absolute bottom-0 h-24 w-24 rounded-full bg-[#4ade80]/18 blur-2xl"
@@ -962,11 +962,11 @@ function BeliefScreen({
             </div>
           </div>
 
-          <div className="space-y-5">
-            <p className="text-3xl font-medium tracking-[-0.05em] text-[#f7f1e7]">
+          <div className="space-y-4 sm:space-y-5">
+            <p className="text-2xl font-medium tracking-[-0.05em] text-[#f7f1e7] sm:text-3xl">
               {labels[activeLevel - 1]}
             </p>
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-5 gap-2 sm:gap-3">
               {labels.map((label, index) => {
                 const step = index + 1;
                 const active = step <= activeLevel;
@@ -980,13 +980,13 @@ function BeliefScreen({
                   >
                     <motion.div
                       animate={{
-                        height: `${64 + step * 18}px`,
+                        height: `${42 + step * 16}px`,
                         backgroundColor: active ? "#169c67" : "rgba(255,255,255,0.10)",
                         scale: value === step ? 1.03 : 1,
                       }}
-                      className="rounded-[1.1rem]"
+                      className="rounded-[0.9rem] sm:rounded-[1.1rem]"
                     />
-                    <p className="mt-2 text-[11px] leading-5 text-white/56 group-hover:text-white/76">
+                    <p className="mt-2 text-[10px] leading-4 text-white/56 group-hover:text-white/76 sm:text-[11px] sm:leading-5">
                       {step}
                     </p>
                   </button>
@@ -1013,14 +1013,14 @@ function FrictionScreen({
       title="What gets in the way of joining sustainability initiatives?"
       description="This is multi-select, but it still needs rhythm. The options should arrive with a soft stagger so the screen feels composed and alive, not dumped onto the page."
     >
-      <div className="rounded-[2.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-6 backdrop-blur-2xl sm:p-8">
-        <div className="mb-5 flex items-center justify-between rounded-[1.5rem] bg-black/14 px-4 py-3">
-          <p className="text-sm text-white/66">Select every blocker that feels true.</p>
+      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
+        <div className="mb-4 flex items-center justify-between rounded-[1.2rem] bg-black/14 px-4 py-3 sm:mb-5 sm:rounded-[1.5rem]">
+          <p className="max-w-[12rem] text-sm leading-6 text-white/66 sm:max-w-none">Select every blocker that feels true.</p>
           <span className="rounded-full bg-white/8 px-3 py-1 text-xs font-semibold text-white/70">
             {value.length} selected
           </span>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2.5 sm:gap-3">
           {frictionOptions.map((option, index) => {
             const selected = value.includes(option);
 
@@ -1035,8 +1035,8 @@ function FrictionScreen({
                 onClick={() => onToggle(option)}
                 className={
                   selected
-                    ? "rounded-full bg-[#16a34a] px-5 py-3 text-sm font-semibold text-white shadow-[0_24px_60px_-28px_rgba(22,163,74,0.9)]"
-                    : "rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white/74 backdrop-blur-xl transition-colors hover:bg-white/8"
+                    ? "rounded-full bg-[#16a34a] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_24px_60px_-28px_rgba(22,163,74,0.9)] sm:px-5 sm:py-3"
+                    : "rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white/74 backdrop-blur-xl transition-colors hover:bg-white/8 sm:px-5 sm:py-3"
                 }
               >
                 {option}
@@ -1066,12 +1066,12 @@ function VoiceScreen({
       title="What’s one thing we could change to make your week better?"
       description="This is the emotional release valve. The input should feel spacious, supportive, and slightly alive, with voice capture sitting there as a natural option rather than a gimmick."
     >
-      <div className="rounded-[2.8rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-6 backdrop-blur-2xl sm:p-8">
+      <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder="Write freely. This is the part people remember."
-          className="h-56 w-full resize-none rounded-[2rem] border border-white/10 bg-[#08110f]/70 px-6 py-5 text-lg leading-8 text-[#f7f1e7] outline-none placeholder:text-white/28"
+          className="h-44 w-full resize-none rounded-[1.5rem] border border-white/10 bg-[#08110f]/70 px-4 py-4 text-base leading-7 text-[#f7f1e7] outline-none placeholder:text-white/28 sm:h-56 sm:rounded-[2rem] sm:px-6 sm:py-5 sm:text-lg sm:leading-8"
         />
 
         <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -1087,8 +1087,8 @@ function VoiceScreen({
             onClick={onToggleRecording}
             className={
               isRecording
-                ? "inline-flex items-center gap-3 rounded-full bg-[#ef4444] px-5 py-3 text-sm font-semibold text-white"
-                : "inline-flex items-center gap-3 rounded-full bg-white/8 px-5 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl"
+                ? "inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#ef4444] px-5 py-3 text-sm font-semibold text-white sm:w-auto"
+                : "inline-flex w-full items-center justify-center gap-3 rounded-full bg-white/8 px-5 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl sm:w-auto"
             }
           >
             <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/16">
@@ -1109,7 +1109,7 @@ function VoiceScreen({
           </button>
         </div>
 
-        <div className="mt-5 rounded-[1.5rem] bg-black/14 px-4 py-4 text-sm leading-7 text-white/56">
+        <div className="mt-5 rounded-[1.2rem] bg-black/14 px-4 py-4 text-sm leading-6 text-white/56 sm:rounded-[1.5rem] sm:leading-7">
           {value.trim()
             ? value
             : "Live transcript will appear here as you speak, which makes voice feel reliable instead of mysterious."}
@@ -1132,13 +1132,13 @@ function DoneScreen({
 }) {
   return (
     <div className="mx-auto w-full max-w-4xl">
-      <div className="rounded-[2.8rem] border border-white/8 bg-white/6 p-8 text-center backdrop-blur-2xl sm:p-12">
-        <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full border border-white/10 bg-white/5">
+      <div className="rounded-[2rem] border border-white/8 bg-white/6 p-5 text-center backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-8 md:p-12">
+        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-white/10 bg-white/5 sm:h-32 sm:w-32">
           <motion.div
             initial={{ rotate: -90, pathLength: 0 }}
             animate={{ rotate: 0, pathLength: 1 }}
             transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-            className="relative flex h-24 w-24 items-center justify-center"
+            className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24"
           >
             <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full -rotate-90">
               <circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,0.12)" strokeWidth="8" fill="none" />
@@ -1160,40 +1160,40 @@ function DoneScreen({
               initial={{ opacity: 0, scale: 0.82 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8, duration: 0.28 }}
-              className="rounded-full bg-[#16a34a] p-3"
+              className="rounded-full bg-[#16a34a] p-2.5 sm:p-3"
             >
-              <Check className="h-8 w-8 text-white" />
+              <Check className="h-6 w-6 text-white sm:h-8 sm:w-8" />
             </motion.div>
           </motion.div>
         </div>
 
-        <h1 className="mt-8 text-5xl font-semibold tracking-[-0.06em] text-[#f7f1e7]">
+        <h1 className="mt-6 text-[2.25rem] font-semibold tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-5xl">
           Your pulse is in.
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-white/64">
+        <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-white/64 sm:text-lg sm:leading-8">
           We&apos;ll act on this. The goal is not to collect answers and admire
           them. It&apos;s to turn what people are actually feeling into better
           decisions across culture, performance, and sustainability.
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <span className="rounded-full bg-white/8 px-4 py-2 text-sm font-semibold text-white/80">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:mt-8 sm:gap-3">
+          <span className="rounded-full bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/80 sm:px-4 sm:py-2 sm:text-sm">
             Culture feels {summary.cultureTone}
           </span>
-          <span className="rounded-full bg-white/8 px-4 py-2 text-sm font-semibold text-white/80">
+          <span className="rounded-full bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/80 sm:px-4 sm:py-2 sm:text-sm">
             Performance feels {summary.performanceTone.toLowerCase()}
           </span>
-          <span className="rounded-full bg-white/8 px-4 py-2 text-sm font-semibold text-white/80">
+          <span className="rounded-full bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/80 sm:px-4 sm:py-2 sm:text-sm">
             Sustainability belief is {summary.sustainabilityTone}
           </span>
         </div>
 
-        <div className="mt-10 grid gap-4 text-left sm:grid-cols-3">
-          <div className="rounded-[1.8rem] bg-[#0f1716] p-5">
+        <div className="mt-8 grid gap-3 text-left sm:mt-10 sm:gap-4 sm:grid-cols-3">
+          <div className="rounded-[1.4rem] bg-[#0f1716] p-4 sm:rounded-[1.8rem] sm:p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
               Culture signal
             </p>
-            <p className="mt-3 text-base leading-7 text-white/70">
+            <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
               Belonging landed at{" "}
               <span className="font-semibold text-[#f7f1e7]">
                 {answers.belonging ?? "—"}/5
@@ -1201,27 +1201,27 @@ function DoneScreen({
               , which will influence the culture health story this month.
             </p>
           </div>
-          <div className="rounded-[1.8rem] bg-[#0f1716] p-5">
+          <div className="rounded-[1.4rem] bg-[#0f1716] p-4 sm:rounded-[1.8rem] sm:p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
               Performance signal
             </p>
-            <p className="mt-3 text-base leading-7 text-white/70">
+            <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
               Workload and manager support create a sharper explanation for what
               pressure feels like on the ground.
             </p>
           </div>
-          <div className="rounded-[1.8rem] bg-[#0f1716] p-5">
+          <div className="rounded-[1.4rem] bg-[#0f1716] p-4 sm:rounded-[1.8rem] sm:p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
               Sustainability signal
             </p>
-            <p className="mt-3 text-base leading-7 text-white/70">
+            <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
               We now know both your belief level and the friction that blocks
               participation, which is what makes action possible.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-emerald-400/12 px-4 py-2 text-sm font-medium text-emerald-200">
+        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-emerald-400/12 px-4 py-2 text-sm font-medium text-emerald-200 sm:mt-8">
           <Sparkles className="h-4 w-4" />
           Private by design. Useful by default.
         </div>
