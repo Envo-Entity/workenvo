@@ -777,7 +777,6 @@ export default function SurveyDemoExperience() {
   const [isCompactMobile, setIsCompactMobile] = useState(false);
   const [frameScale, setFrameScale] = useState(1);
   const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const recognitionRef = useRef<InstanceType<RecognitionCtor> | null>(null);
 
   const currentScreen = screens[screenIndex];
@@ -832,9 +831,7 @@ export default function SurveyDemoExperience() {
     }
 
     const syncPrompt = () => {
-      const fullscreenActive = Boolean(document.fullscreenElement);
-      setIsFullscreen(fullscreenActive);
-      setShowFullscreenPrompt(!fullscreenActive);
+      setShowFullscreenPrompt(!document.fullscreenElement);
     };
 
     syncPrompt();
@@ -1004,30 +1001,22 @@ export default function SurveyDemoExperience() {
     return (
       <div className="flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#050a0a] p-4">
         <div
-          className={`relative overflow-hidden bg-[#08110f] ${
-            isFullscreen
-              ? "h-full w-full border-0 shadow-none"
-              : "border border-white/8 shadow-[0_60px_180px_-60px_rgba(0,0,0,0.9)]"
-          }`}
+          className="relative overflow-hidden border border-white/8 bg-[#08110f] shadow-[0_60px_180px_-60px_rgba(0,0,0,0.9)]"
           style={{
-            width: isFullscreen ? "100%" : surveyPreviewWidth * frameScale,
-            height: isFullscreen ? "100%" : surveyPreviewHeight * frameScale,
+            width: surveyPreviewWidth * frameScale,
+            height: surveyPreviewHeight * frameScale,
           }}
         >
-          {!isFullscreen ? (
-            <>
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <div className="pointer-events-none absolute left-1/2 top-3 z-10 h-1.5 w-20 -translate-x-1/2 rounded-full bg-white/10" />
-            </>
-          ) : null}
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="pointer-events-none absolute left-1/2 top-3 z-10 h-1.5 w-20 -translate-x-1/2 rounded-full bg-white/10" />
           <iframe
             src="/survey/demo?embed=1"
             title="Survey demo preview"
             className="block origin-top-left border-0"
             style={{
-              width: isFullscreen ? "100%" : surveyPreviewWidth,
-              height: isFullscreen ? "100%" : surveyPreviewHeight,
-              transform: isFullscreen ? "none" : `scale(${frameScale})`,
+              width: surveyPreviewWidth,
+              height: surveyPreviewHeight,
+              transform: `scale(${frameScale})`,
             }}
           />
           <AnimatePresence>
