@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import SurveyDemoExperience from "./survey-demo-experience";
 
 export const metadata: Metadata = {
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function SurveyDemoPage() {
-  return <SurveyDemoExperience />;
+  return (
+    <Suspense>
+      <SurveyDemoExperience />
+    </Suspense>
+  );
 }
