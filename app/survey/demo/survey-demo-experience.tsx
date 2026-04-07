@@ -1145,7 +1145,7 @@ function ScreenShell({
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#d5d0c7]/58">
           {eyebrow}
         </p>
-        <h1 className="max-w-[14ch] text-[2.5rem] leading-[0.915] font-semibold tracking-[-0.07em] text-[#f7f1e7] sm:text-[2.95rem] md:text-[3.85rem] lg:text-[4.45rem]">
+        <h1 className="max-w-[14ch] text-[2.5rem] leading-[0.98] font-semibold tracking-[-0.07em] text-[#f7f1e7] sm:text-[2.95rem] md:text-[3.85rem] lg:text-[4.45rem]">
           {title}
         </h1>
         <p className="max-w-[34rem] text-[12px] leading-[1.15rem] text-white/58 sm:text-[13.5px] sm:leading-[1.35rem] md:text-lg md:leading-8">
