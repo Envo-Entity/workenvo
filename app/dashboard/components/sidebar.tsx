@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
 import DashboardIcon from "./dashboard-icon";
 import styles from "../dashboard.module.css";
-import { SettingsIcon } from "lucide-react";
 
 const navGroups = [
   {
@@ -29,9 +28,16 @@ const navGroups = [
     items: [
       { label: "Employees", icon: "person", href: "/dashboard/envo-employees" },
       { label: "Reports", icon: "assessment", href: "/dashboard/envo-reports" },
+      { label: "Integrations", icon: "extension", href: "/dashboard/envo-integrations" },
     ],
   },
 ];
+
+const activeNavItemClass =
+  "flex items-center gap-4 rounded-[2rem] bg-[#1B4332] px-3.5 py-3 font-semibold text-white active:scale-95";
+
+const inactiveNavItemClass =
+  "flex items-center gap-4 rounded-[2rem] px-3.5 py-3 text-stone-600 transition-colors hover:bg-[#1B4332]/10 hover:text-emerald-800";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -58,11 +64,7 @@ export default function Sidebar() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={
-                      isActive
-                        ? "flex items-center gap-4 rounded-[2rem] bg-[#1B4332] px-3.5 py-3 font-semibold text-white transition-all active:scale-95"
-                        : "flex items-center gap-4 rounded-[2rem] px-3.5 py-3 text-stone-600 transition-all hover:bg-[#1B4332]/10 hover:text-emerald-800"
-                    }
+                    className={isActive ? activeNavItemClass : inactiveNavItemClass}
                   >
                     <DashboardIcon
                       name={item.icon}
@@ -79,15 +81,15 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto space-y-4">
-        <Link 
-          href="/dashboard/envo-settings" 
+        <Link
+          href="/dashboard/envo-settings"
           className={
             pathname.startsWith("/dashboard/envo-settings")
-              ? "flex w-full items-center justify-center gap-2 rounded-[2rem] bg-[#1B4332] px-4 py-3 text-sm font-semibold text-white transition-all active:scale-95 shadow-md"
-              : "flex w-full items-center justify-center gap-2 rounded-[2rem] bg-[#ffffff] border border-[#e5e2e1] px-4 py-3 text-sm font-semibold text-stone-600 transition-all hover:border-[#1B4332]/30 hover:bg-[#fcfbfb] hover:text-[#1B4332] shadow-sm"
+              ? "flex w-full items-center justify-center gap-2 rounded-[2rem] bg-[#1B4332] px-4 py-3 text-sm font-semibold text-white active:scale-95 shadow-md"
+              : "flex w-full items-center justify-center gap-2 rounded-[2rem] border border-[#e5e2e1] bg-[#ffffff] px-4 py-3 text-sm font-semibold text-stone-600 shadow-sm transition-colors hover:border-[#1B4332]/30 hover:bg-[#fcfbfb] hover:text-[#1B4332]"
           }
         >
-          <SettingsIcon className="text-[20px]" />
+          <DashboardIcon name="settings" className="text-[20px]" />
           Settings
         </Link>
 

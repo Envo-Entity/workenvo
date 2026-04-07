@@ -1,75 +1,41 @@
 import type { Metadata } from "next";
 import DashboardHeader from "../components/header";
-import styles from "../dashboard.module.css";
-import Image from "next/image";
-import salesforce from "../../salesforce.png"
-import workday from "../../workday.png"
-import hubspot from "../../hubspot.png"
+import DashboardIcon from "../components/dashboard-icon";
 
 export const metadata: Metadata = {
   title: "Workenvo | Settings",
 };
 
-const integrations = [
-  {
-    name: "HubSpot",
-    description: "Sync employee data and performance metrics directly from HubSpot.",
-    logoUrl: hubspot,
-    logoClass: "",
-  },
-  {
-    name: "Salesforce",
-    description: "Connect your Salesforce account to correlate sales performance with culture health.",
-    logoUrl: salesforce,
-    logoClass: "",
-  },
-  {
-    name: "Workday",
-    description: "Automate sync of HR data, retention metrics, and organizational hierarchy.",
-    logoUrl: workday,
-    logoClass: "scale-[1.75]", // Zoomed in workday symbol
-  },
-];
-
-export default function IntegrationsPage() {
+export default function SettingsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <DashboardHeader
-        tag="Integrations"
-        title="Connect Your Tools"
+        tag="Workspace Settings"
+        title="Envo Settings"
         ctaSecondary=""
         ctaPrimary=""
       />
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {integrations.map((integration) => (
-          <div
-            key={integration.name}
-            className={`flex flex-col justify-between rounded-[1.5rem] bg-[#ffffff] p-6 ${styles.ambientShadow}`}
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f6f3f2]">
-                <Image
-                  src={integration.logoUrl}
-                  alt={`${integration.name} logo`}
-                  className={`h-6 w-6 object-contain ${integration.logoClass}`}
-                />
-              </div>
-              <h2 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
-                {integration.name}
-              </h2>
-            </div>
-
-            <p className="mb-6 text-sm text-[#3e4941] flex-1">
-              {integration.description}
-            </p>
-
-            <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#008454] px-4 py-3 text-sm font-semibold text-white transition-all hover:scale-105">
-              Connect
-            </button>
+      <section className="max-w-3xl rounded-[2rem] bg-white p-8 md:p-10">
+        <div className="flex items-start gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#006841]/10">
+            <DashboardIcon name="settings" className="text-[28px] text-[#006841]" />
           </div>
-        ))}
-      </div>
+
+          <div className="space-y-2">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#006841]/70">
+              Admin Controls
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight text-[#1c1b1b]">
+              User management
+            </h2>
+            <p className="max-w-xl text-sm leading-7 text-[#3e4941]">
+              Manage access, permissions, and account ownership for the people
+              using Workenvo across your organisation.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
