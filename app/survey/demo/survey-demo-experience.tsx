@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Check,
   Dot,
-  Leaf,
   Mic,
   MicOff,
   Sparkles,
@@ -157,12 +156,85 @@ const initialAnswers: Answers = {
 };
 
 const beliefStates = [
-  "Doubtful, honestly",
-  "Not really seeing it",
-  "Open, but unconvinced",
-  "Yes, mostly",
-  "Strongly believe this",
+  {
+    label: "Doubtful, honestly",
+    description: "Right now it feels more like messaging than meaningful proof.",
+  },
+  {
+    label: "Not really seeing it",
+    description: "There are signs of effort, but not enough substance yet.",
+  },
+  {
+    label: "Open, but unconvinced",
+    description: "There is movement here, but it still feels early and uneven.",
+  },
+  {
+    label: "Yes, mostly",
+    description: "It feels real in enough places that people can start trusting it.",
+  },
+  {
+    label: "Strongly believe this",
+    description: "The work feels visible, embedded, and worth getting behind.",
+  },
 ] as const;
+
+const beliefPlantLeaves = [
+  {
+    id: "lower-left",
+    side: "left" as const,
+    threshold: 0.06,
+    position: 0.25,
+    length: 46,
+    height: 26,
+    startRotate: -148,
+    endRotate: -120,
+    scale: 0.78,
+  },
+  {
+    id: "lower-right",
+    side: "right" as const,
+    threshold: 0.18,
+    position: 0.34,
+    length: 52,
+    height: 30,
+    startRotate: -28,
+    endRotate: 8,
+    scale: 0.84,
+  },
+  {
+    id: "mid-left",
+    side: "left" as const,
+    threshold: 0.34,
+    position: 0.5,
+    length: 64,
+    height: 36,
+    startRotate: -154,
+    endRotate: -124,
+    scale: 0.98,
+  },
+  {
+    id: "mid-right",
+    side: "right" as const,
+    threshold: 0.5,
+    position: 0.6,
+    length: 72,
+    height: 42,
+    startRotate: -34,
+    endRotate: 12,
+    scale: 1.06,
+  },
+  {
+    id: "upper-left",
+    side: "left" as const,
+    threshold: 0.68,
+    position: 0.77,
+    length: 76,
+    height: 44,
+    startRotate: -160,
+    endRotate: -132,
+    scale: 1.1,
+  },
+];
 
 function getWorkloadStateIndex(value: number | null) {
   if (value === null) {
@@ -192,8 +264,234 @@ function getBeliefStateIndex(value: number | null) {
   return 4;
 }
 
-function getBeliefState(value: number | null) {
+function getBeliefStateMeta(value: number | null) {
   return beliefStates[getBeliefStateIndex(value)];
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function mix(start: number, end: number, progress: number) {
+  return start + (end - start) * progress;
+}
+
+function createLeafPath(length: number, height: number, direction: 1 | -1) {
+  return `M0 0 C ${direction * length * 0.2} ${-height * 0.08} ${
+    direction * length * 0.7
+  } ${-height * 0.34} ${direction * length} ${-height} C ${
+    direction * length * 0.78
+  } ${-height * 1.02} ${direction * length * 0.18} ${-height * 0.82} 0 0 Z`;
+}
+
+function createLeafVeinPath(length: number, height: number, direction: 1 | -1) {
+  return `M1 -1 C ${direction * length * 0.18} ${-height * 0.1} ${
+    direction * length * 0.48
+  } ${-height * 0.3} ${direction * length * 0.8} ${-height * 0.8}`;
+}
+
+function PlantGrowthIllustration({ value }: { value: number }) {
+  const progress = clamp(value / 100, 0, 1);
+  const stemBaseX = 160;
+  const stemBaseY = 268;
+  const stemHeight = mix(62, 162, progress);
+  const stemTopX = mix(156, 168, progress);
+  const stemTopY = stemBaseY - stemHeight;
+  const stemMidX = mix(150, 164, progress);
+  const stemMidY = mix(222, 176, progress);
+  const crownGrowth = clamp((progress - 0.72) / 0.28, 0, 1);
+
+  const getStemPoint = (position: number) => {
+    const y = mix(stemBaseY - 6, stemTopY, position);
+    const sway =
+      Math.sin(position * Math.PI) * (stemTopX - stemBaseX) * 0.9 +
+      Math.sin(position * Math.PI * 1.8) * 4;
+    const x = mix(stemBaseX, stemTopX, position) + sway;
+
+    return { x, y };
+  };
+
+  const stemPath = `M${stemBaseX} ${stemBaseY} C ${mix(
+    153,
+    156,
+    progress
+  )} ${mix(240, 228, progress)}, ${stemMidX} ${stemMidY}, ${stemTopX} ${stemTopY}`;
+
+  return (
+    <div className="relative mx-auto flex h-[248px] w-full max-w-[280px] items-end justify-center sm:h-[292px] sm:max-w-[320px] md:h-[330px] md:max-w-[360px]">
+      <motion.div
+        className="absolute bottom-10 h-40 w-40 rounded-full bg-[#16a34a]/16 blur-[60px] sm:h-48 sm:w-48"
+        animate={{
+          scale: [mix(0.84, 1.02, progress), mix(0.92, 1.08, progress), mix(0.84, 1.02, progress)],
+          opacity: [mix(0.18, 0.24, progress), mix(0.26, 0.42, progress), mix(0.18, 0.24, progress)],
+        }}
+        transition={{
+          duration: 4.2,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.svg
+        viewBox="0 0 320 320"
+        className="relative h-full w-full overflow-visible"
+        animate={{ rotate: [-1.2, 1.4, -1.2] }}
+        transition={{
+          duration: 6,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      >
+        <defs>
+          <linearGradient id="beliefStemGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#6ee7b7" />
+            <stop offset="100%" stopColor="#bbf7d0" />
+          </linearGradient>
+          <linearGradient id="beliefLeafGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#16a34a" />
+            <stop offset="58%" stopColor="#4ade80" />
+            <stop offset="100%" stopColor="#a7f3d0" />
+          </linearGradient>
+          <linearGradient id="beliefLeafShadeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.22)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+          <radialGradient id="beliefGroundGlow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stopColor="rgba(34,197,94,0.26)" />
+            <stop offset="100%" stopColor="rgba(34,197,94,0)" />
+          </radialGradient>
+        </defs>
+
+        <ellipse cx="160" cy="272" rx="94" ry="16" fill="rgba(0,0,0,0.16)" />
+        <ellipse cx="160" cy="256" rx="108" ry="70" fill="url(#beliefGroundGlow)" />
+        <path
+          d="M98 276 C 122 260, 198 260, 222 276"
+          fill="none"
+          stroke="rgba(255,255,255,0.06)"
+          strokeWidth="26"
+          strokeLinecap="round"
+        />
+        <path
+          d="M98 276 C 122 260, 198 260, 222 276"
+          fill="none"
+          stroke="rgba(6,16,13,0.85)"
+          strokeWidth="22"
+          strokeLinecap="round"
+        />
+
+        <motion.path
+          d={stemPath}
+          fill="none"
+          stroke="rgba(187,247,208,0.16)"
+          strokeWidth="14"
+          strokeLinecap="round"
+          animate={{ d: stemPath }}
+          transition={{ duration: 0.38, ease: [0.23, 1, 0.32, 1] }}
+        />
+        <motion.path
+          d={stemPath}
+          fill="none"
+          stroke="url(#beliefStemGradient)"
+          strokeWidth="10"
+          strokeLinecap="round"
+          animate={{ d: stemPath }}
+          transition={{ duration: 0.38, ease: [0.23, 1, 0.32, 1] }}
+        />
+
+        {beliefPlantLeaves.map((leaf) => {
+          const growth = clamp((progress - leaf.threshold) / 0.18, 0, 1);
+          const direction = leaf.side === "left" ? -1 : 1;
+          const point = getStemPoint(leaf.position);
+          const branchX = point.x + direction * mix(6, 18, growth);
+          const branchY = point.y - mix(4, 14, growth);
+          const rotate = mix(leaf.startRotate, leaf.endRotate, growth);
+          const scale = mix(0.2, leaf.scale, growth);
+          const opacity = mix(0.02, 1, growth);
+          const branchPath = `M${point.x} ${point.y} Q ${
+            point.x + direction * 8
+          } ${point.y - mix(6, 12, growth)} ${branchX} ${branchY}`;
+
+          return (
+            <g key={leaf.id}>
+              <motion.path
+                d={branchPath}
+                fill="none"
+                stroke="rgba(110,231,183,0.62)"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                animate={{ d: branchPath, opacity: opacity * 0.88 }}
+                transition={{ duration: 0.34, ease: [0.23, 1, 0.32, 1] }}
+              />
+              <g transform={`translate(${branchX} ${branchY})`}>
+                <motion.g
+                  animate={{
+                    opacity,
+                    scale,
+                    rotate,
+                    x: mix(direction * 10, 0, growth),
+                    y: mix(10, 0, growth),
+                  }}
+                  transition={{ duration: 0.34, ease: [0.23, 1, 0.32, 1] }}
+                  style={{ transformOrigin: "0px 0px" }}
+                >
+                  <path
+                    d={createLeafPath(leaf.length, leaf.height, direction)}
+                    fill="url(#beliefLeafGradient)"
+                  />
+                  <path
+                    d={createLeafPath(leaf.length * 0.8, leaf.height * 0.72, direction)}
+                    fill="url(#beliefLeafShadeGradient)"
+                    opacity="0.42"
+                    transform={`translate(${direction * leaf.length * 0.04} ${-leaf.height * 0.08})`}
+                  />
+                  <path
+                    d={createLeafVeinPath(leaf.length, leaf.height, direction)}
+                    fill="none"
+                    stroke="rgba(236,253,245,0.34)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </motion.g>
+              </g>
+            </g>
+          );
+        })}
+
+        <g transform={`translate(${stemTopX} ${stemTopY})`}>
+          <motion.g
+            animate={{
+              opacity: mix(0.06, 1, crownGrowth),
+              scale: mix(0.34, 1, crownGrowth),
+              y: mix(12, 0, crownGrowth),
+            }}
+            transition={{ duration: 0.34, ease: [0.23, 1, 0.32, 1] }}
+            style={{ transformOrigin: "0px 0px" }}
+          >
+            <g transform="rotate(-136)">
+              <path d={createLeafPath(42, 28, 1)} fill="url(#beliefLeafGradient)" />
+              <path
+                d={createLeafVeinPath(42, 28, 1)}
+                fill="none"
+                stroke="rgba(236,253,245,0.34)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </g>
+            <g transform="rotate(-26)">
+              <path d={createLeafPath(46, 30, 1)} fill="url(#beliefLeafGradient)" />
+              <path
+                d={createLeafVeinPath(46, 30, 1)}
+                fill="none"
+                stroke="rgba(236,253,245,0.34)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </g>
+          </motion.g>
+        </g>
+      </motion.svg>
+    </div>
+  );
 }
 
 const screenDetails: Record<
@@ -969,8 +1267,7 @@ function BeliefScreen({
   onChange: (value: number) => void;
 }) {
   const sliderValue = value ?? 50;
-  const activeLevel = getBeliefStateIndex(sliderValue) + 1;
-  const currentLabel = getBeliefState(sliderValue);
+  const current = getBeliefStateMeta(sliderValue);
 
   return (
     <ScreenShell
@@ -979,56 +1276,36 @@ function BeliefScreen({
       description="This step should feel unexpectedly tactile. The more conviction rises, the more the visual comes alive, so the answer feels embodied instead of administrative."
     >
       <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <div className="grid gap-5 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="flex items-center justify-center">
-            <div className="relative flex h-48 w-48 items-end justify-center sm:h-56 sm:w-56 md:h-64 md:w-64">
-              <motion.div
-                animate={{ scale: 0.88 + activeLevel * 0.04, rotate: activeLevel * 1.5 }}
-                className="absolute bottom-0 h-24 w-24 rounded-full bg-[#4ade80]/18 blur-2xl"
-              />
-              <motion.div
-                animate={{ height: `${68 + activeLevel * 20}px` }}
-                className="absolute bottom-10 w-2 rounded-full bg-[#6ee7b7]"
-              />
-              {[...Array(4)].map((_, index) => (
-                <motion.div
-                  key={index}
-                  animate={{
-                    scale: activeLevel > index ? 1 : 0.72,
-                    opacity: activeLevel > index ? 1 : 0.38,
-                    rotate: index % 2 === 0 ? -14 : 16,
-                  }}
-                  className="absolute rounded-[999px] bg-gradient-to-b from-[#8ff7be] to-[#1e9f68]"
-                  style={{
-                    width: index < 2 ? 54 : 68,
-                    height: index < 2 ? 32 : 40,
-                    left: index % 2 === 0 ? 70 - index * 4 : 128 + index * 4,
-                    bottom: 108 + index * 14,
-                    transformOrigin: index % 2 === 0 ? "right center" : "left center",
-                  }}
-                />
-              ))}
-              <Leaf className="absolute bottom-24 h-24 w-24 text-[#8ff7be]/18" />
-            </div>
+        <div className="grid gap-5 sm:gap-8 lg:grid-cols-[0.96fr_1.04fr] lg:items-center">
+          <div className="relative overflow-hidden rounded-[1.8rem] border border-white/7 bg-[radial-gradient(circle_at_50%_72%,rgba(22,163,74,0.16),transparent_42%),linear-gradient(180deg,rgba(7,16,13,0.5),rgba(7,16,13,0.18))] px-3 py-4 sm:rounded-[2.3rem] sm:px-5 sm:py-5">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
+            <PlantGrowthIllustration value={sliderValue} />
           </div>
 
-          <div className="space-y-3 sm:space-y-5">
-            <p className="text-2xl font-medium tracking-[-0.05em] text-[#f7f1e7] sm:text-3xl">
-              {currentLabel}
-            </p>
+          <div className="space-y-3.5 sm:space-y-5">
+            <div className="rounded-[1.45rem] bg-black/14 px-4 py-4 sm:rounded-[1.8rem] sm:px-5 sm:py-5">
+              <p className="text-[1.95rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:text-[2.35rem]">
+                {current.label}
+              </p>
+              <p className="mt-2 text-[13px] leading-6 text-white/60 sm:text-sm sm:leading-7">
+                {current.description}
+              </p>
+            </div>
             <div className="rounded-[1.5rem] bg-black/14 px-4 py-4 sm:rounded-[1.8rem] sm:px-5">
               <div className="relative">
-                <div className="h-3 w-full rounded-full bg-white/10" />
+                <div className="h-3 w-full rounded-full bg-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]" />
                 <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full bg-[#16a34a]"
+                  className="absolute inset-y-0 left-0 rounded-full"
                   animate={{
                     width: `${sliderValue}%`,
-                    boxShadow: "0 8px 26px -10px rgba(22,163,74,0.8)",
+                    background:
+                      "linear-gradient(90deg, rgba(34,197,94,0.85) 0%, #4ade80 56%, #86efac 100%)",
+                    boxShadow: "0 10px 30px -12px rgba(34,197,94,0.9)",
                   }}
                   transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
                 />
                 <motion.div
-                  className="pointer-events-none absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full border border-white/70 bg-[#f7f1e7] shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)]"
+                  className="pointer-events-none absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full border border-white/80 bg-[#f7f1e7] shadow-[0_14px_34px_-12px_rgba(0,0,0,0.65)] ring-4 ring-[#f7f1e7]/8"
                   animate={{ left: `calc(${sliderValue}% - 14px)` }}
                   transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
                 />
