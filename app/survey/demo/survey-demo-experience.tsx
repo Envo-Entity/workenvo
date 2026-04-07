@@ -776,6 +776,7 @@ export default function SurveyDemoExperience() {
   const [isRecording, setIsRecording] = useState(false);
   const [isCompactMobile, setIsCompactMobile] = useState(false);
   const [frameScale, setFrameScale] = useState(1);
+  const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
   const recognitionRef = useRef<InstanceType<RecognitionCtor> | null>(null);
 
   const currentScreen = screens[screenIndex];
@@ -822,6 +823,20 @@ export default function SurveyDemoExperience() {
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
+  }, [isEmbedded]);
+
+  useEffect(() => {
+    if (isEmbedded) {
+      return;
+    }
+
+    const syncPrompt = () => {
+      setShowFullscreenPrompt(!document.fullscreenElement);
+    };
+
+    syncPrompt();
+    document.addEventListener("fullscreenchange", syncPrompt);
+    return () => document.removeEventListener("fullscreenchange", syncPrompt);
   }, [isEmbedded]);
 
   useEffect(() => {
@@ -958,6 +973,30 @@ export default function SurveyDemoExperience() {
   const currentDetails =
     currentScreen === "done" ? null : screenDetails[currentScreen];
 
+  const requestFullscreenMode = async () => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      }
+
+      const orientationApi = screen.orientation as ScreenOrientation & {
+        lock?: (orientation: "portrait" | "landscape") => Promise<void>;
+      };
+
+      if (orientationApi?.lock) {
+        await orientationApi.lock("portrait").catch(() => undefined);
+      }
+
+      setShowFullscreenPrompt(false);
+    } catch {
+      setShowFullscreenPrompt(false);
+    }
+  };
+
   if (!isEmbedded) {
     return (
       <div className="flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#050a0a] p-4">
@@ -980,6 +1019,51 @@ export default function SurveyDemoExperience() {
               transform: `scale(${frameScale})`,
             }}
           />
+          <AnimatePresence>
+            {showFullscreenPrompt ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 z-30 flex items-center justify-center bg-[#050a0a]/78 p-5 backdrop-blur-xl"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 18, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 12, scale: 0.98 }}
+                  transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+                  className="w-full max-w-[18rem] rounded-[1.9rem] border border-white/10 bg-[linear-gradient(180deg,rgba(16,24,22,0.96),rgba(8,17,15,0.96))] p-5 text-center shadow-[0_30px_90px_-32px_rgba(0,0,0,0.92)]"
+                >
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400/12 ring-1 ring-emerald-200/10">
+                    <div className="h-8 w-8 rounded-[0.9rem] border border-emerald-200/20 bg-[linear-gradient(180deg,rgba(110,231,183,0.22),rgba(74,222,128,0.08))]" />
+                  </div>
+                  <p className="mt-4 text-[1.2rem] font-semibold tracking-[-0.05em] text-[#f7f1e7]">
+                    Go fullscreen
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white/58">
+                    For the cleanest phone preview, open this survey in fullscreen.
+                    We&apos;ll also try to keep it in portrait mode.
+                  </p>
+                  <div className="mt-5 flex flex-col gap-2.5">
+                    <button
+                      type="button"
+                      onClick={requestFullscreenMode}
+                      className="inline-flex items-center justify-center rounded-full bg-[#f3eee5] px-5 py-3 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98]"
+                    >
+                      OK, go fullscreen
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowFullscreenPrompt(false)}
+                      className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white/70 transition-colors hover:bg-white/8"
+                    >
+                      Not now
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </div>
       </div>
     );
