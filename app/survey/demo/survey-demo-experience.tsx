@@ -413,7 +413,7 @@ export default function SurveyDemoExperience() {
       <div className="pointer-events-none absolute right-[-8%] top-[48%] h-80 w-80 rounded-full bg-[#f59e0b]/10 blur-[140px]" />
 
       <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[440px] flex-col px-3 py-3 sm:max-w-[520px] sm:px-4 md:max-w-7xl md:px-6 lg:px-10">
-        <header className="flex items-center justify-between rounded-[1.35rem] border border-white/8 bg-white/5 px-3 py-3 backdrop-blur-xl sm:rounded-[1.75rem] sm:px-5">
+        <header className="hidden items-center justify-between rounded-[1.35rem] border border-white/8 bg-white/5 px-3 py-3 backdrop-blur-xl sm:rounded-[1.75rem] sm:px-5 md:flex">
           <BrandLogo
             logoHeightClassName="h-7 sm:h-8"
             textClassName="text-[1.08rem] tracking-[-0.04em] text-white sm:text-[1.3rem]"
@@ -428,9 +428,9 @@ export default function SurveyDemoExperience() {
           </div>
         </header>
 
-        <div className="mt-3 flex flex-1 flex-col md:mt-4">
-          <div className="mb-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-3 py-3 backdrop-blur-xl sm:mb-4 sm:rounded-[1.6rem] sm:px-5 sm:py-4 md:px-6">
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
+        <div className="mt-1 flex min-h-0 flex-1 flex-col pb-26 md:mt-4 md:pb-0">
+          <div className="mb-3 px-1 pt-[calc(env(safe-area-inset-top)+0.25rem)] sm:mb-4 sm:px-0">
+            <div className="grid gap-4 md:rounded-[1.6rem] md:border md:border-white/8 md:bg-white/5 md:px-6 md:py-4 md:backdrop-blur-xl lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
               <ProgressBar currentIndex={screenIndex} />
               {currentDetails ? (
                 <div className="hidden rounded-[1.2rem] bg-black/14 px-4 py-3 lg:block">
@@ -513,32 +513,30 @@ export default function SurveyDemoExperience() {
             </AnimatePresence>
           </div>
 
-          {currentDetails ? (
-            <div className="mt-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-3 text-sm leading-6 text-white/56 backdrop-blur-xl lg:hidden">
-              {currentDetails.helper}
-            </div>
-          ) : null}
+          {currentDetails ? null : null}
 
           {currentScreen !== "welcome" && currentScreen !== "done" ? (
-            <div className="sticky bottom-0 mt-5 flex items-center justify-between gap-3 rounded-[1.25rem] border border-white/8 bg-[#08110fe8] px-3 py-3 backdrop-blur-2xl [padding-bottom:calc(env(safe-area-inset-bottom)+0.75rem)] sm:mt-6 sm:rounded-[1.7rem] sm:px-4">
-              <button
-                type="button"
-                onClick={back}
-                disabled={!canGoBack}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none sm:px-5"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={next}
-                disabled={!canGoForward}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#16a34a] px-5 py-3 text-sm font-semibold text-white transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#2a5644] disabled:text-white/50 sm:flex-none sm:px-6"
-              >
-                Continue
-                <ArrowRight className="h-4 w-4" />
-              </button>
+            <div className="fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(env(safe-area-inset-bottom)+0.65rem)] md:static md:mt-6 md:px-0 md:pb-0">
+              <div className="mx-auto flex w-full max-w-[440px] items-center justify-between gap-3 rounded-[1.25rem] border border-white/8 bg-[#08110fe8] px-3 py-3 backdrop-blur-2xl sm:max-w-[520px] sm:rounded-[1.7rem] sm:px-4 md:max-w-none">
+                <button
+                  type="button"
+                  onClick={back}
+                  disabled={!canGoBack}
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/85 backdrop-blur-xl transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none sm:px-5"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back
+                </button>
+                <button
+                  type="button"
+                  onClick={next}
+                  disabled={!canGoForward}
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#16a34a] px-5 py-3 text-sm font-semibold text-white transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#2a5644] disabled:text-white/50 sm:flex-none sm:px-6"
+                >
+                  Continue
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           ) : null}
         </div>
@@ -559,15 +557,15 @@ function ScreenShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 md:gap-7 lg:grid lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-start lg:gap-8">
-      <div className="max-w-xl flex-1 space-y-4 lg:sticky lg:top-8 lg:space-y-5">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 md:gap-7 lg:grid lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-start lg:gap-8">
+      <div className="max-w-xl flex-1 space-y-3 lg:sticky lg:top-8 lg:space-y-5">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#d5d0c7]/58">
           {eyebrow}
         </p>
-        <h1 className="text-[2rem] leading-[0.98] font-semibold tracking-[-0.05em] text-[#f7f1e7] sm:text-[2.75rem] md:text-5xl lg:text-6xl">
+        <h1 className="text-[2.05rem] leading-[0.98] font-semibold tracking-[-0.05em] text-[#f7f1e7] sm:text-[2.75rem] md:text-5xl lg:text-6xl">
           {title}
         </h1>
-        <p className="max-w-lg text-[15px] leading-7 text-white/64 sm:text-base sm:leading-8 md:text-lg">
+        <p className="max-w-lg text-[14px] leading-6 text-white/64 sm:text-base sm:leading-8 md:text-lg">
           {description}
         </p>
         <div className="hidden max-w-md rounded-[1.6rem] border border-white/8 bg-white/4 p-4 text-sm leading-7 text-white/52 lg:block">
@@ -584,8 +582,8 @@ function ScreenShell({
 function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
   return (
     <div className="mx-auto w-full max-w-5xl">
-      <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/6 p-5 backdrop-blur-2xl sm:p-8 md:rounded-[2.5rem] md:p-10">
+        <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/6 p-5 backdrop-blur-2xl sm:p-8 md:rounded-[2.5rem] md:p-10">
           <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-emerald-400/14 to-transparent" />
           <p className="relative text-xs font-semibold uppercase tracking-[0.28em] text-[#d5d0c7]/65">
             Workenvo Monthly Pulse
@@ -599,7 +597,7 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
             signals leadership actually uses to act.
           </p>
 
-          <div className="relative mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
+          <div className="relative mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
             {[
               "Anonymous by default",
               "7 screens after this",
@@ -617,14 +615,14 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
           <button
             type="button"
             onClick={onBegin}
-            className="relative mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#f3eee5] px-6 py-3.5 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98] sm:mt-10 sm:w-auto"
+            className="relative mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#f3eee5] px-6 py-3.5 text-sm font-semibold text-[#08100f] transition-transform active:scale-[0.98] sm:mt-10 sm:w-auto"
           >
             Start the pulse
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+        <div className="hidden gap-3 sm:grid-cols-3 lg:grid">
           {[
             {
               title: "Culture",
@@ -670,7 +668,7 @@ function BelongingScreen({
       description="The selection should feel emotional, not clinical. We want a quick gut answer here, because belonging is usually felt before it is articulated."
     >
       <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <div className="flex min-h-[420px] flex-col items-center justify-center sm:min-h-[360px]">
+        <div className="flex min-h-[340px] flex-col items-center justify-center sm:min-h-[360px]">
           <motion.div
             key={value ?? 0}
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -690,7 +688,7 @@ function BelongingScreen({
             >
               <span>{value !== null ? belongingFaces[value - 1].emoji : "🙂"}</span>
             </div>
-            <div className="mt-6 text-center text-[2rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-4xl md:text-5xl">
+            <div className="mt-4 text-center text-[1.85rem] font-medium tracking-[-0.06em] text-[#f7f1e7] sm:mt-8 sm:text-4xl md:text-5xl">
               {value ? belongingFaces[value - 1].label : "How does it feel?"}
             </div>
             <p className="mt-3 max-w-[17rem] text-center text-sm leading-6 text-white/54 sm:max-w-sm sm:leading-7">
@@ -700,7 +698,7 @@ function BelongingScreen({
             </p>
           </motion.div>
 
-          <div className="mt-8 w-full max-w-xl rounded-[1.7rem] border border-white/8 bg-[#f7f1e7]/88 p-2 text-[#161616] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] sm:mt-12 sm:rounded-[2rem] sm:p-3">
+          <div className="mt-6 w-full max-w-xl rounded-[1.7rem] border border-white/8 bg-[#f7f1e7]/88 p-2 text-[#161616] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] sm:mt-12 sm:rounded-[2rem] sm:p-3">
             <div className="grid grid-cols-5 gap-0.5 sm:gap-1">
               {belongingFaces.map((face, index) => {
                 const selected = value === index + 1;
@@ -761,7 +759,7 @@ function WorkloadScreen({
       description="This one should feel alive. Instead of asking people to translate pressure into abstract numbers, we let them feel the state in a visual object."
     >
       <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <div className="mx-auto grid max-w-3xl gap-6 sm:gap-8 lg:grid-cols-[220px_1fr] lg:items-center">
+        <div className="mx-auto grid max-w-3xl gap-5 sm:gap-8 lg:grid-cols-[220px_1fr] lg:items-center">
           <div className="relative mx-auto h-[240px] w-[150px] overflow-hidden rounded-b-[3rem] rounded-t-[1.7rem] border border-white/16 bg-white/5 sm:h-[280px] sm:w-[180px] sm:rounded-b-[3.4rem] sm:rounded-t-[2rem] md:h-[300px] md:w-[190px] md:rounded-b-[3.7rem] md:rounded-t-[2.1rem]">
             <motion.div
               className="absolute inset-x-0 bottom-0"
@@ -804,7 +802,7 @@ function WorkloadScreen({
               </p>
             </div>
 
-            <div className="mt-5 grid w-full grid-cols-5 gap-2 sm:mt-6 sm:gap-3">
+            <div className="mt-4 grid w-full grid-cols-5 gap-2 sm:mt-6 sm:gap-3">
               {workloadStates.map((state, index) => {
                 const selected = value === index + 1;
 
@@ -861,7 +859,7 @@ function ManagerScreen({
       title="Does your manager make it easier to do your best work?"
       description="This is a calm judgment question. The interaction should still feel beautiful, but the tone should stay composed so the answer feels safe to give."
     >
-      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2">
         {managerCards.map((card) => {
           const selected = value === card.value;
 
@@ -879,25 +877,25 @@ function ManagerScreen({
                   ? `0 30px 80px -40px ${card.accent}`
                   : "0 0 0 0 transparent",
               }}
-              className="rounded-[1.7rem] border p-4 text-left backdrop-blur-xl sm:rounded-[2.1rem] sm:p-6"
+              className="rounded-[1.45rem] border p-4 text-left backdrop-blur-xl sm:rounded-[2.1rem] sm:p-6"
             >
               <div className="flex items-center justify-between">
                 <span
-                  className="text-3xl font-semibold"
+                  className="text-2xl font-semibold sm:text-3xl"
                   style={{ color: selected ? "#f7f1e7" : card.accent }}
                 >
                   {card.icon}
                 </span>
                 {selected ? (
-                  <span className="rounded-full bg-white/16 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/82">
+                  <span className="rounded-full bg-white/16 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/82 sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
                     Selected
                   </span>
                 ) : null}
               </div>
-              <h3 className="mt-6 text-xl font-semibold tracking-[-0.04em] text-[#f7f1e7] sm:mt-8 sm:text-2xl">
+              <h3 className="mt-4 text-lg font-semibold tracking-[-0.04em] text-[#f7f1e7] sm:mt-8 sm:text-2xl">
                 {card.title}
               </h3>
-              <p className="mt-3 text-sm leading-7 text-white/62">{card.body}</p>
+              <p className="mt-2 text-sm leading-6 text-white/62 sm:mt-3 sm:leading-7">{card.body}</p>
             </motion.button>
           );
         })}
@@ -929,7 +927,7 @@ function BeliefScreen({
       description="This step should feel unexpectedly tactile. The more conviction rises, the more the visual comes alive, so the answer feels embodied instead of administrative."
     >
       <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04))] p-4 backdrop-blur-2xl sm:rounded-[2.8rem] sm:p-6 md:p-8">
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="grid gap-5 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex items-center justify-center">
             <div className="relative flex h-48 w-48 items-end justify-center sm:h-56 sm:w-56 md:h-64 md:w-64">
               <motion.div
@@ -962,7 +960,7 @@ function BeliefScreen({
             </div>
           </div>
 
-          <div className="space-y-4 sm:space-y-5">
+          <div className="space-y-3 sm:space-y-5">
             <p className="text-2xl font-medium tracking-[-0.05em] text-[#f7f1e7] sm:text-3xl">
               {labels[activeLevel - 1]}
             </p>
@@ -1109,7 +1107,7 @@ function VoiceScreen({
           </button>
         </div>
 
-        <div className="mt-5 rounded-[1.2rem] bg-black/14 px-4 py-4 text-sm leading-6 text-white/56 sm:rounded-[1.5rem] sm:leading-7">
+        <div className="mt-4 rounded-[1.2rem] bg-black/14 px-4 py-4 text-sm leading-6 text-white/56 sm:mt-5 sm:rounded-[1.5rem] sm:leading-7">
           {value.trim()
             ? value
             : "Live transcript will appear here as you speak, which makes voice feel reliable instead of mysterious."}
