@@ -606,15 +606,15 @@ function ScreenShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-3.5 md:gap-8 lg:grid lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-start lg:gap-10">
-      <div className="max-w-2xl flex-1 space-y-3 lg:sticky lg:top-8 lg:space-y-6">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 md:gap-7.5 lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-9">
+      <div className="max-w-[42rem] flex-1 space-y-2.5 lg:sticky lg:top-8 lg:space-y-5.5">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#d5d0c7]/58">
           {eyebrow}
         </p>
-        <h1 className="max-w-[14ch] text-[2.8rem] leading-[0.9] font-semibold tracking-[-0.075em] text-[#f7f1e7] sm:text-[3.3rem] md:text-[4.15rem] lg:text-[4.9rem]">
+        <h1 className="max-w-[14ch] text-[2.5rem] leading-[0.915] font-semibold tracking-[-0.07em] text-[#f7f1e7] sm:text-[2.95rem] md:text-[3.85rem] lg:text-[4.45rem]">
           {title}
         </h1>
-        <p className="max-w-xl text-[12px] leading-[1.15rem] text-white/58 sm:text-[13.5px] sm:leading-[1.35rem] md:text-lg md:leading-8">
+        <p className="max-w-[34rem] text-[12px] leading-[1.15rem] text-white/58 sm:text-[13.5px] sm:leading-[1.35rem] md:text-lg md:leading-8">
           {description}
         </p>
         <div className="hidden max-w-md rounded-[1.6rem] border border-white/8 bg-white/4 p-4 text-sm leading-7 text-white/52 lg:block">
@@ -636,7 +636,7 @@ function WelcomeScreen({ onBegin }: { onBegin: () => void }) {
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#d5d0c7]/65">
             Workenvo Monthly Pulse
           </p>
-          <h1 className="mt-4 max-w-[11ch] text-[3rem] leading-[0.9] font-semibold tracking-[-0.075em] text-[#f7f1e7] sm:text-[3.7rem] md:text-[4.7rem] lg:text-[5.6rem]">
+          <h1 className="mt-4 max-w-[11ch] text-[2.8rem] leading-[0.915] font-semibold tracking-[-0.07em] text-[#f7f1e7] sm:text-[3.35rem] md:text-[4.35rem] lg:text-[5.1rem]">
             Hey Alex, this&apos;ll take about 2 minutes.
           </h1>
           <p className="mt-4 max-w-xl text-[14px] leading-6 text-white/68 sm:mt-6 sm:text-lg sm:leading-8">
@@ -1209,7 +1209,7 @@ function DoneScreen({
           </motion.div>
         </div>
 
-        <h1 className="mt-6 text-[2.9rem] leading-[0.9] font-semibold tracking-[-0.075em] text-[#f7f1e7] sm:mt-8 sm:text-[3.9rem]">
+        <h1 className="mt-6 text-[2.55rem] leading-[0.915] font-semibold tracking-[-0.067em] text-[#f7f1e7] sm:mt-8 sm:text-[3.45rem]">
           Your pulse is in.
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-white/64 sm:text-lg sm:leading-8">
