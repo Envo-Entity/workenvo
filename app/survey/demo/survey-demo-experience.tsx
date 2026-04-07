@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -148,6 +149,8 @@ const frictionOptions = [
 
 const beliefVideoSrc =
   "https://nqspbtenbeyfvpyqwigb.supabase.co/storage/v1/object/public/envo-public-assets/tree_video.mp4";
+const surveyPreviewWidth = 414;
+const surveyPreviewHeight = 896;
 
 const initialAnswers: Answers = {
   belonging: null,
@@ -536,7 +539,6 @@ function BeliefGrowthVideo({ value }: { value: number | null }) {
   const animationFrameRef = useRef<number | null>(null);
   const currentTargetRef = useRef(0);
   const [isReady, setIsReady] = useState(false);
-  const progress = clamp((value ?? 50) / 100, 0, 1);
   const beliefStep = getBeliefStateIndex(value);
   const targetProgress = [0, 0.2, 0.4, 0.6, 0.8][beliefStep] ?? 0;
 
@@ -767,10 +769,13 @@ function FloatingParticles() {
 }
 
 export default function SurveyDemoExperience() {
+  const searchParams = useSearchParams();
+  const isEmbedded = searchParams.get("embed") === "1";
   const [screenIndex, setScreenIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
   const [isRecording, setIsRecording] = useState(false);
   const [isCompactMobile, setIsCompactMobile] = useState(false);
+  const [frameScale, setFrameScale] = useState(1);
   const recognitionRef = useRef<InstanceType<RecognitionCtor> | null>(null);
 
   const currentScreen = screens[screenIndex];
@@ -797,6 +802,27 @@ export default function SurveyDemoExperience() {
         return false;
     }
   }, [answers, currentScreen]);
+
+  useEffect(() => {
+    if (isEmbedded) {
+      return;
+    }
+
+    const updateScale = () => {
+      const availableWidth = window.innerWidth - 32;
+      const availableHeight = window.innerHeight - 32;
+      const nextScale = Math.min(
+        availableWidth / surveyPreviewWidth,
+        availableHeight / surveyPreviewHeight
+      );
+
+      setFrameScale(Math.max(nextScale, 0.32));
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, [isEmbedded]);
 
   useEffect(() => {
     return () => {
@@ -931,6 +957,33 @@ export default function SurveyDemoExperience() {
 
   const currentDetails =
     currentScreen === "done" ? null : screenDetails[currentScreen];
+
+  if (!isEmbedded) {
+    return (
+      <div className="flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#050a0a] p-4">
+        <div
+          className="relative overflow-hidden border border-white/8 bg-[#08110f] shadow-[0_60px_180px_-60px_rgba(0,0,0,0.9)]"
+          style={{
+            width: surveyPreviewWidth * frameScale,
+            height: surveyPreviewHeight * frameScale,
+          }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="pointer-events-none absolute left-1/2 top-3 z-10 h-1.5 w-20 -translate-x-1/2 rounded-full bg-white/10" />
+          <iframe
+            src="/survey/demo?embed=1"
+            title="Survey demo preview"
+            className="block origin-top-left border-0"
+            style={{
+              width: surveyPreviewWidth,
+              height: surveyPreviewHeight,
+              transform: `scale(${frameScale})`,
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#0b1010] text-white">
