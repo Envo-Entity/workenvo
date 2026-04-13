@@ -98,10 +98,12 @@
     background-color: #FFFFFF;
     color: #111827;
     font-family: var(--font-sans), system-ui, sans-serif;
+    overflow-x: clip;
   }
   html {
     font-family: var(--font-sans), system-ui, sans-serif;
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 }
 

@@ -66,12 +66,12 @@ function FooterWordmark() {
     <div className="pt-4 md:pt-5">
       <div
         ref={containerRef}
-        className="mx-auto w-full max-w-full overflow-hidden"
+        className="relative mx-auto w-full max-w-full overflow-hidden"
       >
         <div
           ref={measureRef}
           aria-hidden="true"
-          className="pointer-events-none absolute whitespace-nowrap opacity-0"
+          className="pointer-events-none absolute left-0 top-0 whitespace-nowrap opacity-0"
           style={{ ...wordmarkStyle, fontSize: "100px" }}
         >
           <span style={{ fontWeight: 400 }}>work</span>
@@ -92,7 +92,7 @@ function FooterWordmark() {
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#111111] text-white">
+    <footer className="relative overflow-hidden bg-[#111111] text-white">
       <div className="mx-auto max-w-7xl px-6 pb-6 pt-8 md:px-12 md:pb-8 md:pt-10">
         <div className="grid gap-12 md:grid-cols-[minmax(0,1.25fr)_160px_190px] md:items-start">
           <div>
