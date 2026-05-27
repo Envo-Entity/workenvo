@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 
 const instrumentSerif = Instrument_Serif({
@@ -57,6 +58,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-white">{children}</body>
       <Analytics />
+      <GoogleAnalytics gaId="G-YEXWEX52MR" />
       <Script
         id="salesloft-scout"
         strategy="afterInteractive"
