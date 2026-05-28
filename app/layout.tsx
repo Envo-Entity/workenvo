@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 const instrumentSerif = Instrument_Serif({
   weight: "400",
@@ -56,6 +58,14 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-white">{children}</body>
       <Analytics />
+      <GoogleAnalytics gaId="G-YEXWEX52MR" />
+      <Script
+        id="salesloft-scout"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `(function(i,s,o,g,r,a,m){i['SLScoutObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://scout-cdn.salesloft.com/sl.js','slscout');slscout(["init", "eyJhbGciOiJIUzI1NiJ9.eyJ0IjoxMTI3NzV9.YAxfNI2uqYTaqV6fmP8CgIpH0BtPYaZsEG27lKFsVgI"]);`,
+        }}
+      />
     </html>
   );
 }
