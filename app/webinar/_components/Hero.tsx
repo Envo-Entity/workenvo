@@ -71,11 +71,7 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <a
             href="#register"
-            className="px-8 py-4 rounded-full font-semibold text-webinar-ink text-sm tracking-wide transition-all duration-200 [box-shadow:0_0_24px_oklch(0.56_0.22_264_/_0.4)] hover:[box-shadow:0_0_36px_oklch(0.56_0.22_264_/_0.6)] hover:-translate-y-0.5"
-            style={{
-              background:
-                "linear-gradient(135deg, oklch(0.56 0.22 264), oklch(0.52 0.22 295))",
-            }}
+            className="webinar-cta-btn px-8 py-4 rounded-full font-semibold text-white text-sm tracking-wide [box-shadow:0_0_24px_oklch(0.55_0.24_255_/_0.45)] hover:[box-shadow:0_0_40px_oklch(0.55_0.24_255_/_0.65)] hover:-translate-y-0.5"
           >
             Reserve My Spot
           </a>

@@ -59,11 +59,7 @@ export function RegisterCTA() {
         <ScrollReveal delay={300}>
           <a
             href="#"
-            className="inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-webinar-ink text-lg tracking-wide transition-all duration-200 hover:-translate-y-1 [box-shadow:0_0_36px_oklch(0.56_0.22_264_/_0.5)] hover:[box-shadow:0_0_52px_oklch(0.56_0.22_264_/_0.7)]"
-            style={{
-              background:
-                "linear-gradient(135deg, oklch(0.56 0.22 264), oklch(0.52 0.22 295))",
-            }}
+            className="webinar-cta-btn inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-white text-lg tracking-wide hover:-translate-y-1 [box-shadow:0_0_36px_oklch(0.55_0.24_255_/_0.5)] hover:[box-shadow:0_0_56px_oklch(0.55_0.24_255_/_0.7)]"
           >
             Register For the Webinar
           </a>
