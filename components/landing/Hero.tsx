@@ -133,7 +133,10 @@ export default function Hero() {
             transition: "opacity 0.9s ease, transform 0.9s ease",
           }}
         >
-          Turn{" "}
+          Understand employee behavior{" "}
+          <em className="not-italic" style={{ color: "rgba(17,17,17,0.38)" }}>
+            before problems{" "}
+          </em>
           <span
             style={{
               textDecoration: "underline",
@@ -143,12 +146,8 @@ export default function Hero() {
               textUnderlineOffset: "8px",
             }}
           >
-            behaviour
-          </span>{" "}
-          into{" "}
-          <em className="not-italic" style={{ color: "rgba(17,17,17,0.38)" }}>
-            capability
-          </em>
+            become expensive
+          </span>
         </h1>
 
         {/* Subheadline */}
