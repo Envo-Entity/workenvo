@@ -6,7 +6,7 @@ import { Audience } from "./_components/Audience";
 import { Why } from "./_components/Why";
 import { Speaker } from "./_components/Speaker";
 import { RegisterCTA } from "./_components/RegisterCTA";
-import { Footer } from "./_components/Footer";
+import Footer from "@/components/landing/Footer";
 import { JourneyThread } from "./_components/JourneyThread";
 
 export default function Page() {

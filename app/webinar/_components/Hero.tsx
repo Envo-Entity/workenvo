@@ -32,16 +32,10 @@ export function Hero() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
-        {/* Live badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-webinar-accent/30 bg-webinar-accent/8 text-[13px] text-webinar-ink-dim font-medium mb-12">
-          <span className="size-2 rounded-full bg-webinar-teal animate-webinar-live-dot flex-shrink-0" />
-          Live Webinar &mdash; Register to Secure Your Spot
-        </div>
-
         {/* Main headline */}
         <h1
           className="font-webinar-heading font-normal text-webinar-ink mb-7"
-          style={{ fontSize: "clamp(52px, 8vw, 100px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
         >
           The Hidden Workforce Problems
           <br />
