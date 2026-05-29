@@ -31,7 +31,7 @@ export function Audience() {
         {/* Left */}
         <div>
           <ScrollReveal>
-            <span className="webinar-chapter-label block mb-6">04 &mdash; Who It&apos;s For</span>
+            <span className="webinar-chapter-label block mb-6">05 &mdash; Who It&apos;s For</span>
           </ScrollReveal>
 
           <ScrollReveal delay={80}>

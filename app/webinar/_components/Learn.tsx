@@ -52,7 +52,7 @@ export function Learn() {
     >
       <div className="relative z-10 max-w-6xl mx-auto">
         <ScrollReveal>
-          <span className="webinar-chapter-label block mb-6">03 &mdash; What You&apos;ll Learn</span>
+          <span className="webinar-chapter-label block mb-6">04 &mdash; What You&apos;ll Learn</span>
         </ScrollReveal>
 
         <ScrollReveal delay={80}>

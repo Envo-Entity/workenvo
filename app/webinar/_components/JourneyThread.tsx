@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 
 const chapters = [
   { id: "hero",     label: "The Signal",        num: "01" },
-  { id: "problem",  label: "The Problem",        num: "02" },
-  { id: "learn",    label: "What You'll Learn",  num: "03" },
-  { id: "audience", label: "Who It's For",       num: "04" },
-  { id: "why",      label: "Why It Matters",     num: "05" },
-  { id: "speaker",  label: "Your Guide",         num: "06" },
-  { id: "register", label: "Register",           num: "07" },
+  { id: "speakers", label: "Your Hosts",         num: "02" },
+  { id: "problem",  label: "The Problem",        num: "03" },
+  { id: "learn",    label: "What You'll Learn",  num: "04" },
+  { id: "audience", label: "Who It's For",       num: "05" },
+  { id: "why",      label: "Why It Matters",     num: "06" },
 ];
 
 export function JourneyThread() {

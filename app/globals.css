@@ -500,3 +500,41 @@
     transition: none;
   }
 }
+
+/* Insight card float */
+@keyframes webinar-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Org network — risk node pulse ring */
+@keyframes webinar-risk-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  65% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+.webinar-risk-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: webinar-risk-ring 2.8s ease-out infinite;
+}
+
+/* Org network — AI scan line sweep */
+@keyframes webinar-scan-y {
+  0%   { transform: translateY(0px);    opacity: 0; }
+  4%   { opacity: 1; }
+  46%  { opacity: 0.8; }
+  50%, 100% { transform: translateY(222px); opacity: 0; }
+}
+
+.webinar-scan-line {
+  animation: webinar-scan-y 7s ease-in-out 1.5s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webinar-risk-ring,
+  .webinar-scan-line {
+    animation: none;
+  }
+}

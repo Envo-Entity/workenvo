@@ -1,4 +1,5 @@
 import { ScrollReveal } from "./ScrollReveal";
+import { OrgNetwork } from "./OrgNetwork";
 
 const signals = [
   "motivation declines",
@@ -28,7 +29,7 @@ export function Problem() {
         {/* Left: headline block */}
         <div>
           <ScrollReveal>
-            <span className="webinar-chapter-label block mb-6">02 &mdash; The Problem</span>
+            <span className="webinar-chapter-label block mb-6">03 &mdash; The Problem</span>
           </ScrollReveal>
 
           <ScrollReveal delay={80}>
@@ -62,9 +63,19 @@ export function Problem() {
         {/* Right: signal list */}
         <div className="lg:pt-16">
           <ScrollReveal delay={100}>
-            <p className="text-xs tracking-[0.18em] uppercase font-semibold text-webinar-ink-faint mb-8">
+            <p className="text-xs tracking-[0.18em] uppercase font-semibold text-webinar-ink-faint mb-6">
               Meanwhile, inside your organisation
             </p>
+          </ScrollReveal>
+
+          {/* Org network visualization */}
+          <ScrollReveal delay={140}>
+            <div className="mb-10 p-5 rounded-2xl border border-webinar-wire/50 bg-webinar-surface/60">
+              <OrgNetwork />
+              <p className="mt-3 text-[10px] tracking-[0.14em] uppercase text-webinar-ink-faint font-semibold text-center">
+                Organisational signal map
+              </p>
+            </div>
           </ScrollReveal>
 
           <ul className="space-y-1" role="list">

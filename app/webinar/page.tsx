@@ -1,11 +1,10 @@
 import { Nav } from "./_components/Nav";
 import { Hero } from "./_components/Hero";
+import { Speakers } from "./_components/Speakers";
 import { Problem } from "./_components/Problem";
 import { Learn } from "./_components/Learn";
 import { Audience } from "./_components/Audience";
 import { Why } from "./_components/Why";
-import { Speaker } from "./_components/Speaker";
-import { RegisterCTA } from "./_components/RegisterCTA";
 import Footer from "@/components/landing/Footer";
 import { JourneyThread } from "./_components/JourneyThread";
 
@@ -21,12 +20,11 @@ export default function Page() {
       {/* Page body */}
       <main>
         <Hero />
+        <Speakers />
         <Problem />
         <Learn />
         <Audience />
         <Why />
-        <Speaker />
-        <RegisterCTA />
       </main>
 
       <Footer />

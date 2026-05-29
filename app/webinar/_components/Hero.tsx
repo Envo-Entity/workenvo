@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { InsightCards } from "./InsightCards";
 
 const DECEL_STEPS: [rate: number, offset: number][] = [
   [0.3, 0],
@@ -120,6 +121,9 @@ export function Hero() {
           backgroundSize: "36px 36px",
         }}
       />
+
+      {/* Floating insight cards — xl screens only */}
+      <InsightCards />
 
       {/* Content */}
       <div

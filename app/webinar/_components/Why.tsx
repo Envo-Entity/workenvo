@@ -40,7 +40,7 @@ export function Why() {
 
       <div className="relative z-10 max-w-6xl mx-auto">
         <ScrollReveal>
-          <span className="webinar-chapter-label block mb-6">05 &mdash; Why It Matters</span>
+          <span className="webinar-chapter-label block mb-6">06 &mdash; Why It Matters</span>
         </ScrollReveal>
 
         {/* Large headline */}
@@ -56,7 +56,7 @@ export function Why() {
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          {/* Left: body copy */}
+          {/* Left: body copy + heatmap */}
           <div>
             <ScrollReveal delay={160}>
               <div className="space-y-5 text-webinar-ink-dim leading-[1.85]" style={{ fontSize: "clamp(0.95rem, 0.8vw + 0.4rem, 1.075rem)" }}>
@@ -69,6 +69,70 @@ export function Why() {
                   The organisations that succeed over the next decade will be those
                   that invest in seeing clearly, earlier.
                 </p>
+              </div>
+            </ScrollReveal>
+
+            {/* Engagement heatmap */}
+            <ScrollReveal delay={260}>
+              <div className="mt-10 p-5 rounded-2xl border border-webinar-wire/50 bg-webinar-surface/50" aria-hidden="true">
+                <p className="text-[9px] tracking-[0.16em] uppercase font-semibold text-webinar-ink-faint mb-4">
+                  Engagement signal map — 7 weeks
+                </p>
+                <div className="flex gap-2 items-start">
+                  {/* Row labels */}
+                  <div className="flex flex-col gap-1.5 pt-0.5">
+                    {["A","B","C","D","E"].map((t) => (
+                      <span key={t} className="text-[9px] font-semibold text-webinar-ink-faint w-5 text-right leading-none" style={{ height: 16 }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {/* Grid */}
+                  <div className="flex-1">
+                    <div className="grid gap-1.5" style={{ gridTemplateColumns: "repeat(7, 1fr)" }}>
+                      {[
+                        [5,5,4,4,4,3,3],
+                        [4,4,3,2,2,2,1],
+                        [5,5,5,4,4,5,4],
+                        [3,3,3,2,2,1,1],
+                        [4,4,4,4,3,3,3],
+                      ].flatMap((row, ri) =>
+                        row.map((val, ci) => {
+                          const color =
+                            val === 5 ? "rgba(22,133,91,0.65)"
+                            : val === 4 ? "rgba(22,133,91,0.32)"
+                            : val === 3 ? "rgba(217,119,6,0.38)"
+                            : val === 2 ? "rgba(217,119,6,0.62)"
+                            : "rgba(239,68,68,0.55)";
+                          return (
+                            <div
+                              key={`${ri}-${ci}`}
+                              className="rounded-sm"
+                              style={{ height: 16, backgroundColor: color }}
+                            />
+                          );
+                        })
+                      )}
+                    </div>
+                    {/* Week labels */}
+                    <div className="grid mt-1.5 gap-1.5" style={{ gridTemplateColumns: "repeat(7, 1fr)" }}>
+                      {["W1","W2","W3","W4","W5","W6","W7"].map((w) => (
+                        <span key={w} className="text-[8px] text-center text-webinar-ink-faint font-medium">
+                          {w}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {/* Legend */}
+                <div className="flex items-center gap-3 mt-4">
+                  <span className="text-[8px] text-webinar-ink-faint tracking-wide">Low</span>
+                  {["rgba(239,68,68,0.55)","rgba(217,119,6,0.62)","rgba(217,119,6,0.38)","rgba(22,133,91,0.32)","rgba(22,133,91,0.65)"].map((c,i) => (
+                    <div key={i} className="w-4 h-2.5 rounded-sm" style={{ backgroundColor: c }} />
+                  ))}
+                  <span className="text-[8px] text-webinar-ink-faint tracking-wide">High</span>
+                  <span className="ml-auto text-[8px] text-webinar-accent font-semibold tracking-wide">2 teams flagged</span>
+                </div>
               </div>
             </ScrollReveal>
           </div>
