@@ -12,7 +12,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse 65% 55% at 50% 50%, oklch(0.56 0.22 264 / 0.13), transparent 70%)",
+            "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(22,133,91,0.08), transparent 70%)",
         }}
       />
 
@@ -22,7 +22,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           backgroundImage:
-            "radial-gradient(circle, oklch(0.97 0.007 264 / 0.06) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(22,133,91,0.08) 1px, transparent 1px)",
           backgroundSize: "36px 36px",
         }}
       />
@@ -71,7 +71,7 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <a
             href="#register"
-            className="webinar-cta-btn px-8 py-4 rounded-full font-semibold text-white text-sm tracking-wide [box-shadow:0_0_24px_oklch(0.55_0.24_255_/_0.45)] hover:[box-shadow:0_0_40px_oklch(0.55_0.24_255_/_0.65)] hover:-translate-y-0.5"
+            className="webinar-cta-btn px-8 py-4 rounded-full font-semibold text-white text-sm tracking-wide [box-shadow:0_0_24px_rgba(22,133,91,0.35)] hover:[box-shadow:0_0_40px_rgba(22,133,91,0.55)] hover:-translate-y-0.5"
           >
             Reserve My Spot
           </a>
@@ -98,7 +98,7 @@ export function Hero() {
         >
           <path
             d="M8 3v10M4 9l4 4 4-4"
-            stroke="oklch(0.42 0.012 264)"
+            stroke="#6B7280"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"

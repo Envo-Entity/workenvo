@@ -70,7 +70,7 @@ export function JourneyThread() {
               <div
                 className={`w-[9px] h-[9px] rounded-full border transition-all duration-300 flex-shrink-0 ${
                   i === active
-                    ? "border-webinar-accent bg-webinar-accent [box-shadow:0_0_12px_oklch(0.56_0.22_264_/_0.65)]"
+                    ? "border-webinar-accent bg-webinar-accent [box-shadow:0_0_12px_rgba(22,133,91,0.5)]"
                     : i < active
                     ? "border-webinar-accent/50 bg-webinar-accent/25"
                     : "border-webinar-wire bg-transparent group-hover:border-webinar-wire/80"

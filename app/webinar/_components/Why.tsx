@@ -21,7 +21,7 @@ export function Why() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, oklch(0.56 0.22 264 / 0.09), transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(22,133,91,0.06), transparent 70%)",
         }}
       />
 

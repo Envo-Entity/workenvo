@@ -50,16 +50,6 @@ export function Learn() {
       id="learn"
       className="relative py-32 md:py-40 px-6 overflow-hidden"
     >
-      {/* Subtle top section divider fade */}
-      <div
-        className="absolute top-0 inset-x-0 h-32 pointer-events-none"
-        aria-hidden="true"
-        style={{
-          background:
-            "linear-gradient(to bottom, oklch(0.08 0.012 264), transparent)",
-        }}
-      />
-
       <div className="relative z-10 max-w-6xl mx-auto">
         <ScrollReveal>
           <span className="webinar-chapter-label block mb-6">03 &mdash; What You&apos;ll Learn</span>

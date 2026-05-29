@@ -26,7 +26,7 @@ export function Nav() {
           <BrandLogo
             className="shrink-0"
             logoHeightClassName="h-8"
-            imageClassName="drop-shadow-[0_0_18px_oklch(0.56_0.22_264_/_0.35)]"
+            imageClassName="drop-shadow-[0_0_18px_rgba(22,133,91,0.25)]"
             textClassName="!text-webinar-ink text-xl tracking-tight"
             priority
           />
@@ -34,7 +34,7 @@ export function Nav() {
 
         <a
           href="#register"
-          className="text-sm font-semibold px-5 py-2.5 rounded-full bg-webinar-accent text-webinar-ink transition-all duration-200 hover:bg-webinar-accent/90 [box-shadow:0_0_20px_oklch(0.56_0.22_264_/_0.35)] hover:[box-shadow:0_0_28px_oklch(0.56_0.22_264_/_0.55)]"
+          className="text-sm font-semibold px-5 py-2.5 rounded-full bg-webinar-accent text-white transition-all duration-200 hover:bg-webinar-violet [box-shadow:0_0_20px_rgba(22,133,91,0.3)] hover:[box-shadow:0_0_28px_rgba(22,133,91,0.45)]"
         >
           Register Now
         </a>

@@ -14,7 +14,7 @@ export function RegisterCTA() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, oklch(0.56 0.22 264 / 0.17), transparent 65%)",
+            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(22,133,91,0.08), transparent 65%)",
         }}
       />
 
@@ -26,7 +26,7 @@ export function RegisterCTA() {
           <BrandLogo
             className="inline-flex justify-center mb-8 rounded-full border border-webinar-wire/45 bg-webinar-surface/45 px-5 py-3"
             logoHeightClassName="h-9"
-            imageClassName="drop-shadow-[0_0_18px_oklch(0.56_0.22_264_/_0.28)]"
+            imageClassName="drop-shadow-[0_0_18px_rgba(22,133,91,0.2)]"
             textClassName="!text-webinar-ink text-2xl"
           />
         </ScrollReveal>
@@ -59,7 +59,7 @@ export function RegisterCTA() {
         <ScrollReveal delay={300}>
           <a
             href="#"
-            className="webinar-cta-btn inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-white text-lg tracking-wide hover:-translate-y-1 [box-shadow:0_0_36px_oklch(0.55_0.24_255_/_0.5)] hover:[box-shadow:0_0_56px_oklch(0.55_0.24_255_/_0.7)]"
+            className="webinar-cta-btn inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-white text-lg tracking-wide hover:-translate-y-1 [box-shadow:0_0_36px_rgba(22,133,91,0.4)] hover:[box-shadow:0_0_56px_rgba(22,133,91,0.6)]"
           >
             Register For the Webinar
           </a>

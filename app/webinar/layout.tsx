@@ -1,19 +1,4 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Manrope } from "next/font/google";
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-webinar-bricolage",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-const manrope = Manrope({
-  variable: "--font-webinar-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "The Hidden Workforce Problems AI Is Finally Exposing - Workenvo Webinar",
@@ -43,9 +28,7 @@ export default function WebinarLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section
-      className={`${bricolage.variable} ${manrope.variable} min-h-screen bg-webinar-page text-webinar-ink font-webinar-sans antialiased`}
-    >
+    <section className="min-h-screen bg-webinar-page text-webinar-ink antialiased">
       {children}
     </section>
   );

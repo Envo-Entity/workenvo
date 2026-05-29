@@ -17,13 +17,13 @@ export function Audience() {
       id="audience"
       className="relative py-32 md:py-40 px-6 bg-webinar-surface overflow-hidden"
     >
-      {/* Teal ambient glow */}
+      {/* Green ambient glow */}
       <div
         className="absolute top-0 right-0 w-80 h-80 pointer-events-none"
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse at 100% 0%, oklch(0.75 0.16 174 / 0.05), transparent 60%)",
+            "radial-gradient(ellipse at 100% 0%, rgba(22,133,91,0.05), transparent 60%)",
         }}
       />
 

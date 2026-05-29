@@ -10,8 +10,8 @@
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-brand: var(--font-brand);
-  --font-webinar-heading: var(--font-webinar-bricolage);
-  --font-webinar-sans: var(--font-webinar-manrope);
+  --font-webinar-heading: var(--font-serif);
+  --font-webinar-sans: var(--font-sans);
 
   /* Workenvo Brand Tokens — warm, light, human */
   --color-we-bg: #FFFFFF;
@@ -63,17 +63,17 @@
 }
 
 @theme {
-  --color-webinar-page: oklch(0.08 0.012 264);
-  --color-webinar-surface: oklch(0.13 0.016 264);
-  --color-webinar-raised: oklch(0.18 0.020 264);
-  --color-webinar-accent: oklch(0.56 0.22 264);
-  --color-webinar-violet: oklch(0.52 0.22 295);
-  --color-webinar-teal: oklch(0.75 0.16 174);
-  --color-webinar-gold: oklch(0.76 0.16 68);
-  --color-webinar-ink: oklch(0.97 0.007 264);
-  --color-webinar-ink-dim: oklch(0.66 0.012 264);
-  --color-webinar-ink-faint: oklch(0.42 0.012 264);
-  --color-webinar-wire: oklch(0.22 0.016 264);
+  --color-webinar-page: #FFFFFF;
+  --color-webinar-surface: #F5F9F7;
+  --color-webinar-raised: #ECFDF5;
+  --color-webinar-accent: #16855B;
+  --color-webinar-violet: #0F6E50;
+  --color-webinar-teal: #16855B;
+  --color-webinar-gold: #D97706;
+  --color-webinar-ink: #111827;
+  --color-webinar-ink-dim: #374151;
+  --color-webinar-ink-faint: #6B7280;
+  --color-webinar-wire: #E5E7EB;
 }
 
 :root {
@@ -448,15 +448,15 @@
   }
 }
 
-/* Webinar CTA — sliding bluish gradient */
+/* Webinar CTA — sliding green gradient */
 .webinar-cta-btn {
   --btn-gradient: linear-gradient(
     135deg,
-    oklch(0.62 0.19 230),
-    oklch(0.55 0.24 255),
-    oklch(0.50 0.25 270),
-    oklch(0.55 0.24 255),
-    oklch(0.62 0.19 230)
+    #16855B,
+    #0F6E50,
+    #065F46,
+    #0F6E50,
+    #16855B
   );
   background: var(--btn-gradient);
   background-size: 300% 100%;
@@ -485,12 +485,12 @@
 }
 
 .webinar-chapter-label {
-  font-family: var(--font-webinar-manrope), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: oklch(0.56 0.22 264);
+  color: #16855B;
 }
 
 @media (prefers-reduced-motion: reduce) {

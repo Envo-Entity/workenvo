@@ -19,9 +19,9 @@ export function Speaker() {
         {/* Logo / brand name */}
         <ScrollReveal delay={140}>
           <BrandLogo
-            className="inline-flex justify-center rounded-full border border-webinar-wire/50 bg-webinar-page/55 px-7 py-4 mb-12 shadow-[0_0_60px_oklch(0.56_0.22_264_/_0.16)]"
+            className="inline-flex justify-center rounded-full border border-webinar-wire/50 bg-webinar-page/55 px-7 py-4 mb-12 shadow-[0_0_60px_rgba(22,133,91,0.1)]"
             logoHeightClassName="h-12 md:h-16"
-            imageClassName="drop-shadow-[0_0_28px_oklch(0.56_0.22_264_/_0.32)]"
+            imageClassName="drop-shadow-[0_0_28px_rgba(22,133,91,0.2)]"
             textClassName="!text-webinar-ink text-[clamp(2rem,4vw,3.5rem)] tracking-tight"
           />
         </ScrollReveal>
