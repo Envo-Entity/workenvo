@@ -57,8 +57,8 @@ export function Learn() {
 
         <ScrollReveal delay={80}>
           <h2
-            className="font-webinar-heading font-bold text-webinar-ink leading-[1.1] max-w-2xl mb-16"
-            style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)" }}
+            className="font-webinar-heading font-normal text-webinar-ink max-w-2xl mb-16"
+            style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
           >
             What This Webinar Will Cover
           </h2>
@@ -78,7 +78,7 @@ export function Learn() {
                 </span>
 
                 {/* Title */}
-                <h3 className="font-webinar-heading font-semibold text-webinar-ink leading-[1.3]" style={{ fontSize: "clamp(1rem, 1vw + 0.4rem, 1.15rem)" }}>
+                <h3 className="font-webinar-heading font-normal text-webinar-ink" style={{ fontSize: "clamp(1rem, 1vw + 0.4rem, 1.15rem)", lineHeight: 1.3, letterSpacing: "-0.02em" }}>
                   {card.title}
                 </h3>
 

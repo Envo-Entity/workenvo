@@ -46,8 +46,8 @@ export function Why() {
         {/* Large headline */}
         <ScrollReveal delay={80}>
           <h2
-            className="font-webinar-heading font-bold text-webinar-ink leading-[1.08] max-w-4xl mb-12"
-            style={{ fontSize: "clamp(2.2rem, 4vw + 0.5rem, 4.25rem)" }}
+            className="font-webinar-heading font-normal text-webinar-ink max-w-4xl mb-12"
+            style={{ fontSize: "clamp(2.2rem, 4vw + 0.5rem, 4.25rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
           >
             AI Will Not Replace Human Leadership.
             <br />
@@ -103,8 +103,8 @@ export function Why() {
         <ScrollReveal delay={160 + capabilities.length * 110 + 120}>
           <div className="mt-16 max-w-xl">
             <p
-              className="font-webinar-heading font-bold text-webinar-ink leading-[1.2]"
-              style={{ fontSize: "clamp(1.35rem, 2vw + 0.3rem, 2rem)" }}
+              className="font-webinar-heading font-normal text-webinar-ink"
+              style={{ fontSize: "clamp(1.35rem, 2vw + 0.3rem, 2rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
               This is where AI becomes transformational.
             </p>

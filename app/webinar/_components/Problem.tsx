@@ -33,8 +33,8 @@ export function Problem() {
 
           <ScrollReveal delay={80}>
             <h2
-              className="font-webinar-heading font-bold text-webinar-ink leading-[1.1] mb-8"
-              style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)" }}
+              className="font-webinar-heading font-normal text-webinar-ink mb-8"
+              style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
             >
               Organisations Are Solving Problems
               <br />
@@ -86,8 +86,8 @@ export function Problem() {
           {/* Closing statement */}
           <ScrollReveal delay={180 + signals.length * 130 + 100}>
             <p
-              className="mt-10 font-webinar-heading font-bold text-webinar-accent"
-              style={{ fontSize: "clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem)" }}
+              className="mt-10 font-webinar-heading font-normal text-webinar-accent"
+              style={{ fontSize: "clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem)", letterSpacing: "-0.02em" }}
             >
               AI is changing that.
             </p>

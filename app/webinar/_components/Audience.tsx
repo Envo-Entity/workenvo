@@ -36,8 +36,8 @@ export function Audience() {
 
           <ScrollReveal delay={80}>
             <h2
-              className="font-webinar-heading font-bold text-webinar-ink leading-[1.1]"
-              style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)" }}
+              className="font-webinar-heading font-normal text-webinar-ink"
+              style={{ fontSize: "clamp(2rem, 3vw + 0.5rem, 3.25rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
             >
               Designed For
               <br />

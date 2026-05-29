@@ -37,8 +37,8 @@ export function RegisterCTA() {
 
         <ScrollReveal delay={120}>
           <h2
-            className="font-webinar-heading font-bold text-webinar-ink leading-[1.08] mb-6"
-            style={{ fontSize: "clamp(2.2rem, 4vw + 0.5rem, 4rem)" }}
+            className="font-webinar-heading font-normal text-webinar-ink mb-6"
+            style={{ fontSize: "clamp(2.2rem, 4vw + 0.5rem, 4rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
           >
             The Hidden Signals Already Exist
             <br />

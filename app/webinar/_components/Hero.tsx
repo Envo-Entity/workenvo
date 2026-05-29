@@ -40,8 +40,8 @@ export function Hero() {
 
         {/* Main headline */}
         <h1
-          className="font-webinar-heading font-bold tracking-tight text-webinar-ink leading-[1.04] mb-7"
-          style={{ fontSize: "clamp(2.6rem, 5.5vw + 0.5rem, 5.25rem)" }}
+          className="font-webinar-heading font-normal text-webinar-ink mb-7"
+          style={{ fontSize: "clamp(52px, 8vw, 100px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
         >
           The Hidden Workforce Problems
           <br />
