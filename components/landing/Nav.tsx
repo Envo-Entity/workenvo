@@ -59,7 +59,7 @@ export default function Nav() {
         {/* Right CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="#"
+            href="/login"
             className="text-sm transition-colors duration-200"
             style={{ color: "#6B7280", fontWeight: 450 }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
