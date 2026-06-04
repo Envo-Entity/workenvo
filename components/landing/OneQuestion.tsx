@@ -10,7 +10,6 @@ export default function OneQuestion() {
     >
       <div
         className="grid grid-cols-1 lg:grid-cols-2"
-        style={{ minHeight: "700px" }}
       >
         {/* LEFT — text content */}
         <div
@@ -145,7 +144,7 @@ export default function OneQuestion() {
           style={{
             position: "relative",
             overflow: "hidden",
-            minHeight: "clamp(280px, 50vw, 520px)",
+            aspectRatio: "3/4",
           }}
           className="block"
         >

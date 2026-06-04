@@ -19,9 +19,9 @@ import {
 // ── Design canvas for cards ───────────────────────────────────────────────
 const CARD_W = 720;
 const CARD_H = 370;
-// Mobile: portrait canvas — taller, slightly narrower
-const CARD_W_MOBILE = 380;
-const CARD_H_MOBILE = 520;
+// Mobile: smaller card — content top, square image bottom
+const CARD_W_MOBILE = 340;
+const CARD_H_MOBILE = 580;
 
 /* ── Card data ────────────────────────────────────────────────────────── */
 
@@ -34,7 +34,42 @@ type CardDef = {
   bg: string;
   statusLabel: string;
   dataPoints: DataPoint[];
+  imageUrl: string;
 };
+
+/*
+ * AI image prompts (square format, no white background):
+ *
+ * card-resignation.webp —
+ *   A single crisp white envelope and folded resignation letter resting on a
+ *   polished dark walnut desk surface. Warm amber desk lamp casts light from
+ *   the right, the letter casting a short shadow on the wood grain. In the
+ *   background slightly out of focus an empty black office chair is pushed
+ *   neatly back from the desk. A half-drunk coffee mug sits to one side.
+ *   Viewed from a 40-degree overhead angle. Quiet mood of finality. No text
+ *   visible on the letter. Deep red tonal warmth in shadows.
+ *
+ * card-manager.webp —
+ *   A figure in a dark blazer stands at the head of a long conference table
+ *   with arms tightly crossed, viewed from slightly behind their left shoulder
+ *   so no face is visible. Three seated employees arranged along the table —
+ *   one with arms folded staring sideways out the window, one slumped over a
+ *   closed laptop with head resting on a hand, one looking down at a notepad
+ *   drawing circles. Cold white fluorescent overhead lighting. The standing
+ *   figure casts a long hard shadow across the table. Rows of empty chairs
+ *   along the far wall. The atmosphere is tense and draining. Amber-brown
+ *   tonal palette.
+ *
+ * card-grievance.webp —
+ *   Two office workers sitting at adjacent desks in an open-plan office just
+ *   after sunset, room lit primarily by blue monitor glow. Left worker has
+ *   turned their head sharply to glare sideways, jaw tight, hand gripping a
+ *   pen. Right worker has shoulders raised and hunched, staring rigidly at
+ *   their own screen. A single crumpled yellow sticky note sits on the desk
+ *   surface between them. Other nearby desks are empty and dark. The narrow
+ *   space between the two workers feels charged and uncrossable. Deep indigo
+ *   blue shadows throughout.
+ */
 
 const CARDS: CardDef[] = [
   {
@@ -43,6 +78,7 @@ const CARDS: CardDef[] = [
     sub: "High performers don't leave overnight. The signals were there for months.",
     bg: "#B91C1C",
     statusLabel: "CRITICAL",
+    imageUrl: "/images/card-grievance.webp",
     dataPoints: [
       {
         Icon: AlertTriangle,
@@ -58,6 +94,7 @@ const CARDS: CardDef[] = [
     sub: "One bad manager quietly drains a whole team before anyone escalates.",
     bg: "#B45309",
     statusLabel: "HIGH RISK",
+    imageUrl: "/images/card-manager.webp",
     dataPoints: [
       {
         Icon: EyeOff,
@@ -76,6 +113,7 @@ const CARDS: CardDef[] = [
     sub: "Conflict and toxic behaviour build slowly — then arrive all at once.",
     bg: "#3730A3",
     statusLabel: "SILENT RISK",
+    imageUrl: "/images/card-resignation.webp",
     dataPoints: [
       {
         Icon: BarChart2,
@@ -95,6 +133,25 @@ const CARDS: CardDef[] = [
 
 /* ── Stacked card component ───────────────────────────────────────────── */
 
+function CardImage({ src, bg }: { src: string; bg: string }) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: `color-mix(in srgb, ${bg} 60%, #000 40%)`,
+        overflow: "hidden",
+      }}
+    >
+      <img
+        src={src}
+        alt=""
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
+    </div>
+  );
+}
+
 function ProblemCard({
   card,
   style,
@@ -110,6 +167,132 @@ function ProblemCard({
   cardH?: number;
   mobile?: boolean;
 }) {
+  const contentNode = (
+    <>
+      {/* Top row: number + status badge */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: mobile ? "16px" : "20px",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "13px",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            color: "rgba(255,255,255,0.45)",
+          }}
+        >
+          ({card.number})
+        </span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "7px",
+            padding: "5px 12px",
+            borderRadius: "100px",
+            background: "rgba(255,255,255,0.15)",
+          }}
+        >
+          <span
+            style={{
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: "#FFFFFF",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "10px",
+              fontWeight: 800,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase" as const,
+              color: "#FFFFFF",
+              fontFamily: "var(--font-sans)",
+            }}
+          >
+            {card.statusLabel}
+          </span>
+        </div>
+      </div>
+
+      {/* Heading + subtitle */}
+      <div style={{ marginBottom: mobile ? "18px" : "20px" }}>
+        <h3
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: mobile ? "38px" : "32px",
+            lineHeight: 1.08,
+            fontWeight: 700,
+            color: "#FFFFFF",
+            marginBottom: "8px",
+          }}
+        >
+          {card.label}
+        </h3>
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: mobile ? "13px" : "13px",
+            color: "rgba(255,255,255,0.6)",
+            lineHeight: 1.45,
+            fontWeight: 500,
+          }}
+        >
+          {card.sub}
+        </p>
+      </div>
+
+      {/* Divider */}
+      <div
+        style={{
+          height: "1px",
+          background: "rgba(255,255,255,0.15)",
+          marginBottom: mobile ? "18px" : "18px",
+        }}
+      />
+
+      {/* Data points */}
+      <div style={{ display: "flex", flexDirection: "column", gap: mobile ? "14px" : "14px" }}>
+        {card.dataPoints.map(({ Icon, text }, j) => (
+          <div key={j} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div
+              style={{
+                flexShrink: 0,
+                width: "30px",
+                height: "30px",
+                borderRadius: "8px",
+                background: "rgba(255,255,255,0.12)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon size={13} color="rgba(255,255,255,0.9)" strokeWidth={2.5} />
+            </div>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: mobile ? "13px" : "13px",
+                lineHeight: 1.4,
+                color: "rgba(255,255,255,0.85)",
+                fontWeight: 500,
+              }}
+            >
+              {text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
   return (
     <motion.div
       style={{
@@ -121,7 +304,7 @@ function ProblemCard({
         ...style,
       }}
     >
-      {/* Inner content — fixed design-space dimensions, scaled uniformly */}
+      {/* Fixed design-space canvas scaled uniformly */}
       <div
         style={{
           width: cardW,
@@ -129,145 +312,54 @@ function ProblemCard({
           transform: `scale(${scale})`,
           transformOrigin: "top left",
           display: "flex",
-          flexDirection: "column",
-          padding: mobile ? "36px 32px" : "40px 44px",
+          flexDirection: mobile ? "column" : "row",
           position: "relative",
         }}
       >
-        {/* Top row: number + status badge */}
+        {/* Desktop: image on left (square = full card height) */}
+        {!mobile && (
+          <div style={{ width: cardH, height: cardH, flexShrink: 0 }}>
+            <CardImage src={card.imageUrl} bg={card.bg} />
+          </div>
+        )}
+
+        {/* Content column */}
         <div
           style={{
+            flex: 1,
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "22px",
+            flexDirection: "column",
+            padding: mobile ? "28px 24px 20px" : "32px 26px 32px 24px",
+            overflow: "hidden",
           }}
         >
-          <span
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "13px",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              color: "rgba(255,255,255,0.45)",
-            }}
-          >
-            ({card.number})
-          </span>
+          {contentNode}
+        </div>
+
+        {/* Mobile: square image at bottom, centered */}
+        {mobile && (
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "7px",
-              padding: "5px 12px",
-              borderRadius: "100px",
-              background: "rgba(255,255,255,0.15)",
+              justifyContent: "center",
+              paddingBottom: "24px",
+              paddingInline: "24px",
+              flexShrink: 0,
             }}
           >
-            <span
-              style={{
-                width: "5px",
-                height: "5px",
-                borderRadius: "50%",
-                background: "#FFFFFF",
-              }}
-            />
-            <span
-              style={{
-                fontSize: "10px",
-                fontWeight: 800,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase" as const,
-                color: "#FFFFFF",
-                fontFamily: "var(--font-sans)",
-              }}
-            >
-              {card.statusLabel}
-            </span>
-          </div>
-        </div>
-
-        {/* Heading + subtitle */}
-        <div style={{ marginBottom: "24px" }}>
-          <h3
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: mobile ? "52px" : "44px",
-              lineHeight: 1.08,
-              fontWeight: 700,
-              color: "#FFFFFF",
-              marginBottom: "8px",
-            }}
-          >
-            {card.label}
-          </h3>
-          <p
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "15px",
-              color: "rgba(255,255,255,0.6)",
-              lineHeight: 1.5,
-              fontWeight: 500,
-            }}
-          >
-            {card.sub}
-          </p>
-        </div>
-
-        {/* Divider */}
-        <div
-          style={{
-            height: "1px",
-            background: "rgba(255,255,255,0.15)",
-            marginBottom: "22px",
-          }}
-        />
-
-        {/* Data points */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-          }}
-        >
-          {card.dataPoints.map(({ Icon, text }, j) => (
             <div
-              key={j}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "14px",
+                width: "160px",
+                height: "160px",
+                borderRadius: "14px",
+                overflow: "hidden",
+                flexShrink: 0,
               }}
             >
-              <div
-                style={{
-                  flexShrink: 0,
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "9px",
-                  background: "rgba(255,255,255,0.12)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Icon size={14} color="rgba(255,255,255,0.9)" strokeWidth={2.5} />
-              </div>
-              <p
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "14.5px",
-                  lineHeight: 1.45,
-                  color: "rgba(255,255,255,0.85)",
-                  fontWeight: 500,
-                }}
-              >
-                {text}
-              </p>
+              <CardImage src={card.imageUrl} bg={card.bg} />
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );

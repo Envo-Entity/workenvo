@@ -17,7 +17,7 @@ export default function TimingProblem() {
         {/* LEFT — atmospheric image */}
         <div
           className="relative lg:block"
-          style={{ minHeight: "clamp(260px, 40vw, 640px)" }}
+          style={{ aspectRatio: "3/4", overflow: "hidden" }}
         >
           <img
             src="/images/timing-problem-exhausted-hr.webp"
@@ -187,20 +187,6 @@ export default function TimingProblem() {
               ))}
             </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.75 }}
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "clamp(14px, 1.5vw, 17px)",
-                fontWeight: 500,
-                color: "#16855B",
-              }}
-            >
-              HR spends most of its time reacting. We think it&apos;s time that changed.
-            </motion.p>
           </div>
         </div>
       </div>

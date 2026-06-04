@@ -152,12 +152,32 @@ export default function Pricing() {
               color: "#6B7280",
               lineHeight: 1.65,
               maxWidth: "460px",
-              margin: "0 auto",
+              margin: "0 auto 20px",
             }}
           >
             Begin with the early warning system. Expand into the full platform
             when you&apos;re ready. From €1 per employee per month.
           </p>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "#ECFDF5",
+              border: "1px solid rgba(22,133,91,0.2)",
+              borderRadius: "100px",
+              padding: "5px 14px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#16855B",
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Getting started is free
+          </span>
         </motion.div>
 
         {/* Tier cards */}
