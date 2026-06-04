@@ -15,7 +15,7 @@ export default function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 nav-border transition-all duration-300 ${
-        scrolled ? "py-3 shadow-sm" : "py-4"
+        scrolled ? "py-2 shadow-sm" : "py-2.5"
       }`}
       style={{
         backdropFilter: "blur(16px)",
@@ -28,13 +28,13 @@ export default function Nav() {
         <a href="/" className="flex items-center">
           <BrandLogo
             priority
-            logoHeightClassName="h-8 md:h-9"
-            textClassName="text-xl md:text-2xl tracking-[-0.03em]"
+            logoHeightClassName="h-7 md:h-7"
+            textClassName="text-lg md:text-xl tracking-[-0.03em]"
           />
         </a>
 
         {/* Center Nav Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           {[
             { name: "How it Works", href: "#how-it-works" },
             { name: "Product", href: "#product" },
@@ -45,8 +45,8 @@ export default function Nav() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium transition-colors duration-200"
-                style={{ color: "#6B7280" }}
+                className="text-sm transition-colors duration-200"
+                style={{ color: "#6B7280", fontWeight: 450 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
               >
@@ -57,11 +57,11 @@ export default function Nav() {
         </div>
 
         {/* Right CTAs */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
           <a
             href="#"
-            className="text-sm font-medium transition-colors duration-200"
-            style={{ color: "#6B7280" }}
+            className="text-sm transition-colors duration-200"
+            style={{ color: "#6B7280", fontWeight: 450 }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
           >
@@ -69,7 +69,7 @@ export default function Nav() {
           </a>
           <a
             href="#pricing"
-            className="btn-primary text-sm px-5 py-2.5 rounded-xl font-medium"
+            className="btn-primary text-sm px-4 py-2 rounded-lg font-medium"
           >
             Start free
           </a>

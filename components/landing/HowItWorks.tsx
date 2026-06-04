@@ -35,7 +35,7 @@ const STEPS = [
 export default function HowItWorks() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const [activeSteps, setActiveSteps] = useState<number[]>([]);
+  const [activeSteps, setActiveSteps] = useState<number[]>([0, 1, 2, 3]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -74,7 +74,7 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative py-32 px-6 overflow-hidden"
+      className="relative py-20 px-6 overflow-hidden"
       style={{
         background: "linear-gradient(160deg, #0f2027 0%, #1a3a2a 50%, #16855B20 100%)",
         backgroundColor: "#111827",
@@ -96,7 +96,7 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-20"
+          className="text-center mb-14"
         >
           <p
             style={{

@@ -168,7 +168,7 @@ function OutcomeCard({
 export default function OutcomesSection() {
   return (
     <section
-      className="relative py-32 px-6 overflow-hidden"
+      className="relative py-20 px-6 overflow-hidden"
       style={{ background: "#F9FAFB" }}
     >
       <div className="max-w-6xl mx-auto">
@@ -255,7 +255,7 @@ export default function OutcomesSection() {
               background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)",
             }}
           >
-            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" }}>
+            <div>
               <div>
                 <p
                   style={{
@@ -271,25 +271,6 @@ export default function OutcomesSection() {
                 </p>
                 <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "rgba(255,255,255,0.55)" }}>
                   From reactive admin to strategic foresight.
-                </p>
-              </div>
-              {/* Photo label */}
-              <div
-                style={{
-                  padding: "12px 16px",
-                  background: "rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(8px)",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  flexShrink: 0,
-                  maxWidth: "280px",
-                }}
-              >
-                <p style={{ fontFamily: "var(--font-sans)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "4px" }}>
-                  Photo needed
-                </p>
-                <p style={{ fontFamily: "var(--font-sans)", fontSize: "11px", color: "rgba(255,255,255,0.55)", lineHeight: 1.5 }}>
-                  A confident HR director, arms crossed, smiling — standing in a bright boardroom, presenting to colleagues off-screen. Body language of someone who has the answer before the question is asked.
                 </p>
               </div>
             </div>

@@ -58,8 +58,13 @@ export default function Hero() {
 
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{ minHeight: "100vh", backgroundColor: "#ffffff", perspective: "1200px" }}
+      className="relative w-full overflow-hidden flex flex-col justify-center pb-14 sm:pb-20 lg:pb-36 xl:pb-48"
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#ffffff",
+        perspective: "1200px",
+        paddingTop: "clamp(44px, 5vh, 52px)",
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -121,17 +126,16 @@ export default function Hero() {
         }}
       />
 
-      {/* Text Content — pushed lower for breathing room */}
+      {/* Text Content */}
       <motion.div
-        className="pt-[35%] lg:pt-[20%] xl:pt-[13%]"
         style={{
           position: "relative",
           zIndex: 2,
           maxWidth: "1200px",
           margin: "0 auto",
+          width: "100%",
           paddingLeft: "24px",
           paddingRight: "24px",
-          paddingBottom: "60px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -256,13 +260,16 @@ export default function Hero() {
               fontFamily: "var(--font-sans)",
               padding: "14px 32px",
               color: "#111111",
-              background: "rgba(17,17,17,0.06)",
-              border: "1px solid rgba(17,17,17,0.1)",
+              background: "rgba(255,255,255,0.55)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "1px solid rgba(255,255,255,0.7)",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
               textDecoration: "none",
               transition: "background 160ms cubic-bezier(0.16,1,0.3,1)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(17,17,17,0.09)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(17,17,17,0.06)")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.72)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.55)")}
           >
             See how it works
             <motion.span

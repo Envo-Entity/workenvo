@@ -31,7 +31,7 @@ export default function SignalGrid() {
   return (
     <section
       id="signals"
-      className="relative py-28 px-6 overflow-hidden"
+      className="relative py-20 px-6 overflow-hidden"
       style={{ background: "#FFFFFF" }}
     >
       {/* Faint background pattern */}
@@ -160,76 +160,39 @@ export default function SignalGrid() {
           })}
         </div>
 
-        {/* Bottom — split: closing line left, people image right */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "32px",
-            alignItems: "center",
-          }}
-          className="lg:grid-cols-2"
+        {/* Bottom — centered closing statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          style={{ textAlign: "center", paddingTop: "8px" }}
         >
-          {/* Closing text */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(26px, 3.5vw, 44px)",
-                fontWeight: 400,
-                lineHeight: 1.2,
-                color: "#111827",
-                marginBottom: "16px",
-              }}
-            >
-              Every one of these used to surface{" "}
-              <span style={{ color: "#B91C1C", fontStyle: "italic" }}>too late.</span>
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(26px, 3.5vw, 44px)",
-                fontWeight: 400,
-                lineHeight: 1.2,
-                color: "#16855B",
-              }}
-            >
-              Now it surfaces today.
-            </p>
-          </motion.div>
-
-          {/* People image — 1:1 conversation */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          <p
             style={{
-              borderRadius: "20px",
-              overflow: "hidden",
-              position: "relative",
-              aspectRatio: "4/3",
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 3.8vw, 48px)",
+              fontWeight: 400,
+              lineHeight: 1.2,
+              color: "#111827",
+              marginBottom: "8px",
             }}
           >
-            <img
-              src="/images/signal-grid-manager-one-to-one.webp"
-              alt="Manager having a focused 1:1 conversation with an employee"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center",
-              }}
-            />
-          </motion.div>
-        </div>
+            Every one of these used to surface{" "}
+            <span style={{ color: "#B91C1C", fontStyle: "italic" }}>too late.</span>
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 3.8vw, 48px)",
+              fontWeight: 400,
+              lineHeight: 1.2,
+              color: "#16855B",
+            }}
+          >
+            Now it surfaces today.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

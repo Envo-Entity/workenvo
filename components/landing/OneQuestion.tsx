@@ -9,12 +9,8 @@ export default function OneQuestion() {
       style={{ background: "#FFFFFF" }}
     >
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          minHeight: "700px",
-        }}
-        className="lg:grid-cols-2"
+        className="grid grid-cols-1 lg:grid-cols-2"
+        style={{ minHeight: "700px" }}
       >
         {/* LEFT — text content */}
         <div
