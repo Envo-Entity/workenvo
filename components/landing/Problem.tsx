@@ -1,587 +1,616 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
-import type { MotionStyle } from "motion/react";
-import type { ElementType } from "react";
 import {
-  AlertTriangle,
-  Clock,
-  TrendingDown,
-  BarChart2,
-  EyeOff,
-  UserMinus,
-  DollarSign,
-  ShieldAlert,
-  Users,
-} from "lucide-react";
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "motion/react";
 
-// ── Design canvas for cards ───────────────────────────────────────────────
-const CARD_W = 720;
-const CARD_H = 370;
-// Mobile: smaller card — content top, square image bottom
-const CARD_W_MOBILE = 340;
-const CARD_H_MOBILE = 580;
-
-/* ── Card data ────────────────────────────────────────────────────────── */
-
-type DataPoint = { Icon: ElementType; text: string };
-
-type CardDef = {
-  number: string;
-  label: string;
-  sub: string;
-  bg: string;
-  statusLabel: string;
-  dataPoints: DataPoint[];
-  imageUrl: string;
-};
-
-/*
- * AI image prompts (square format, no white background):
- *
- * card-resignation.webp —
- *   A single crisp white envelope and folded resignation letter resting on a
- *   polished dark walnut desk surface. Warm amber desk lamp casts light from
- *   the right, the letter casting a short shadow on the wood grain. In the
- *   background slightly out of focus an empty black office chair is pushed
- *   neatly back from the desk. A half-drunk coffee mug sits to one side.
- *   Viewed from a 40-degree overhead angle. Quiet mood of finality. No text
- *   visible on the letter. Deep red tonal warmth in shadows.
- *
- * card-manager.webp —
- *   A figure in a dark blazer stands at the head of a long conference table
- *   with arms tightly crossed, viewed from slightly behind their left shoulder
- *   so no face is visible. Three seated employees arranged along the table —
- *   one with arms folded staring sideways out the window, one slumped over a
- *   closed laptop with head resting on a hand, one looking down at a notepad
- *   drawing circles. Cold white fluorescent overhead lighting. The standing
- *   figure casts a long hard shadow across the table. Rows of empty chairs
- *   along the far wall. The atmosphere is tense and draining. Amber-brown
- *   tonal palette.
- *
- * card-grievance.webp —
- *   Two office workers sitting at adjacent desks in an open-plan office just
- *   after sunset, room lit primarily by blue monitor glow. Left worker has
- *   turned their head sharply to glare sideways, jaw tight, hand gripping a
- *   pen. Right worker has shoulders raised and hunched, staring rigidly at
- *   their own screen. A single crumpled yellow sticky note sits on the desk
- *   surface between them. Other nearby desks are empty and dark. The narrow
- *   space between the two workers feels charged and uncrossable. Deep indigo
- *   blue shadows throughout.
- */
-
-const CARDS: CardDef[] = [
+const CARDS = [
   {
     number: "01",
-    label: "The unexpected resignation",
-    sub: "High performers don't leave overnight. The signals were there for months.",
-    bg: "#B91C1C",
     statusLabel: "CRITICAL",
-    imageUrl: "/images/card-grievance.webp",
-    dataPoints: [
-      {
-        Icon: AlertTriangle,
-        text: "68% of resignations are flagged only at the exit interview",
-      },
-      { Icon: DollarSign, text: "Replacing a key employee costs 6–9 months of salary" },
-      { Icon: Clock, text: "Average disengagement-to-resignation window: 4.2 months of missed signals" },
-    ],
+    title: "The resignation you never saw coming",
+    description:
+      "High performers don't quit overnight. The signals were there for months — ignored, missed, or buried under busier priorities.",
+    stat: "68% of resignations are only flagged at the exit interview",
+    bg: "#B91C1C",
+    image: {
+      filename: "card-grievance.webp",
+      alt: "An unattended resignation letter on a dark office desk.",
+    },
   },
   {
     number: "02",
-    label: "The manager problem",
-    sub: "One bad manager quietly drains a whole team before anyone escalates.",
-    bg: "#B45309",
     statusLabel: "HIGH RISK",
-    imageUrl: "/images/card-manager.webp",
-    dataPoints: [
-      {
-        Icon: EyeOff,
-        text: "1 in 3 managers miss early warning signs on their own team",
-      },
-      { Icon: UserMinus, text: "Manager quality is the #1 driver of voluntary attrition" },
-      {
-        Icon: Users,
-        text: "Most manager issues surface only after the second resignation",
-      },
-    ],
+    title: "The manager nobody warned you about",
+    description:
+      "One corrosive manager can hollow out a whole team over months. By the time the second resignation lands on your desk, the damage is already done.",
+    stat: "Manager quality is the #1 driver of voluntary attrition",
+    bg: "#92400E",
+    image: {
+      filename: "card-manager.webp",
+      alt: "A tense conference room with a standing manager and disengaged team members.",
+    },
   },
   {
     number: "03",
-    label: "The grievance you didn't see forming",
-    sub: "Conflict and toxic behaviour build slowly — then arrive all at once.",
-    bg: "#3730A3",
     statusLabel: "SILENT RISK",
-    imageUrl: "/images/card-resignation.webp",
-    dataPoints: [
-      {
-        Icon: BarChart2,
-        text: "Most formal grievances had detectable early sentiment shifts",
-      },
-      {
-        Icon: ShieldAlert,
-        text: "A single WRC case can cost more than a year of platform fees",
-      },
-      {
-        Icon: TrendingDown,
-        text: "85% of employees won't raise an issue until it's already serious",
-      },
-    ],
+    title: "The grievance already in motion",
+    description:
+      "Conflict and toxic behaviour build in silence before they explode publicly. Most formal cases had detectable early sentiment shifts that were never acted on.",
+    stat: "85% of employees won't raise an issue until it's already serious",
+    bg: "#3730A3",
+    image: {
+      filename: "card-resignation.webp",
+      alt: "Two coworkers at adjacent desks in a strained after-hours office moment.",
+    },
   },
 ];
 
-/* ── Stacked card component ───────────────────────────────────────────── */
-
-function CardImage({ src, bg }: { src: string; bg: string }) {
+function CardImage({
+  filename,
+  alt,
+  bg,
+}: {
+  filename: string;
+  alt: string;
+  bg: string;
+}) {
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
-        background: `color-mix(in srgb, ${bg} 60%, #000 40%)`,
+        background: `color-mix(in srgb, ${bg} 25%, #111827 75%)`,
+        border: `1px solid color-mix(in srgb, ${bg} 42%, rgba(255,255,255,0.18) 58%)`,
+        borderRadius: "22px",
+        position: "relative",
         overflow: "hidden",
+        boxShadow:
+          "0 28px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04) inset",
       }}
     >
-      <img
-        src={src}
-        alt=""
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      <Image
+        src={`/images/${filename}`}
+        alt={alt}
+        fill
+        sizes="(max-width: 767px) calc(100vw - 64px), (max-width: 1200px) 48vw, 560px"
+        quality={88}
+        style={{
+          objectFit: "cover",
+          transform: "scale(1.015)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(6,6,6,0.04) 0%, rgba(6,6,6,0.1) 48%, rgba(6,6,6,0.38) 100%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(circle at 18% 12%, color-mix(in srgb, ${bg} 24%, transparent 76%), transparent 38%)`,
+          mixBlendMode: "screen",
+          opacity: 0.75,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: "1px",
+          borderRadius: "21px",
+          boxShadow:
+            "0 0 0 1px rgba(255,255,255,0.12) inset, 0 -80px 120px rgba(0,0,0,0.2) inset",
+          pointerEvents: "none",
+        }}
       />
     </div>
   );
 }
 
-function ProblemCard({
-  card,
-  style,
-  scale = 1,
-  cardW = CARD_W,
-  cardH = CARD_H,
-  mobile = false,
-}: {
-  card: CardDef;
-  style?: MotionStyle;
-  scale?: number;
-  cardW?: number;
-  cardH?: number;
-  mobile?: boolean;
-}) {
-  const contentNode = (
-    <>
-      {/* Top row: number + status badge */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: mobile ? "16px" : "20px",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "13px",
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            color: "rgba(255,255,255,0.45)",
-          }}
-        >
-          ({card.number})
-        </span>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "7px",
-            padding: "5px 12px",
-            borderRadius: "100px",
-            background: "rgba(255,255,255,0.15)",
-          }}
-        >
-          <span
-            style={{
-              width: "5px",
-              height: "5px",
-              borderRadius: "50%",
-              background: "#FFFFFF",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "10px",
-              fontWeight: 800,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase" as const,
-              color: "#FFFFFF",
-              fontFamily: "var(--font-sans)",
-            }}
-          >
-            {card.statusLabel}
-          </span>
-        </div>
-      </div>
-
-      {/* Heading + subtitle */}
-      <div style={{ marginBottom: mobile ? "18px" : "20px" }}>
-        <h3
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: mobile ? "38px" : "32px",
-            lineHeight: 1.08,
-            fontWeight: 700,
-            color: "#FFFFFF",
-            marginBottom: "8px",
-          }}
-        >
-          {card.label}
-        </h3>
-        <p
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: mobile ? "13px" : "13px",
-            color: "rgba(255,255,255,0.6)",
-            lineHeight: 1.45,
-            fontWeight: 500,
-          }}
-        >
-          {card.sub}
-        </p>
-      </div>
-
-      {/* Divider */}
-      <div
-        style={{
-          height: "1px",
-          background: "rgba(255,255,255,0.15)",
-          marginBottom: mobile ? "18px" : "18px",
-        }}
-      />
-
-      {/* Data points */}
-      <div style={{ display: "flex", flexDirection: "column", gap: mobile ? "14px" : "14px" }}>
-        {card.dataPoints.map(({ Icon, text }, j) => (
-          <div key={j} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div
-              style={{
-                flexShrink: 0,
-                width: "30px",
-                height: "30px",
-                borderRadius: "8px",
-                background: "rgba(255,255,255,0.12)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon size={13} color="rgba(255,255,255,0.9)" strokeWidth={2.5} />
-            </div>
-            <p
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: mobile ? "13px" : "13px",
-                lineHeight: 1.4,
-                color: "rgba(255,255,255,0.85)",
-                fontWeight: 500,
-              }}
-            >
-              {text}
-            </p>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-
-  return (
-    <motion.div
-      style={{
-        position: "absolute",
-        inset: 0,
-        borderRadius: "24px",
-        overflow: "hidden",
-        background: card.bg,
-        ...style,
-      }}
-    >
-      {/* Fixed design-space canvas scaled uniformly */}
-      <div
-        style={{
-          width: cardW,
-          height: cardH,
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-          display: "flex",
-          flexDirection: mobile ? "column" : "row",
-          position: "relative",
-        }}
-      >
-        {/* Desktop: image on left (square = full card height) */}
-        {!mobile && (
-          <div style={{ width: cardH, height: cardH, flexShrink: 0 }}>
-            <CardImage src={card.imageUrl} bg={card.bg} />
-          </div>
-        )}
-
-        {/* Content column */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            padding: mobile ? "28px 24px 20px" : "32px 26px 32px 24px",
-            overflow: "hidden",
-          }}
-        >
-          {contentNode}
-        </div>
-
-        {/* Mobile: square image at bottom, centered */}
-        {mobile && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingBottom: "24px",
-              paddingInline: "24px",
-              flexShrink: 0,
-            }}
-          >
-            <div
-              style={{
-                width: "160px",
-                height: "160px",
-                borderRadius: "14px",
-                overflow: "hidden",
-                flexShrink: 0,
-              }}
-            >
-              <CardImage src={card.imageUrl} bg={card.bg} />
-            </div>
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-/* ── Main component ───────────────────────────────────────────────────── */
-
 export default function Problem() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const cardStackRef = useRef<HTMLDivElement>(null);
-  const [cardScale, setCardScale] = useState(1);
+  const [viewW, setViewW] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const update = () => {
+      setViewW(window.innerWidth);
+      setIsMobile(window.innerWidth < 768);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
-
-  useEffect(() => {
-    const el = cardStackRef.current;
-    if (!el) return;
-    const cw = isMobile ? CARD_W_MOBILE : CARD_W;
-    const ro = new ResizeObserver(([entry]) => {
-      setCardScale(entry.contentRect.width / cw);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [isMobile]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  // ── Card 0: visible at start, exits during act 1 ──
-  const c0Y = useTransform(scrollYProgress, [0, 0.15, 0.35], [0, 0, -1000]);
-  const c0Scale = useTransform(scrollYProgress, [0, 0.15, 0.35], [1, 1, 0.95]);
-  const c0Opacity = useTransform(scrollYProgress, [0, 0.15, 0.35], [1, 1, 1]);
-
-  // ── Card 1: waits behind c0, enters act 1, exits act 2 ──
-  const c1Y = useTransform(
+  const trackX = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7],
-    [40, 40, 0, 0, -1000],
-  );
-  const c1Scale = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7],
-    [0.95, 0.95, 1, 1, 0.95],
-  );
-  const c1Opacity = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7],
-    [1, 1, 1, 1, 1],
+    [0, 1],
+    [0, -(CARDS.length - 1) * (viewW || 1440)],
   );
 
-  // ── Card 2: waits behind c1, enters act 2, holds act 3 ──
-  const c2Y = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7, 0.85],
-    [80, 80, 40, 40, 0, 0],
-  );
-  const c2Scale = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7, 0.85],
-    [0.9, 0.9, 0.95, 0.95, 1, 1],
-  );
-  const c2Opacity = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.35, 0.5, 0.7, 0.85],
-    [1, 1, 1, 1, 1, 1],
-  );
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
-  // Payoff
-  const payoffOpacity = useTransform(scrollYProgress, [0.84, 0.96], [0, 1]);
-  const payoffY = useTransform(scrollYProgress, [0.84, 0.96], [30, 0]);
-
-  // Heading stays fully visible throughout — cards slide above it
-
-  const cardStyles = [
-    { opacity: c0Opacity, scale: c0Scale, y: c0Y, zIndex: 3 },
-    { opacity: c1Opacity, scale: c1Scale, y: c1Y, zIndex: 2 },
-    { opacity: c2Opacity, scale: c2Scale, y: c2Y, zIndex: 1 },
-  ];
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const idx = Math.round(v * (CARDS.length - 1));
+    setActiveCard(Math.min(Math.max(idx, 0), CARDS.length - 1));
+  });
 
   return (
     <section
       ref={sectionRef}
-      style={{ minHeight: "350vh", background: "#F8FAF9" }}
-      className="relative"
+      style={{
+        minHeight: isMobile ? "auto" : "400vh",
+        background: "#111827",
+        position: "relative",
+      }}
     >
-      {/* ── Sticky viewport ─────────────────────────────────────────── */}
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "28px",
-        }}
-      >
-        {/* Ambient background */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse 60% 50% at 20% 40%, rgba(22,133,91,0.04) 0%, transparent 70%), " +
-              "radial-gradient(ellipse 50% 40% at 80% 20%, rgba(99,102,241,0.03) 0%, transparent 70%)",
-          }}
-        />
-
-        {/* Header area — sits below the card stack in z-order */}
+      {/* ── DESKTOP: sticky scroll-jacked horizontal carousel ── */}
+      {!isMobile && (
         <div
           style={{
-            textAlign: "center",
-            zIndex: 1,
-            pointerEvents: "none",
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflow: "hidden",
           }}
         >
-          <p
+          {/* Top-left section label */}
+          <div
             style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase" as const,
-              color: "#16855B",
-              marginBottom: "10px",
+              position: "absolute",
+              top: "36px",
+              left: "48px",
+              zIndex: 10,
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
-            The visibility gap
-          </p>
-          <h2
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(34px, 4vw, 52px)",
-              lineHeight: 1.12,
-              fontWeight: 400,
-              color: "#111827",
-              maxWidth: "620px",
-              margin: "0 auto",
-            }}
-          >
-            What keeps HR up{" "}
-            <span style={{ fontStyle: "italic", color: "#16855B" }}>
-              at night
-            </span>
-          </h2>
-        </div>
-
-        {/* ── Card stack — higher z-index so cards fly above the title ── */}
-        <div
-          ref={cardStackRef}
-          style={{
-            position: "relative",
-            width: isMobile
-              ? "min(420px, calc(100vw - 24px))"
-              : "min(720px, calc(100vw - 40px))",
-            aspectRatio: isMobile
-              ? `${CARD_W_MOBILE} / ${CARD_H_MOBILE}`
-              : `${CARD_W} / ${CARD_H}`,
-            zIndex: 20,
-          }}
-        >
-          {CARDS.map((card, i) => (
-            <ProblemCard
-              key={card.label}
-              card={card}
-              scale={cardScale}
-              cardW={isMobile ? CARD_W_MOBILE : CARD_W}
-              cardH={isMobile ? CARD_H_MOBILE : CARD_H}
-              mobile={isMobile}
+            <div
               style={{
-                opacity: cardStyles[i].opacity,
-                scale: cardStyles[i].scale,
-                y: cardStyles[i].y,
-                zIndex: cardStyles[i].zIndex,
-                transformOrigin: "top center",
-                boxShadow:
-                  "0 8px 16px -4px rgba(0,0,0,0.2), 0 24px 56px -12px rgba(0,0,0,0.25)",
+                width: "5px",
+                height: "5px",
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.25)",
               }}
             />
-          ))}
-        </div>
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase" as const,
+                color: "rgba(255,255,255,0.3)",
+              }}
+            >
+              The visibility gap
+            </span>
+          </div>
 
-        {/* Payoff headline */}
-        <motion.div
-          style={{
-            opacity: payoffOpacity,
-            y: payoffY,
-            position: "absolute",
-            bottom: "clamp(32px, 5vh, 56px)",
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            textAlign: "center",
-            paddingInline: "24px",
-            pointerEvents: "none",
-          }}
-        >
-          <h2
+          {/* Bottom-left progress dots */}
+          <div
             style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(28px, 3.5vw, 46px)",
-              lineHeight: 1.2,
-              fontWeight: 400,
-              color: "#111827",
+              position: "absolute",
+              bottom: "36px",
+              left: "48px",
+              zIndex: 10,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
-            You shouldn&apos;t have to wait for the resignation,{" "}
-            <span style={{ color: "#D97706", fontStyle: "italic" }}>
-              the grievance, or the CEO&apos;s question.
+            {CARDS.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  height: "4px",
+                  borderRadius: "2px",
+                  background:
+                    i === activeCard ? "#fff" : "rgba(255,255,255,0.2)",
+                  width: i === activeCard ? "28px" : "6px",
+                  transition:
+                    "width 350ms cubic-bezier(0.23,1,0.32,1), background 350ms ease",
+                }}
+              />
+            ))}
+            <span
+              style={{
+                marginLeft: "6px",
+                fontFamily: "'Courier New', monospace",
+                fontSize: "11px",
+                color: "rgba(255,255,255,0.3)",
+                fontWeight: 600,
+                letterSpacing: "0.05em",
+              }}
+            >
+              {String(activeCard + 1).padStart(2, "0")} /{" "}
+              {String(CARDS.length).padStart(2, "0")}
             </span>
-          </h2>
-        </motion.div>
-      </div>
+          </div>
+
+          {/* Bottom-right scroll hint */}
+          <motion.div
+            style={{
+              position: "absolute",
+              bottom: "36px",
+              right: "48px",
+              zIndex: 10,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              opacity: scrollHintOpacity,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "11px",
+                color: "rgba(255,255,255,0.25)",
+                fontWeight: 500,
+              }}
+            >
+              scroll to explore
+            </span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M7 2v10M7 12l-3-3M7 12l3-3"
+                stroke="rgba(255,255,255,0.25)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.div>
+
+          {/* Horizontal card track */}
+          <motion.div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: `${CARDS.length * (viewW || 1440)}px`,
+              height: "100vh",
+              x: trackX,
+              willChange: "transform",
+            }}
+          >
+            {CARDS.map((card) => (
+              <div
+                key={card.number}
+                style={{
+                  width: `${viewW || 1440}px`,
+                  height: "100vh",
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "80px 64px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    maxWidth: "1160px",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "56px",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Left: image */}
+                  <div
+                    style={{
+                      height: "min(520px, calc(100vh - 220px))",
+                      minHeight: "280px",
+                      aspectRatio: "1 / 1",
+                    }}
+                  >
+                    <CardImage
+                      filename={card.image.filename}
+                      alt={card.image.alt}
+                      bg={card.bg}
+                    />
+                  </div>
+
+                  {/* Right: content */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "36px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "'Courier New', monospace",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          letterSpacing: "0.08em",
+                          color: "rgba(255,255,255,0.22)",
+                        }}
+                      >
+                        {card.number}
+                      </span>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "7px",
+                          padding: "5px 13px",
+                          borderRadius: "100px",
+                          border: "1px solid rgba(255,255,255,0.15)",
+                          background: "rgba(255,255,255,0.05)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "5px",
+                            height: "5px",
+                            borderRadius: "50%",
+                            background: "#fff",
+                            boxShadow: "0 0 7px 2px rgba(255,255,255,0.35)",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontFamily: "var(--font-sans)",
+                            fontSize: "9px",
+                            fontWeight: 800,
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase" as const,
+                            color: "#fff",
+                          }}
+                        >
+                          {card.statusLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h2
+                      style={{
+                        fontFamily: "var(--font-serif)",
+                        fontSize: "clamp(36px, 3.2vw, 54px)",
+                        lineHeight: 1.07,
+                        fontWeight: 700,
+                        color: "#FFFFFF",
+                        marginBottom: "22px",
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      {card.title}
+                    </h2>
+
+                    <p
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "16px",
+                        lineHeight: 1.65,
+                        color: "rgba(255,255,255,0.5)",
+                        fontWeight: 400,
+                        marginBottom: "44px",
+                        maxWidth: "420px",
+                      }}
+                    >
+                      {card.description}
+                    </p>
+
+                    <div
+                      style={{
+                        paddingTop: "24px",
+                        borderTop: "1px solid rgba(255,255,255,0.08)",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "14px",
+                          lineHeight: 1.55,
+                          color: "rgba(255,255,255,0.35)",
+                          fontStyle: "italic",
+                          fontWeight: 400,
+                        }}
+                      >
+                        {card.stat}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      )}
+
+      {/* ── MOBILE: simple vertical stack ── */}
+      {isMobile && (
+        <div
+          style={{
+            padding: "56px 16px 72px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "32px",
+            }}
+          >
+            <div
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.25)",
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase" as const,
+                color: "rgba(255,255,255,0.3)",
+              }}
+            >
+              The visibility gap
+            </span>
+          </div>
+
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "48px" }}
+          >
+            {CARDS.map((card) => (
+              <div
+                key={card.number}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "24px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "1 / 1",
+                    maxHeight: "360px",
+                  }}
+                >
+                  <CardImage
+                    filename={card.image.filename}
+                    alt={card.image.alt}
+                    bg={card.bg}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "22px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Courier New', monospace",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        letterSpacing: "0.08em",
+                        color: "rgba(255,255,255,0.22)",
+                      }}
+                    >
+                      {card.number}
+                    </span>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "7px",
+                        padding: "5px 13px",
+                        borderRadius: "100px",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        background: "rgba(255,255,255,0.05)",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "5px",
+                          height: "5px",
+                          borderRadius: "50%",
+                          background: "#fff",
+                          boxShadow: "0 0 7px 2px rgba(255,255,255,0.35)",
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "9px",
+                          fontWeight: 800,
+                          letterSpacing: "0.2em",
+                          textTransform: "uppercase" as const,
+                          color: "#fff",
+                        }}
+                      >
+                        {card.statusLabel}
+                      </span>
+                    </div>
+                  </div>
+
+                  <h2
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "clamp(32px, 10vw, 42px)",
+                      lineHeight: 1.08,
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      marginBottom: "16px",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {card.title}
+                  </h2>
+
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "14px",
+                      lineHeight: 1.65,
+                      color: "rgba(255,255,255,0.5)",
+                      fontWeight: 400,
+                      marginBottom: "28px",
+                    }}
+                  >
+                    {card.description}
+                  </p>
+
+                  <div
+                    style={{
+                      borderTop: "1px solid rgba(255,255,255,0.08)",
+                      paddingTop: "18px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "14px",
+                        lineHeight: 1.55,
+                        color: "rgba(255,255,255,0.35)",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {card.stat}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
