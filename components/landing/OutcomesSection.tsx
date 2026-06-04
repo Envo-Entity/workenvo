@@ -57,36 +57,36 @@ const topRow = [
   {
     Icon: IconEye,
     label: "Early Visibility",
-    quote: "We saw this coming sooner.",
-    desc: "Surface risks before they become crises.",
+    quote: "We caught it before the resignation.",
+    desc: "Surface flight risks while there's still time to act.",
   },
   {
     Icon: IconLightbulb,
-    label: "Better Decisions",
-    quote: "We knew what to do.",
-    desc: "AI-powered recommendations, not just data.",
+    label: "No More Surprises",
+    quote: "I had the answer before the CEO asked.",
+    desc: "Walk into leadership meetings already knowing.",
   },
   {
     Icon: IconUsers,
-    label: "Leadership Consistency",
-    quote: "Managers behave more consistently.",
-    desc: "Align behaviour with intent across the org.",
+    label: "Manager Support",
+    quote: "We coached the manager before it cost us the team.",
+    desc: "Spot manager risk before the second resignation.",
   },
 ];
 
 const bottomRow = [
   {
     Icon: IconShield,
-    label: "Culture Strength",
-    quote: "Culture is visible and reinforced.",
-    desc: "Make culture measurable, not just aspirational.",
+    label: "Cost Avoided",
+    quote: "One prevented exit paid for the year.",
+    desc: "Catch problems while they're cheap to fix.",
     wide: true,
   },
   {
     Icon: IconGlobe,
-    label: "ESG Impact",
-    quote: "We can prove behavioural change.",
-    desc: "From commitments to evidence.",
+    label: "HR as Leadership",
+    quote: "Finally, HR is ahead of the problem.",
+    desc: "Move from reactive admin to strategic foresight.",
     wide: false,
   },
 ];
@@ -106,14 +106,15 @@ function OutcomeCard({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 32, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{
-        y: -5,
+        y: -6,
+        scale: 1.015,
         boxShadow: "0 20px 40px rgba(22,133,91,0.12), 0 4px 8px rgba(22,133,91,0.06)",
-        transition: { duration: 0.25 },
+        transition: { type: "spring", stiffness: 300, damping: 22 },
       }}
       className="rounded-2xl p-8 relative overflow-hidden cursor-default h-full"
       style={{
@@ -183,7 +184,7 @@ export default function OutcomesSection() {
             className="text-xs font-semibold tracking-widest uppercase mb-4"
             style={{ color: "#16855B", fontFamily: "var(--font-sans)" }}
           >
-            Value & Outcomes
+            What Changes
           </p>
           <h2
             className="text-4xl lg:text-[48px] leading-tight mb-4"
@@ -193,10 +194,10 @@ export default function OutcomesSection() {
               fontWeight: 400,
             }}
           >
-            What Workenvo makes possible
+            What it feels like to stop reacting
           </h2>
           <p className="text-lg" style={{ color: "#6B7280", fontFamily: "var(--font-sans)" }}>
-            Real outcomes for people who shape organisations.
+            Real outcomes for the people who carry the workforce on their shoulders.
           </p>
         </motion.div>
 
@@ -208,13 +209,92 @@ export default function OutcomesSection() {
         </div>
 
         {/* Bottom row — wide + narrow */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
           {bottomRow.map((outcome, i) => (
             <div key={outcome.label} className={outcome.wide ? "md:col-span-2" : ""}>
               <OutcomeCard {...outcome} delay={0.4 + i * 0.12} />
             </div>
           ))}
         </div>
+
+        {/* People image — confident HR team */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          style={{
+            borderRadius: "24px",
+            overflow: "hidden",
+            position: "relative",
+            height: "clamp(280px, 40vw, 480px)",
+          }}
+        >
+          <img
+            src="/images/outcomes-confident-hr-director.webp"
+            alt="Confident HR director presenting in a boardroom"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+            }}
+          />
+
+          {/* Overlay text — premium editorial feel */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              padding: "clamp(24px, 4vw, 48px)",
+              background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" }}>
+              <div>
+                <p
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(22px, 3vw, 36px)",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    lineHeight: 1.2,
+                    marginBottom: "6px",
+                  }}
+                >
+                  Finally, HR is ahead of the problem.
+                </p>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "rgba(255,255,255,0.55)" }}>
+                  From reactive admin to strategic foresight.
+                </p>
+              </div>
+              {/* Photo label */}
+              <div
+                style={{
+                  padding: "12px 16px",
+                  background: "rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(8px)",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  flexShrink: 0,
+                  maxWidth: "280px",
+                }}
+              >
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "4px" }}>
+                  Photo needed
+                </p>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: "11px", color: "rgba(255,255,255,0.55)", lineHeight: 1.5 }}>
+                  A confident HR director, arms crossed, smiling — standing in a bright boardroom, presenting to colleagues off-screen. Body language of someone who has the answer before the question is asked.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

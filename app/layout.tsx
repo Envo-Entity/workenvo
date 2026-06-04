@@ -23,13 +23,13 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Turn behaviour into capability",
+  title: "See workforce problems before they become HR problems",
   description:
-    "See how your organisation is really operating today and build the capability you'll need tomorrow.",
+    "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
   openGraph: {
-    title: "Turn behaviour into capability",
+    title: "See workforce problems before they become HR problems",
     description:
-      "See how your organisation is really operating today and build the capability you'll need tomorrow.",
+      "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
     images: [
       {
         url: "/og.png",
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Turn behaviour into capability",
+    title: "See workforce problems before they become HR problems",
     description:
-      "See how your organisation is really operating today and build the capability you'll need tomorrow.",
+      "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
     images: ["/og.png"],
   },
 };

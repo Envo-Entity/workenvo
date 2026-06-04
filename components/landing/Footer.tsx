@@ -102,9 +102,7 @@ export default function Footer() {
               imageClassName="brightness-0 invert"
             />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/45 md:text-[15px]">
-              The intelligence layer for modern HR leadership. Built for CHROs
-              and leadership teams who want to see behaviour clearly and act
-              early.
+              The early warning system for your workforce. Built for HR leaders who want to see problems before they become expensive.
             </p>
           </div>
 
@@ -145,9 +143,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-white/10 pt-5">
+        <div className="mt-8 border-t border-white/10 pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-white/25">
             © 2025 Workenvo, Inc. All rights reserved.
+          </p>
+          <p className="text-sm italic text-white/30" style={{ fontFamily: "var(--font-serif)" }}>
+            See workforce problems before they become HR problems.
           </p>
         </div>
 

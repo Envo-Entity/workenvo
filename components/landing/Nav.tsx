@@ -36,10 +36,9 @@ export default function Nav() {
         {/* Center Nav Links */}
         <div className="hidden md:flex items-center gap-8">
           {[
-            { name: "Platform", href: "#platform" },
-            { name: "ESG", href: "#esg" },
-            { name: "For HR", href: "#for-hr" },
-            { name: "For Leaders", href: "#for-leaders" },
+            { name: "How it Works", href: "#how-it-works" },
+            { name: "Product", href: "#product" },
+            { name: "Signals", href: "#signals" },
             { name: "Pricing", href: "#pricing" },
           ].map(
             (link) => (
@@ -69,10 +68,10 @@ export default function Nav() {
             Log in
           </a>
           <a
-            href="#"
+            href="#pricing"
             className="btn-primary text-sm px-5 py-2.5 rounded-xl font-medium"
           >
-            Book a demo
+            Start free
           </a>
         </div>
 

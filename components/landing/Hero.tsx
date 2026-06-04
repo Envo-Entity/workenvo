@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 // Discrete deceleration steps: [playbackRate, ms after decel starts]
 // Browsers render stable rates smoothly — rapid continuous changes cause stutter.
@@ -13,6 +14,23 @@ const NORMAL_PLAY_MS = 3000;
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showContent, setShowContent] = useState(false);
+
+  // Spring mouse-tracking parallax
+  const rawX = useMotionValue(0.5);
+  const rawY = useMotionValue(0.5);
+  const rotateY = useSpring(useTransform(rawX, [0, 1], [-4, 4]), { stiffness: 60, damping: 18 });
+  const rotateX = useSpring(useTransform(rawY, [0, 1], [3, -3]),  { stiffness: 60, damping: 18 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    rawX.set((e.clientX - r.left) / r.width);
+    rawY.set((e.clientY - r.top)  / r.height);
+  }, [rawX, rawY]);
+
+  const handleMouseLeave = useCallback(() => {
+    rawX.set(0.5);
+    rawY.set(0.5);
+  }, [rawX, rawY]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -41,7 +59,9 @@ export default function Hero() {
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "100vh", backgroundColor: "#ffffff" }}
+      style={{ minHeight: "100vh", backgroundColor: "#ffffff", perspective: "1200px" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Video Container — bottom anchored, shifted down so more top is hidden */}
       {/* Container raised 10% (height 70% from bottom), top 10% of video cropped */}
@@ -102,7 +122,7 @@ export default function Hero() {
       />
 
       {/* Text Content — pushed lower for breathing room */}
-      <div
+      <motion.div
         className="pt-[35%] lg:pt-[20%] xl:pt-[13%]"
         style={{
           position: "relative",
@@ -116,6 +136,9 @@ export default function Hero() {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
         }}
       >
         {/* Headline */}
@@ -123,7 +146,7 @@ export default function Hero() {
           style={{
             fontFamily: "var(--font-serif)",
             fontWeight: 400,
-            fontSize: "clamp(52px, 8vw, 100px)",
+            fontSize: "clamp(48px, 7.5vw, 96px)",
             lineHeight: 1.05,
             letterSpacing: "-0.02em",
             color: "#111111",
@@ -133,9 +156,9 @@ export default function Hero() {
             transition: "opacity 0.9s ease, transform 0.9s ease",
           }}
         >
-          Understand employee behavior{" "}
+          See workforce problems{" "}
           <em className="not-italic" style={{ color: "rgba(17,17,17,0.38)" }}>
-            before problems{" "}
+            before they become{" "}
           </em>
           <span
             style={{
@@ -146,7 +169,7 @@ export default function Hero() {
               textUnderlineOffset: "8px",
             }}
           >
-            become expensive
+            HR problems
           </span>
         </h1>
 
@@ -154,17 +177,34 @@ export default function Hero() {
         <p
           style={{
             fontFamily: "var(--font-sans)",
-            fontSize: "clamp(16px, 2vw, 22px)",
-            lineHeight: 1.6,
-            color: "rgba(17,17,17,0.52)",
-            maxWidth: "480px",
-            marginBottom: "40px",
+            fontSize: "clamp(16px, 1.8vw, 20px)",
+            lineHeight: 1.65,
+            color: "rgba(17,17,17,0.55)",
+            maxWidth: "520px",
+            marginBottom: "12px",
             opacity: showContent ? 1 : 0,
             transform: showContent ? "translateY(0px)" : "translateY(24px)",
             transition: "opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s",
           }}
         >
-          See how your organisation is really operating today and build the capability you&apos;ll need tomorrow.
+          Workenvo is the early warning system for your workforce. One dashboard that connects to the tools your teams already use — and tells you what needs attention today, before someone resigns, a team burns out, or a grievance lands on your desk.
+        </p>
+
+        {/* Supporting line */}
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(13px, 1.2vw, 15px)",
+            lineHeight: 1.5,
+            color: "rgba(17,17,17,0.38)",
+            maxWidth: "400px",
+            marginBottom: "36px",
+            opacity: showContent ? 1 : 0,
+            transform: showContent ? "translateY(0px)" : "translateY(24px)",
+            transition: "opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s",
+          }}
+        >
+          Not performance management. Not another survey tool. The signal you&apos;ve been missing.
         </p>
 
         {/* CTA Buttons */}
@@ -177,28 +217,41 @@ export default function Hero() {
             gap: "12px",
             opacity: showContent ? 1 : 0,
             transform: showContent ? "translateY(0px)" : "translateY(24px)",
-            transition: "opacity 0.9s ease 0.24s, transform 0.9s ease 0.24s",
+            transition: "opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s",
           }}
         >
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-2xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03]"
+          <motion.a
+            href="#pricing"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 420, damping: 22 }}
+            className="inline-flex items-center gap-2 rounded-2xl text-sm font-semibold text-white"
             style={{
               background: "#16855B",
-              boxShadow: "0 4px 24px rgba(22, 133, 91, 0.35)",
+              boxShadow: "0 4px 24px rgba(22,133,91,0.35)",
               fontFamily: "var(--font-sans)",
               padding: "14px 32px",
               textDecoration: "none",
+              transition: "background 160ms cubic-bezier(0.16,1,0.3,1), box-shadow 160ms cubic-bezier(0.16,1,0.3,1)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#0F6E50")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#16855B")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#0F6E50";
+              e.currentTarget.style.boxShadow = "0 6px 32px rgba(22,133,91,0.5)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#16855B";
+              e.currentTarget.style.boxShadow = "0 4px 24px rgba(22,133,91,0.35)";
+            }}
           >
-            Book a demo
-          </a>
+            Start free
+          </motion.a>
 
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-2xl text-sm font-medium group transition-all duration-200 hover:scale-[1.02]"
+          <motion.a
+            href="#how-it-works"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 420, damping: 22 }}
+            className="inline-flex items-center gap-2 rounded-2xl text-sm font-medium group"
             style={{
               fontFamily: "var(--font-sans)",
               padding: "14px 32px",
@@ -206,15 +259,23 @@ export default function Hero() {
               background: "rgba(17,17,17,0.06)",
               border: "1px solid rgba(17,17,17,0.1)",
               textDecoration: "none",
+              transition: "background 160ms cubic-bezier(0.16,1,0.3,1)",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(17,17,17,0.09)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(17,17,17,0.06)")}
           >
             See how it works
-            <span className="transition-transform duration-200 group-hover:translate-x-1">
+            <motion.span
+              animate={{ x: 0 }}
+              whileHover={{ x: 3 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            >
               →
-            </span>
-          </a>
+            </motion.span>
+          </motion.a>
         </div>
-      </div>
+
+      </motion.div>
     </section>
   );
 }

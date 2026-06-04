@@ -11,9 +11,9 @@ import {
   BarChart2,
   EyeOff,
   UserMinus,
-  MessageCircleOff,
-  Shuffle,
-  Search,
+  DollarSign,
+  ShieldAlert,
+  Users,
 } from "lucide-react";
 
 // ── Design canvas for cards ───────────────────────────────────────────────
@@ -39,55 +39,55 @@ type CardDef = {
 const CARDS: CardDef[] = [
   {
     number: "01",
-    label: "Teams burn out",
-    sub: "Undetected until it's too late",
+    label: "The unexpected resignation",
+    sub: "High performers don't leave overnight. The signals were there for months.",
     bg: "#B91C1C",
     statusLabel: "CRITICAL",
     dataPoints: [
       {
         Icon: AlertTriangle,
-        text: "68% of burnout is identified only at resignation",
+        text: "68% of resignations are flagged only at the exit interview",
       },
-      { Icon: Clock, text: "Average detection delay: 4.2 months" },
-      { Icon: TrendingDown, text: "Cost per burned-out employee: €18,000+" },
+      { Icon: DollarSign, text: "Replacing a key employee costs 6–9 months of salary" },
+      { Icon: Clock, text: "Average disengagement-to-resignation window: 4.2 months of missed signals" },
     ],
   },
   {
     number: "02",
-    label: "Managers fly blind",
-    sub: "Support is guesswork without signals",
+    label: "The manager problem",
+    sub: "One bad manager quietly drains a whole team before anyone escalates.",
     bg: "#B45309",
     statusLabel: "HIGH RISK",
     dataPoints: [
       {
-        Icon: BarChart2,
-        text: "Only 23% of managers receive real-time team data",
+        Icon: EyeOff,
+        text: "1 in 3 managers miss early warning signs on their own team",
       },
-      { Icon: EyeOff, text: "1 in 3 managers miss early warning signs" },
+      { Icon: UserMinus, text: "Manager quality is the #1 driver of voluntary attrition" },
       {
-        Icon: UserMinus,
-        text: "Manager quality is the #1 driver of attrition",
+        Icon: Users,
+        text: "Most manager issues surface only after the second resignation",
       },
     ],
   },
   {
     number: "03",
-    label: "Culture drifts",
-    sub: "Values on the wall, not in the workflow",
+    label: "The grievance you didn't see forming",
+    sub: "Conflict and toxic behaviour build slowly — then arrive all at once.",
     bg: "#3730A3",
     statusLabel: "SILENT RISK",
     dataPoints: [
       {
-        Icon: MessageCircleOff,
-        text: "85% of employees can't name their company's core behaviours",
+        Icon: BarChart2,
+        text: "Most formal grievances had detectable early sentiment shifts",
       },
       {
-        Icon: Shuffle,
-        text: "Culture misalignment increases attrition by 32%",
+        Icon: ShieldAlert,
+        text: "A single WRC case can cost more than a year of platform fees",
       },
       {
-        Icon: Search,
-        text: "Only 11% of organisations measure culture behaviourally",
+        Icon: TrendingDown,
+        text: "85% of employees won't raise an issue until it's already serious",
       },
     ],
   },
@@ -413,15 +413,14 @@ export default function Problem() {
               lineHeight: 1.12,
               fontWeight: 400,
               color: "#111827",
-              maxWidth: "580px",
+              maxWidth: "620px",
               margin: "0 auto",
             }}
           >
-            What leaders{" "}
+            What keeps HR up{" "}
             <span style={{ fontStyle: "italic", color: "#16855B" }}>
-              can&apos;t
-            </span>{" "}
-            see is costing them
+              at night
+            </span>
           </h2>
         </div>
 
@@ -478,15 +477,15 @@ export default function Problem() {
           <h2
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(32px, 4vw, 52px)",
-              lineHeight: 1.15,
+              fontSize: "clamp(28px, 3.5vw, 46px)",
+              lineHeight: 1.2,
               fontWeight: 400,
               color: "#111827",
             }}
           >
-            Why didn&apos;t we see this{" "}
+            You shouldn&apos;t have to wait for the resignation,{" "}
             <span style={{ color: "#D97706", fontStyle: "italic" }}>
-              earlier?
+              the grievance, or the CEO&apos;s question.
             </span>
           </h2>
         </motion.div>

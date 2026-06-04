@@ -23,21 +23,19 @@ function IconCheck() {
 }
 
 const traditional = [
-  "Annual surveys, months-old data",
-  "Static dashboards and reports",
-  "Reactive — problems found too late",
-  "Disconnected from strategy",
-  "Compliance-only ESG reporting",
-  "No behavioural context",
+  "Not performance management",
+  "Not an engagement platform",
+  "Not a survey tool",
+  "Not a culture initiative",
+  "Not another dashboard you'll forget to open",
 ];
 
 const workenvo = [
-  "Real-time behavioural signals",
-  "AI-driven insights and nudges",
-  "Predictive — risks surfaced early",
-  "Strategy connected to daily behaviour",
-  "Behavioural ESG with measured impact",
-  "Full organisational intelligence",
+  "An early warning system for your workforce",
+  "One screen that tells you what needs attention today",
+  "Signals before problems, not reports after them",
+  "A system that recommends action, not just data",
+  "The thing that means you're never blindsided again",
 ];
 
 export default function Differentiation() {
@@ -59,7 +57,7 @@ export default function Differentiation() {
             className="text-xs font-semibold tracking-widest uppercase mb-4"
             style={{ color: "#16855B", fontFamily: "var(--font-sans)" }}
           >
-            Differentiation
+            What Workenvo is — and isn&apos;t
           </p>
           <h2
             className="text-4xl lg:text-[48px] leading-tight mb-4 mx-auto"
@@ -70,8 +68,14 @@ export default function Differentiation() {
               maxWidth: "640px",
             }}
           >
-            Traditional tools vs <span style={{ fontWeight: 900, textTransform: "lowercase", fontFamily: "var(--font-serif)" }}>workenvo</span>
+            Not another HR system
           </h2>
+          <p
+            className="text-lg mx-auto mb-2"
+            style={{ color: "#6B7280", fontFamily: "var(--font-sans)", maxWidth: "520px" }}
+          >
+            Most HR tools tell you what already happened. Workenvo tells you what&apos;s about to.
+          </p>
         </motion.div>
 
         {/* Comparison card */}
@@ -98,13 +102,13 @@ export default function Differentiation() {
                   className="text-xs font-semibold uppercase tracking-wider mb-2"
                   style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                 >
-                  Traditional tools
+                  Workenvo is NOT
                 </p>
                 <p
                   className="text-sm"
                   style={{ color: "#9CA3AF", fontFamily: "var(--font-sans)" }}
                 >
-                  The way it&apos;s always been done.
+                  Clear what it isn&apos;t. Clear on what it is.
                 </p>
               </div>
 
@@ -158,14 +162,14 @@ export default function Differentiation() {
                       fontFamily: "var(--font-sans)",
                     }}
                   >
-                    New category
+                    Early Warning System
                   </span>
                 </div>
                 <p
                   className="text-sm"
                   style={{ color: "#065F46", fontFamily: "var(--font-sans)" }}
                 >
-                  Behaviour Intelligence — built for what&apos;s next.
+                  Built to surface problems before they become expensive.
                 </p>
               </div>
 
@@ -211,7 +215,7 @@ export default function Differentiation() {
             maxWidth: "560px",
           }}
         >
-          HR software tracks what happened. Workenvo is the system that understands, influences, and scales behaviour as it happens.
+          HR software tells you what already happened. Workenvo is the system that tells you what&apos;s about to — and what to do about it.
         </motion.p>
       </div>
     </section>
