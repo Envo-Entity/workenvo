@@ -5,9 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 // Discrete deceleration steps: [playbackRate, ms after decel starts]
 // Browsers render stable rates smoothly — rapid continuous changes cause stutter.
-const DECEL_STEPS: [rate: number, offset: number][] = [
-  [0.3, 0],
-];
+const DECEL_STEPS: [rate: number, offset: number][] = [[0.3, 0]];
 const PAUSE_OFFSET = 100;
 const NORMAL_PLAY_MS = 3000;
 
@@ -18,14 +16,23 @@ export default function Hero() {
   // Spring mouse-tracking parallax
   const rawX = useMotionValue(0.5);
   const rawY = useMotionValue(0.5);
-  const rotateY = useSpring(useTransform(rawX, [0, 1], [-4, 4]), { stiffness: 60, damping: 18 });
-  const rotateX = useSpring(useTransform(rawY, [0, 1], [3, -3]),  { stiffness: 60, damping: 18 });
+  const rotateY = useSpring(useTransform(rawX, [0, 1], [-4, 4]), {
+    stiffness: 60,
+    damping: 18,
+  });
+  const rotateX = useSpring(useTransform(rawY, [0, 1], [3, -3]), {
+    stiffness: 60,
+    damping: 18,
+  });
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    rawX.set((e.clientX - r.left) / r.width);
-    rawY.set((e.clientY - r.top)  / r.height);
-  }, [rawX, rawY]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      rawX.set((e.clientX - r.left) / r.width);
+      rawY.set((e.clientY - r.top) / r.height);
+    },
+    [rawX, rawY],
+  );
 
   const handleMouseLeave = useCallback(() => {
     rawX.set(0.5);
@@ -46,11 +53,15 @@ export default function Hero() {
     // After normal play, step down rate at stable intervals then pause
     DECEL_STEPS.forEach(([rate, offset]) => {
       timers.push(
-        setTimeout(() => { video.playbackRate = rate; }, NORMAL_PLAY_MS + offset)
+        setTimeout(() => {
+          video.playbackRate = rate;
+        }, NORMAL_PLAY_MS + offset),
       );
     });
     timers.push(
-      setTimeout(() => { video.pause(); }, NORMAL_PLAY_MS + PAUSE_OFFSET)
+      setTimeout(() => {
+        video.pause();
+      }, NORMAL_PLAY_MS + PAUSE_OFFSET),
     );
 
     return () => timers.forEach(clearTimeout);
@@ -58,12 +69,12 @@ export default function Hero() {
 
   return (
     <section
-      className="relative w-full overflow-hidden flex flex-col justify-center pb-14 sm:pb-20 lg:pb-36 xl:pb-48"
+      className="relative w-full overflow-hidden flex flex-col justify-center pb-[25vh] sm:pb-[18vh] lg:pb-[15vh] xl:pb-[20vh]"
       style={{
         minHeight: "100vh",
         backgroundColor: "#ffffff",
         perspective: "1200px",
-        paddingTop: "clamp(44px, 5vh, 52px)",
+        paddingTop: "clamp(94px, 7vh, 80px)",
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -191,7 +202,10 @@ export default function Hero() {
             transition: "opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s",
           }}
         >
-          Workenvo is the early warning system for your workforce. One dashboard that connects to the tools your teams already use — and tells you what needs attention today, before someone resigns, a team burns out, or a grievance lands on your desk.
+          Workenvo is the early warning system for your workforce. One dashboard
+          that connects to the tools your teams already use — and tells you what
+          needs attention today, before someone resigns, a team burns out, or a
+          grievance lands on your desk.
         </p>
 
         {/* Supporting line */}
@@ -208,7 +222,8 @@ export default function Hero() {
             transition: "opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s",
           }}
         >
-          Not performance management. Not another survey tool. The signal you&apos;ve been missing.
+          Not performance management. Not another survey tool. The signal
+          you&apos;ve been missing.
         </p>
 
         {/* CTA Buttons */}
@@ -236,15 +251,18 @@ export default function Hero() {
               fontFamily: "var(--font-sans)",
               padding: "14px 32px",
               textDecoration: "none",
-              transition: "background 160ms cubic-bezier(0.16,1,0.3,1), box-shadow 160ms cubic-bezier(0.16,1,0.3,1)",
+              transition:
+                "background 160ms cubic-bezier(0.16,1,0.3,1), box-shadow 160ms cubic-bezier(0.16,1,0.3,1)",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "#0F6E50";
-              e.currentTarget.style.boxShadow = "0 6px 32px rgba(22,133,91,0.5)";
+              e.currentTarget.style.boxShadow =
+                "0 6px 32px rgba(22,133,91,0.5)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "#16855B";
-              e.currentTarget.style.boxShadow = "0 4px 24px rgba(22,133,91,0.35)";
+              e.currentTarget.style.boxShadow =
+                "0 4px 24px rgba(22,133,91,0.35)";
             }}
           >
             Start free
@@ -268,8 +286,12 @@ export default function Hero() {
               textDecoration: "none",
               transition: "background 160ms cubic-bezier(0.16,1,0.3,1)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.72)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.55)")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background = "rgba(255,255,255,0.72)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = "rgba(255,255,255,0.55)")
+            }
           >
             See how it works
             <motion.span
@@ -281,7 +303,6 @@ export default function Hero() {
             </motion.span>
           </motion.a>
         </div>
-
       </motion.div>
     </section>
   );

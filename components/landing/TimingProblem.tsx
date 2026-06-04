@@ -15,7 +15,10 @@ export default function TimingProblem() {
     <section style={{ background: "#111827" }} className="relative overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr]">
         {/* LEFT — atmospheric image */}
-        <div className="hidden lg:block relative" style={{ minHeight: "640px" }}>
+        <div
+          className="relative lg:block"
+          style={{ minHeight: "clamp(260px, 40vw, 640px)" }}
+        >
           <img
             src="/images/timing-problem-exhausted-hr.webp"
             alt="HR manager working late at her desk"
@@ -28,7 +31,9 @@ export default function TimingProblem() {
               objectPosition: "center top",
             }}
           />
+          {/* Desktop: right-edge fade into dark text column */}
           <div
+            className="hidden lg:block"
             style={{
               position: "absolute",
               top: 0,
@@ -36,6 +41,32 @@ export default function TimingProblem() {
               width: "140px",
               height: "100%",
               background: "linear-gradient(to right, transparent, #111827)",
+              pointerEvents: "none",
+            }}
+          />
+          {/* Mobile: bottom-edge fade into dark text below */}
+          <div
+            className="lg:hidden"
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "100px",
+              background: "linear-gradient(to bottom, transparent, #111827)",
+              pointerEvents: "none",
+            }}
+          />
+          {/* Mobile: dark vignette on top-left corner for atmosphere */}
+          <div
+            className="lg:hidden"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "60px",
+              background: "linear-gradient(to bottom, #111827, transparent)",
               pointerEvents: "none",
             }}
           />

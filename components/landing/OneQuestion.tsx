@@ -145,9 +145,9 @@ export default function OneQuestion() {
           style={{
             position: "relative",
             overflow: "hidden",
-            minHeight: "520px",
+            minHeight: "clamp(280px, 50vw, 520px)",
           }}
-          className="hidden lg:block"
+          className="block"
         >
           <img
             src="/images/one-question-calm-hr-morning.webp"
@@ -162,8 +162,9 @@ export default function OneQuestion() {
             }}
           />
 
-          {/* Left-edge fade */}
+          {/* Desktop: left-edge fade into text column */}
           <div
+            className="hidden lg:block"
             style={{
               position: "absolute",
               top: 0,
@@ -174,6 +175,43 @@ export default function OneQuestion() {
               pointerEvents: "none",
             }}
           />
+          {/* Mobile: top-edge fade from white (text above) */}
+          <div
+            className="lg:hidden"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "80px",
+              background: "linear-gradient(to bottom, #FFFFFF, transparent)",
+              pointerEvents: "none",
+            }}
+          />
+          {/* Mobile: subtle caption overlay at bottom */}
+          <div
+            className="lg:hidden"
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: "20px 24px",
+              background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "12px",
+                color: "rgba(255,255,255,0.8)",
+                fontStyle: "italic",
+                letterSpacing: "0.02em",
+              }}
+            >
+              One morning. One screen. No surprises.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>
