@@ -40,20 +40,18 @@ export default function Nav() {
             { name: "Product", href: "#product" },
             { name: "Signals", href: "#signals" },
             { name: "Pricing", href: "#pricing" },
-          ].map(
-            (link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm transition-colors duration-200"
-                style={{ color: "#6B7280", fontWeight: 450 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
-              >
-                {link.name}
-              </a>
-            )
-          )}
+          ].map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-sm transition-colors duration-200"
+              style={{ color: "#6B7280", fontWeight: 450 }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
+            >
+              {link.name}
+            </a>
+          ))}
         </div>
 
         {/* Right CTAs */}
@@ -68,8 +66,8 @@ export default function Nav() {
             Log in
           </a>
           <a
-            href="#pricing"
-            className="btn-primary text-sm px-4 py-2 rounded-lg font-medium"
+            href="/book-demo"
+            className="btn-primary text-sm px-5 py-2.5 rounded-xl font-medium"
           >
             Start free
           </a>
@@ -80,9 +78,18 @@ export default function Nav() {
           className="md:hidden flex flex-col gap-1.5 p-2"
           aria-label="Menu"
         >
-          <span className="w-5 h-0.5 block rounded-full" style={{ background: "#374151" }} />
-          <span className="w-5 h-0.5 block rounded-full" style={{ background: "#374151" }} />
-          <span className="w-3.5 h-0.5 block rounded-full" style={{ background: "#374151" }} />
+          <span
+            className="w-5 h-0.5 block rounded-full"
+            style={{ background: "#374151" }}
+          />
+          <span
+            className="w-5 h-0.5 block rounded-full"
+            style={{ background: "#374151" }}
+          />
+          <span
+            className="w-3.5 h-0.5 block rounded-full"
+            style={{ background: "#374151" }}
+          />
         </button>
       </div>
     </nav>
