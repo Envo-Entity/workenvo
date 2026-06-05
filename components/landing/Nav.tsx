@@ -69,7 +69,7 @@ export default function Nav() {
             Log in
           </a>
           <a
-            href="#"
+            href="/book-demo"
             className="btn-primary text-sm px-5 py-2.5 rounded-xl font-medium"
           >
             Book a demo

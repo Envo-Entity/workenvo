@@ -187,7 +187,7 @@ export default function FinalCTA() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.a
-            href="#"
+            href="/book-demo"
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-xl text-lg font-medium"
@@ -202,7 +202,7 @@ export default function FinalCTA() {
             Book a demo
           </motion.a>
           <motion.a
-            href="#"
+            href="/book-demo"
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-xl text-lg font-medium"
