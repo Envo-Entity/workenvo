@@ -24,8 +24,8 @@ const TIERS: PricingTier[] = [
       "Basic sentiment signals",
       "Survey builder (3 questions per employee/month)",
     ],
-    cta: "Start free",
-    ctaHref: "#",
+    cta: "Book a Demo",
+    ctaHref: "/book-demo",
     highlighted: false,
   },
   {
@@ -41,8 +41,8 @@ const TIERS: PricingTier[] = [
       "Pulse Surveys",
       "Sentiment Analysis",
     ],
-    cta: "Get Pro",
-    ctaHref: "#",
+    cta: "Book a Demo",
+    ctaHref: "/book-demo",
     highlighted: true,
   },
   {
@@ -57,7 +57,7 @@ const TIERS: PricingTier[] = [
       "Coaching",
     ],
     cta: "Book a demo",
-    ctaHref: "#",
+    ctaHref: "/book-demo",
     highlighted: false,
   },
   {
@@ -73,7 +73,7 @@ const TIERS: PricingTier[] = [
       "Sustainability & ESG",
     ],
     cta: "Book a demo",
-    ctaHref: "#",
+    ctaHref: "/book-demo",
     highlighted: false,
   },
 ];
@@ -390,7 +390,7 @@ export default function Pricing() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.a
-            href="#"
+            href="/book-demo"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 22 }}
@@ -413,7 +413,7 @@ export default function Pricing() {
               e.currentTarget.style.boxShadow = "0 4px 20px rgba(22,133,91,0.3)";
             }}
           >
-            Start free
+            Book a Demo
           </motion.a>
           <motion.a
             href="#"

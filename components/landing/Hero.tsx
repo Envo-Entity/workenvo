@@ -240,7 +240,7 @@ export default function Hero() {
           }}
         >
           <motion.a
-            href="#pricing"
+            href="/book-demo"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 420, damping: 22 }}
@@ -265,7 +265,7 @@ export default function Hero() {
                 "0 4px 24px rgba(22,133,91,0.35)";
             }}
           >
-            Start free
+            Book a Demo
           </motion.a>
 
           <motion.a
