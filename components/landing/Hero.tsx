@@ -45,10 +45,11 @@ export default function Hero() {
 
     const timers: ReturnType<typeof setTimeout>[] = [];
 
-    timers.push(setTimeout(() => setShowContent(true), 1000));
+    // Text is in the DOM immediately for crawlers; fade it in after a short delay
+    timers.push(setTimeout(() => setShowContent(true), 500));
 
     video.playbackRate = 1;
-    video.play().catch(() => setShowContent(true));
+    video.play().catch(() => {});
 
     // After normal play, step down rate at stable intervals then pause
     DECEL_STEPS.forEach(([rate, offset]) => {
@@ -168,7 +169,7 @@ export default function Hero() {
             marginBottom: "24px",
             opacity: showContent ? 1 : 0,
             transform: showContent ? "translateY(0px)" : "translateY(24px)",
-            transition: "opacity 0.9s ease, transform 0.9s ease",
+            transition: "opacity 0.5s ease, transform 0.5s ease",
           }}
         >
           See workforce problems{" "}
@@ -196,34 +197,15 @@ export default function Hero() {
             lineHeight: 1.65,
             color: "rgba(17,17,17,0.55)",
             maxWidth: "520px",
-            marginBottom: "12px",
-            opacity: showContent ? 1 : 0,
-            transform: showContent ? "translateY(0px)" : "translateY(24px)",
-            transition: "opacity 0.9s ease 0.12s, transform 0.9s ease 0.12s",
-          }}
-        >
-          Workenvo is the early warning system for your workforce. One dashboard
-          that connects to the tools your teams already use — and tells you what
-          needs attention today, before someone resigns, a team burns out, or a
-          grievance lands on your desk.
-        </p>
-
-        {/* Supporting line */}
-        <p
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(13px, 1.2vw, 15px)",
-            lineHeight: 1.5,
-            color: "rgba(17,17,17,0.38)",
-            maxWidth: "400px",
             marginBottom: "36px",
             opacity: showContent ? 1 : 0,
             transform: showContent ? "translateY(0px)" : "translateY(24px)",
-            transition: "opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s",
+            transition: "opacity 0.5s ease 0.08s, transform 0.5s ease 0.08s",
           }}
         >
-          Not performance management. Not another survey tool. The signal
-          you&apos;ve been missing.
+          Workenvo is the early warning system for your workforce. One dashboard
+          that connects to your everyday tools to stop burnout, attrition, and
+          workplace risk before they happen.
         </p>
 
         {/* CTA Buttons */}
@@ -236,7 +218,7 @@ export default function Hero() {
             gap: "12px",
             opacity: showContent ? 1 : 0,
             transform: showContent ? "translateY(0px)" : "translateY(24px)",
-            transition: "opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s",
+            transition: "opacity 0.5s ease 0.18s, transform 0.5s ease 0.18s",
           }}
         >
           <motion.a

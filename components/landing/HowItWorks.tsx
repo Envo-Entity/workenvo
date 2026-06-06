@@ -176,9 +176,6 @@ export default function HowItWorks() {
                 fill="none"
                 strokeLinecap="round"
               />
-              <path d="M290,55 L302,60 L290,65" stroke="url(#howLineGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M490,55 L502,60 L490,65" stroke="url(#howLineGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M690,55 L702,60 L690,65" stroke="url(#howLineGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
 

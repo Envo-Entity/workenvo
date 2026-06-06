@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
     images: [
       {
-        url: "/og.png",
+        url: "/og.webp",
         alt: "Workenvo Open Graph preview",
       },
     ],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "See workforce problems before they become HR problems",
     description:
       "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
-    images: ["/og.png"],
+    images: ["/og.webp"],
   },
 };
 
