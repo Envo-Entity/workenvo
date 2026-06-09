@@ -21,7 +21,7 @@ export default function MobileNav() {
 
   return (
     <div
-      className={`fixed right-0 bottom-0 left-0 z-50 flex items-center justify-around border-t border-stone-100 bg-white/80 px-6 py-4 md:hidden ${styles.glassNav}`}
+      className={`fixed right-0 bottom-0 left-0 z-50 flex items-center justify-around border-t border-[var(--dash-line-soft)] bg-[var(--dash-surface)] px-6 py-4 md:hidden ${styles.glassNav}`}
     >
       {items.map((item: MobileNavItem) => {
         const isActive =
@@ -32,7 +32,7 @@ export default function MobileNav() {
           <Link
             key={item.label}
             href={item.href}
-            className={`flex flex-col items-center gap-1 ${isActive ? "text-[#006841]" : "text-stone-400"}`}
+            className={`flex flex-col items-center gap-1 ${isActive ? "text-[var(--dash-primary)]" : "text-[var(--dash-ink-ghost)]"}`}
           >
             <DashboardIcon
               name={item.icon}

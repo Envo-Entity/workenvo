@@ -23,34 +23,34 @@ const toneStyles: Record<TimelineTone, {
   text: string;
 }> = {
   positive: {
-    chip: "bg-[#dff7e9] text-[#006841]",
-    dot: "bg-[#8fe3b3]",
-    glow: "shadow-[0_0_0_8px_rgba(143,227,179,0.24)]",
-    text: "text-[#006841]",
+    chip: "bg-[var(--dash-primary-soft)] text-[var(--dash-primary)]",
+    dot: "bg-[var(--dash-primary)]",
+    glow: "shadow-[0_0_0_8px_rgba(16,137,79,0.18)]",
+    text: "text-[var(--dash-primary)]",
   },
   watch: {
-    chip: "bg-[#fde8db] text-[#b54708]",
-    dot: "bg-[#f3a66a]",
-    glow: "shadow-[0_0_0_8px_rgba(243,166,106,0.22)]",
-    text: "text-[#b54708]",
+    chip: "bg-[var(--dash-danger-soft)] text-[var(--dash-warning)]",
+    dot: "bg-[var(--dash-warning)]",
+    glow: "shadow-[0_0_0_8px_rgba(211,138,44,0.18)]",
+    text: "text-[var(--dash-warning)]",
   },
   neutral: {
-    chip: "bg-[#ebe7e7] text-[#3e4941]",
-    dot: "bg-[#c9c4c2]",
-    glow: "shadow-[0_0_0_8px_rgba(201,196,194,0.24)]",
-    text: "text-[#3e4941]",
+    chip: "bg-[var(--dash-surface-muted)] text-[var(--dash-ink-soft)]",
+    dot: "bg-[var(--dash-ink-ghost)]",
+    glow: "shadow-[0_0_0_8px_rgba(195,202,211,0.22)]",
+    text: "text-[var(--dash-ink-soft)]",
   },
   reward: {
-    chip: "bg-[#fff1ce] text-[#a15c00]",
-    dot: "bg-[#ffc75f]",
-    glow: "shadow-[0_0_0_8px_rgba(255,199,95,0.22)]",
-    text: "text-[#a15c00]",
+    chip: "bg-[var(--dash-warning-soft)] text-[var(--dash-warning)]",
+    dot: "bg-[var(--dash-warning)]",
+    glow: "shadow-[0_0_0_8px_rgba(211,138,44,0.18)]",
+    text: "text-[var(--dash-warning)]",
   },
   change: {
-    chip: "bg-[#efe4ff] text-[#7b4ac7]",
-    dot: "bg-[#d5b5ff]",
-    glow: "shadow-[0_0_0_8px_rgba(213,181,255,0.22)]",
-    text: "text-[#7b4ac7]",
+    chip: "bg-[var(--dash-surface-muted)] text-[var(--dash-primary-deep)]",
+    dot: "bg-[var(--dash-primary-deep)]",
+    glow: "shadow-[0_0_0_8px_rgba(11,107,65,0.16)]",
+    text: "text-[var(--dash-primary-deep)]",
   },
 };
 
@@ -103,20 +103,20 @@ function TimelineCard({
       style={{ animationDelay: `${index * 80}ms` }}
     >
       <div className={isLeft ? "md:col-start-1 md:justify-self-end" : "md:col-start-3 md:justify-self-start"}>
-        <div className="inline-flex w-full min-w-0 max-w-[28rem] flex-col rounded-[1.25rem] bg-white px-5 py-4 shadow-[0_18px_48px_-34px_rgba(0,104,65,0.42)]">
+        <div className="inline-flex w-full min-w-0 max-w-[28rem] flex-col rounded-[1.25rem] border border-[var(--dash-line)] bg-white px-5 py-4 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.16)]">
           <div className="flex items-center gap-2">
             <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${tone.chip}`}>
               <DashboardIcon name={event.icon} className="text-[17px]" />
               {event.title}
             </span>
             {event.metric && (
-              <span className="rounded-full bg-[#f6f3f2] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#3e4941]">
+              <span className="rounded-full bg-[var(--dash-surface-muted)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--dash-ink-soft)]">
                 {event.metric}
               </span>
             )}
           </div>
           <p className={`mt-2 text-xs font-bold ${tone.text}`}>{event.date}</p>
-          <p className="mt-3 text-sm leading-6 text-[#3e4941]">{event.body}</p>
+          <p className="mt-3 text-sm leading-6 text-[var(--dash-ink-soft)]">{event.body}</p>
         </div>
       </div>
 
@@ -146,10 +146,10 @@ export default function EmployeeTimelineSwitcher({
     <div className="px-1 py-2 sm:px-0 sm:py-4">
       <div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#006841]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--dash-primary)]">
             Four-year timeline
           </p>
-          <h2 className={`mt-2 text-4xl leading-none text-[#1c1b1b] sm:text-6xl ${styles.displaySerif}`}>
+          <h2 className={`mt-2 text-4xl leading-none text-[var(--dash-ink)] sm:text-6xl ${styles.displaySerif}`}>
             Signals worth scanning
           </h2>
         </div>
@@ -166,8 +166,8 @@ export default function EmployeeTimelineSwitcher({
               onClick={() => setActiveType(type.key)}
               className={
                 isActive
-                  ? "rounded-full bg-[#006841]/90 px-3.5 py-1.5 text-[11px] font-black text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.34)]"
-                  : "rounded-full bg-white/80 px-3.5 py-1.5 text-[11px] font-bold text-[#3e4941] transition-colors hover:bg-[#ebe7e7]"
+                  ? "rounded-full bg-[rgba(16,137,79,0.90)] px-3.5 py-1.5 text-[11px] font-black text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.34)]"
+                  : "rounded-full bg-white/80 px-3.5 py-1.5 text-[11px] font-bold text-[var(--dash-ink-soft)] transition-colors hover:bg-[var(--dash-surface-muted)]"
               }
             >
               {type.label}
@@ -182,8 +182,8 @@ export default function EmployeeTimelineSwitcher({
           onClick={() => setActiveYear("all")}
           className={
             activeYear === "all"
-              ? "rounded-full bg-[#006841]/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-white"
-              : "rounded-full bg-[#006841]/8 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[#006841] transition-colors hover:bg-[#006841]/15"
+              ? "rounded-full bg-[rgba(16,137,79,0.90)] px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-white"
+              : "rounded-full bg-[rgba(16,137,79,0.08)] px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[var(--dash-primary)] transition-colors hover:bg-[rgba(16,137,79,0.15)]"
           }
         >
           All
@@ -198,8 +198,8 @@ export default function EmployeeTimelineSwitcher({
               onClick={() => setActiveYear(isActive ? "all" : year)}
               className={
                 isActive
-                  ? "rounded-full bg-[#006841]/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-white"
-                  : "rounded-full bg-[#006841]/8 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[#006841] transition-colors hover:bg-[#006841]/15"
+                  ? "rounded-full bg-[rgba(16,137,79,0.90)] px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-white"
+                  : "rounded-full bg-[rgba(16,137,79,0.08)] px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[var(--dash-primary)] transition-colors hover:bg-[rgba(16,137,79,0.15)]"
               }
             >
               {year}
@@ -209,7 +209,7 @@ export default function EmployeeTimelineSwitcher({
       </div>
 
       <div className="relative mt-9 space-y-6 pl-9 md:pl-0">
-        <div className="absolute left-3 top-4 bottom-4 w-1 rounded-full bg-[#dcefe6] md:left-1/2 md:-translate-x-1/2" />
+        <div className="absolute left-3 top-4 bottom-4 w-1 rounded-full bg-[var(--dash-primary-soft)] md:left-1/2 md:-translate-x-1/2" />
         {filteredTimeline.map((event, index) => (
           <TimelineCard
             key={`${event.date}-${event.title}`}

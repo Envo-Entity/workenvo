@@ -3,13 +3,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
 
 .page {
+  --dash-canvas: #FFFFFF;
+  --dash-surface: #FFFFFF;
+  --dash-surface-subtle: #FBFCFD;
+  --dash-surface-muted: #F2F4F7;
+  --dash-ink: #0E1726;
+  --dash-ink-soft: #515D6C;
+  --dash-ink-faint: #8A94A2;
+  --dash-ink-ghost: #C3CAD3;
+  --dash-line: rgba(15, 23, 42, 0.1);
+  --dash-line-soft: rgba(15, 23, 42, 0.06);
+  --dash-line-strong: rgba(15, 23, 42, 0.15);
+  --dash-primary: #10894F;
+  --dash-primary-deep: #0B6B41;
+  --dash-primary-dark: #0A5234;
+  --dash-primary-soft: #EAFBF2;
+  --dash-primary-faint: #F4FDF8;
+  --dash-danger: #E24B36;
+  --dash-danger-soft: #FDEDE9;
+  --dash-warning: #D38A2C;
+  --dash-warning-soft: #FBF2DD;
+
   font-family: "Inter", sans-serif;
-  background-color: #fcf9f8;
-  color: #1c1b1b;
+  background-color: var(--dash-canvas);
+  color: var(--dash-ink);
 }
 
 .page ::selection {
-  background: rgb(0 132 84 / 0.3);
+  background: #D8F5E5;
+  color: var(--dash-primary-dark);
 }
 
 .materialSymbol {
@@ -31,8 +53,8 @@
 }
 
 .glassNav {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--dash-surface);
+  border: 1px solid var(--dash-line-soft);
 }
 
 .hideScrollbar {
@@ -45,7 +67,8 @@
 }
 
 .ambientShadow {
-  box-shadow: 0 10px 48px -4px rgba(0, 104, 65, 0.04);
+  border: 1px solid var(--dash-line);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.045);
 }
 
 .displaySerif {
@@ -73,15 +96,15 @@
 
 @keyframes latestPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(0, 132, 84, 0.32);
+    box-shadow: 0 0 0 0 rgba(16, 137, 79, 0.32);
   }
 
   70% {
-    box-shadow: 0 0 0 14px rgba(0, 132, 84, 0);
+    box-shadow: 0 0 0 14px rgba(16, 137, 79, 0);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 132, 84, 0);
+    box-shadow: 0 0 0 0 rgba(16, 137, 79, 0);
   }
 }
 

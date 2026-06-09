@@ -43,11 +43,11 @@ export default function Sidebar() {
   const showLabelsClass = isExpanded ? "md:inline" : "md:hidden xl:inline";
 
   return (
-    <aside className={`sticky top-0 z-30 hidden h-screen shrink-0 flex-col bg-[#f6f3f2] transition-[width,padding] duration-200 md:flex xl:w-64 xl:p-6 ${expandedClass}`}>
+    <aside className={`sticky top-0 z-30 hidden h-screen shrink-0 flex-col border-r border-[var(--dash-line-soft)] bg-[var(--dash-surface-subtle)] transition-[width,padding] duration-200 md:flex xl:w-64 xl:p-6 ${expandedClass}`}>
       <button
         type="button"
         onClick={() => setIsExpanded((value) => !value)}
-        className="absolute -right-3 top-8 z-50 hidden h-7 w-7 items-center justify-center rounded-full bg-white text-[#3e4941] shadow-md transition-colors hover:bg-[#ebe7e7] md:flex xl:hidden"
+        className="absolute -right-3 top-8 z-50 hidden h-7 w-7 items-center justify-center rounded-full border border-[var(--dash-line)] bg-white text-[var(--dash-ink-soft)] transition-colors hover:bg-[var(--dash-surface-muted)] md:flex xl:hidden"
         aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
       >
         <span className="block text-lg font-black leading-none">
@@ -62,7 +62,7 @@ export default function Sidebar() {
               textClassName="text-[1.65rem] tracking-[-0.04em]"
             />
           </div>
-          <div className={isExpanded ? "hidden" : "flex h-12 w-12 items-center justify-center overflow-hidden rounded-[1.25rem] bg-white xl:hidden"}>
+          <div className={isExpanded ? "hidden" : "flex h-12 w-12 items-center justify-center overflow-hidden rounded-[1rem] bg-white xl:hidden"}>
             <BrandLogo
               className="justify-center gap-0"
               logoHeightClassName="h-7"
@@ -74,7 +74,7 @@ export default function Sidebar() {
         <nav className="mt-6 space-y-6 pb-8">
           {navGroups.map((group) => (
             <div key={group.label}>
-              <p className={`mb-2 px-4 text-[10px] font-bold uppercase tracking-[0.25em] text-[#2D2D2D]/50 ${showLabelsClass}`}>
+              <p className={`mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--dash-ink-ghost)] ${showLabelsClass}`}>
                 {group.label}
               </p>
               <div className="flex flex-col gap-1">
@@ -90,8 +90,8 @@ export default function Sidebar() {
                       title={item.label}
                       className={
                         isActive
-                          ? `flex items-center gap-4 rounded-[2rem] bg-[#1B4332] px-3.5 py-3 font-semibold text-white active:scale-95 ${isExpanded ? "" : "md:justify-center xl:justify-start"}`
-                          : `flex items-center gap-4 rounded-[2rem] px-3.5 py-3 text-stone-600 transition-colors hover:bg-[#1B4332]/10 hover:text-emerald-800 ${isExpanded ? "" : "md:justify-center xl:justify-start"}`
+                          ? `flex items-center gap-4 rounded-[1.35rem] bg-[var(--dash-primary-deep)] px-3.5 py-3 text-[15px] font-medium text-white active:scale-95 ${isExpanded ? "" : "md:justify-center xl:justify-start"}`
+                          : `flex items-center gap-4 rounded-[1.35rem] px-3.5 py-3 text-[15px] font-medium text-[var(--dash-ink-soft)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-primary-deep)] ${isExpanded ? "" : "md:justify-center xl:justify-start"}`
                       }
                     >
                       <DashboardIcon
@@ -113,8 +113,8 @@ export default function Sidebar() {
             href="/dashboard/envo-settings"
             className={
               pathname.startsWith("/dashboard/envo-settings")
-                ? "flex w-full items-center justify-center gap-2 rounded-[2rem] bg-[#1B4332] px-4 py-3 text-sm font-semibold text-white active:scale-95 shadow-md"
-                : "flex w-full items-center justify-center gap-2 rounded-[2rem] border border-[#e5e2e1] bg-[#ffffff] px-4 py-3 text-sm font-semibold text-stone-600 shadow-sm transition-colors hover:border-[#1B4332]/30 hover:bg-[#fcfbfb] hover:text-[#1B4332]"
+                ? "flex w-full items-center justify-center gap-2 rounded-[1.25rem] bg-[var(--dash-primary-deep)] px-4 py-3 text-sm font-medium text-white active:scale-95"
+                : "flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-[var(--dash-line)] bg-[var(--dash-surface)] px-4 py-3 text-sm font-medium text-[var(--dash-ink-soft)] transition-colors hover:border-[rgba(11,107,65,0.30)] hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-primary-deep)]"
             }
             title="Settings"
           >
@@ -123,15 +123,15 @@ export default function Sidebar() {
           </Link>
 
           <button
-            className="flex w-full items-center justify-center gap-2 rounded-[2rem] bg-[#1B4332]/10 px-4 py-3 text-sm font-semibold text-[#1B4332] transition-all hover:bg-[#1B4332]/15"
+            className="flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-[var(--dash-line)] bg-[var(--dash-surface)] px-4 py-3 text-sm font-medium text-[var(--dash-primary-deep)] transition-colors hover:border-[rgba(11,107,65,0.30)] hover:bg-[var(--dash-surface-muted)]"
             title="Export Insights"
           >
             <DashboardIcon name="download" className="text-[20px]" />
             <span className={`${showLabelsClass} min-w-0 truncate`}>Export Insights</span>
           </button>
 
-          <div className={`flex items-center gap-3 rounded-[2rem] bg-[#e5e2e1] p-4 ${isExpanded ? "" : "md:justify-center md:p-3 xl:justify-start xl:p-4"} ${styles.glassNav}`}>
-            <div className="h-10 w-10 rounded-full bg-stone-300">
+          <div className={`flex items-center gap-3 rounded-[1.25rem] bg-[var(--dash-surface)] p-4 ${isExpanded ? "" : "md:justify-center md:p-3 xl:justify-start xl:p-4"} ${styles.glassNav}`}>
+            <div className="h-10 w-10 rounded-full bg-[var(--dash-line-strong)]">
               <img
                 alt="Profile"
                 className="h-full w-full rounded-full object-cover"
@@ -139,8 +139,8 @@ export default function Sidebar() {
               />
             </div>
             <div className={`${showLabelsClass} min-w-0`}>
-              <p className="text-xs font-bold text-[#1c1b1b]">Alex Mercer</p>
-              <p className="truncate text-[10px] text-[#3e4941]">Chief HR Officer</p>
+              <p className="text-xs font-bold text-[var(--dash-ink)]">Alex Mercer</p>
+              <p className="truncate text-[10px] text-[var(--dash-ink-soft)]">Chief HR Officer</p>
             </div>
           </div>
         </div>

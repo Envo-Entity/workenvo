@@ -100,7 +100,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       type="button"
       onClick={() => onChange(!checked)}
       className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200"
-      style={{ background: checked ? "#1B4332" : "#D1D5DB" }}
+      style={{ background: checked ? "var(--dash-primary-deep)" : "var(--dash-line-strong)" }}
     >
       <span
         className="inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200"
@@ -125,9 +125,9 @@ function Select<T extends string>({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className={`rounded-lg border border-[#E0E0E0] bg-white px-3 py-2 text-sm text-[#1c1b1b] outline-none transition-colors ${className}`}
-      onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-      onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+      className={`rounded-lg border border-[var(--dash-line)] bg-white px-3 py-2 text-sm text-[var(--dash-ink)] outline-none transition-colors ${className}`}
+      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
     >
       {options.map((o) => (
         <option key={o} value={o}>{o}</option>
@@ -137,9 +137,9 @@ function Select<T extends string>({
 }
 
 const STATUS_STYLE: Record<SurveyStatus, string> = {
-  Draft:     "bg-stone-100 text-stone-500",
-  Published: "bg-[#006841]/10 text-[#006841]",
-  Paused:    "bg-[#E6A817]/12 text-[#B07E10]",
+  Draft:     "bg-[var(--dash-surface-muted)] text-[var(--dash-ink-faint)]",
+  Published: "bg-[rgba(16,137,79,0.10)] text-[var(--dash-primary)]",
+  Paused:    "bg-[var(--dash-warning-soft)] text-[var(--dash-warning)]",
 };
 
 // ─── Question type previews ───────────────────────────────────────────────────
@@ -156,14 +156,14 @@ function ScalePreview() {
           className="flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-all"
           style={
             hovered !== null && n <= hovered
-              ? { borderColor: "#1B4332", background: "#1B4332", color: "white" }
-              : { borderColor: "#D1D5DB", background: "white", color: "#6B7280" }
+              ? { borderColor: "var(--dash-primary-deep)", background: "var(--dash-primary-deep)", color: "white" }
+              : { borderColor: "var(--dash-line-strong)", background: "white", color: "var(--dash-ink-faint)" }
           }
         >
           {n}
         </button>
       ))}
-      <span className="ml-1 self-center text-[10px] text-stone-400">Disagree → Agree</span>
+      <span className="ml-1 self-center text-[10px] text-[var(--dash-ink-ghost)]">Disagree → Agree</span>
     </div>
   );
 }
@@ -179,8 +179,8 @@ function YesNoPreview() {
           className="rounded-full border px-5 py-1.5 text-sm font-semibold transition-all"
           style={
             sel === opt
-              ? { borderColor: "#1B4332", background: "#1B4332", color: "white" }
-              : { borderColor: "#D1D5DB", background: "white", color: "#6B7280" }
+              ? { borderColor: "var(--dash-primary-deep)", background: "var(--dash-primary-deep)", color: "white" }
+              : { borderColor: "var(--dash-line-strong)", background: "white", color: "var(--dash-ink-faint)" }
           }
         >
           {opt}
@@ -192,7 +192,7 @@ function YesNoPreview() {
 
 function FreeTextPreview() {
   return (
-    <div className="w-full rounded-lg border border-dashed border-[#D1D5DB] px-3 py-2 text-sm text-stone-400">
+    <div className="w-full rounded-lg border border-dashed border-[var(--dash-line-strong)] px-3 py-2 text-sm text-[var(--dash-ink-ghost)]">
       Employee will type here…
     </div>
   );
@@ -209,7 +209,7 @@ function MultipleChoiceEditor({
     <div className="space-y-1.5">
       {options.map((opt, i) => (
         <div key={i} className="flex items-center gap-2">
-          <div className="h-3.5 w-3.5 shrink-0 rounded-full border border-stone-300" />
+          <div className="h-3.5 w-3.5 shrink-0 rounded-full border border-[var(--dash-line-strong)]" />
           <input
             value={opt}
             onChange={(e) => {
@@ -217,14 +217,14 @@ function MultipleChoiceEditor({
               next[i] = e.target.value;
               onChange(next);
             }}
-            className="flex-1 rounded border border-[#E0E0E0] px-2 py-1 text-sm outline-none"
-            onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-            onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+            className="flex-1 rounded border border-[var(--dash-line)] px-2 py-1 text-sm outline-none"
+            onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
           />
           {options.length > 2 && (
             <button
               onClick={() => onChange(options.filter((_, j) => j !== i))}
-              className="text-stone-300 hover:text-red-400 transition-colors"
+              className="text-[var(--dash-ink-ghost)] hover:text-[var(--dash-danger)] transition-colors"
             >
               <TrashMiniIcon />
             </button>
@@ -233,7 +233,7 @@ function MultipleChoiceEditor({
       ))}
       <button
         onClick={() => onChange([...options, ""])}
-        className="mt-1 text-[11px] font-semibold text-[#006841] hover:underline"
+        className="mt-1 text-[11px] font-semibold text-[var(--dash-primary)] hover:underline"
       >
         + Add Option
       </button>
@@ -245,7 +245,7 @@ function MultipleChoiceEditor({
 
 function DragHandle() {
   return (
-    <svg width="14" height="20" viewBox="0 0 14 20" fill="#D1D5DB">
+    <svg width="14" height="20" viewBox="0 0 14 20" fill="var(--dash-line-strong)">
       {[3, 9, 15].map((y) =>
         [3, 9].map((x) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" />)
       )}
@@ -338,11 +338,11 @@ function QuestionCard({
       onMouseLeave={() => setHovered(false)}
       className="group relative flex gap-3 rounded-[1rem] border-l-2 bg-white p-5 transition-all"
       style={{
-        borderLeftColor: "#1B4332",
-        background: hovered ? "rgba(27,67,50,0.02)" : "white",
+        borderLeftColor: "var(--dash-primary-deep)",
+        background: hovered ? "rgba(16,137,79,0.03)" : "white",
         boxShadow: hovered
-          ? "0 4px 24px -4px rgba(0,104,65,0.08)"
-          : "0 1px 4px -1px rgba(0,0,0,0.04)",
+          ? "0 8px 24px -14px rgba(15,23,42,0.16)"
+          : "0 1px 2px rgba(15,23,42,0.045)",
       }}
     >
       {/* Drag handle — visible on hover */}
@@ -356,15 +356,15 @@ function QuestionCard({
       <div className="min-w-0 flex-1 space-y-3">
         {/* Row 1: number + text input + type selector */}
         <div className="flex items-start gap-3">
-          <span className="mt-2.5 shrink-0 text-[11px] font-bold text-[#1B4332]">
+          <span className="mt-2.5 shrink-0 text-[11px] font-bold text-[var(--dash-primary-deep)]">
             Q{index + 1}
           </span>
           <input
             value={question.text}
             onChange={(e) => setField("text", e.target.value)}
-            className="flex-1 rounded-lg border border-[#E0E0E0] px-3 py-2 text-sm text-[#1c1b1b] outline-none transition-colors"
-            onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-            onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+            className="flex-1 rounded-lg border border-[var(--dash-line)] px-3 py-2 text-sm text-[var(--dash-ink)] outline-none transition-colors"
+            onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
             placeholder="Enter question…"
           />
           <Select
@@ -395,8 +395,8 @@ function QuestionCard({
         </div>
 
         {/* Row 3: controls */}
-        <div className="flex items-center gap-4 border-t border-stone-100 pt-2.5 pl-7">
-          <label className="flex cursor-pointer items-center gap-2 text-xs text-stone-500">
+        <div className="flex items-center gap-4 border-t border-[var(--dash-line-soft)] pt-2.5 pl-7">
+          <label className="flex cursor-pointer items-center gap-2 text-xs text-[var(--dash-ink-faint)]">
             <Toggle
               checked={question.required}
               onChange={(v) => setField("required", v)}
@@ -409,30 +409,30 @@ function QuestionCard({
             <button
               onClick={() => onMove(-1)}
               disabled={index === 0}
-              className="flex h-7 w-7 items-center justify-center rounded text-stone-300 transition-colors hover:bg-stone-100 hover:text-stone-600 disabled:opacity-30"
+              className="flex h-7 w-7 items-center justify-center rounded text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-ink-soft)] disabled:opacity-30"
             >
               <UpArrow />
             </button>
             <button
               onClick={() => onMove(1)}
               disabled={index === total - 1}
-              className="flex h-7 w-7 items-center justify-center rounded text-stone-300 transition-colors hover:bg-stone-100 hover:text-stone-600 disabled:opacity-30"
+              className="flex h-7 w-7 items-center justify-center rounded text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-ink-soft)] disabled:opacity-30"
             >
               <DownArrow />
             </button>
 
-            <div className="mx-1 h-4 w-px bg-stone-200" />
+            <div className="mx-1 h-4 w-px bg-[var(--dash-line-soft)]" />
 
             <button
               onClick={onDuplicate}
-              className="flex h-7 w-7 items-center justify-center rounded text-stone-300 transition-colors hover:bg-stone-100 hover:text-stone-600"
+              className="flex h-7 w-7 items-center justify-center rounded text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-ink-soft)]"
               title="Duplicate"
             >
               <DuplicateIcon />
             </button>
             <button
               onClick={onDelete}
-              className="flex h-7 w-7 items-center justify-center rounded text-stone-300 transition-colors hover:bg-red-50 hover:text-red-400"
+              className="flex h-7 w-7 items-center justify-center rounded text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-danger-soft)] hover:text-[var(--dash-danger)]"
               title="Delete"
             >
               <TrashMiniIcon />
@@ -458,32 +458,32 @@ function PhonePreview({
       <div
         className="relative w-[300px] overflow-hidden rounded-[24px] bg-white"
         style={{
-          border: "1.5px solid #E5E7EB",
-          boxShadow: "0 8px 40px -8px rgba(0,0,0,0.12), 0 0 0 4px rgba(0,0,0,0.03)",
+          border: "1.5px solid var(--dash-line)",
+          boxShadow: "0 8px 24px -12px rgba(15,23,42,0.14), 0 0 0 4px rgba(15,23,42,0.03)",
         }}
       >
         {/* Phone notch */}
         <div className="flex justify-center bg-white pt-3 pb-1">
-          <div className="h-1.5 w-12 rounded-full bg-stone-200" />
+          <div className="h-1.5 w-12 rounded-full bg-[var(--dash-line-soft)]" />
         </div>
 
         {/* Survey content */}
         <div className="max-h-[520px] overflow-y-auto px-5 pb-6 pt-3">
           {/* Anonymous badge */}
           {meta.anonymous && (
-            <div className="mb-3 flex items-center gap-1.5 rounded-full bg-[#006841]/8 px-3 py-1.5" style={{ background: "rgba(0,104,65,0.07)" }}>
+            <div className="mb-3 flex items-center gap-1.5 rounded-full bg-[rgba(16,137,79,0.08)] px-3 py-1.5">
               <ShieldIcon />
-              <span className="text-[10px] font-semibold text-[#006841]">
+              <span className="text-[10px] font-semibold text-[var(--dash-primary)]">
                 Your response is anonymous
               </span>
             </div>
           )}
 
           {/* Survey title */}
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--dash-ink-ghost)]">
             {meta.frequency} Survey
           </p>
-          <h3 className="mb-4 text-base font-bold text-[#1c1b1b] leading-snug">
+          <h3 className="mb-4 text-base font-bold text-[var(--dash-ink)] leading-snug">
             {meta.title || "Untitled Survey"}
           </h3>
 
@@ -491,9 +491,9 @@ function PhonePreview({
           <div className="space-y-5">
             {questions.map((q, i) => (
               <div key={q.id} className="space-y-2">
-                <p className="text-xs font-semibold text-[#1c1b1b] leading-snug">
-                  {i + 1}. {q.text || <span className="text-stone-400 italic">Untitled question</span>}
-                  {q.required && <span className="ml-1 text-[#DC3545]">*</span>}
+                <p className="text-xs font-semibold text-[var(--dash-ink)] leading-snug">
+                  {i + 1}. {q.text || <span className="text-[var(--dash-ink-ghost)] italic">Untitled question</span>}
+                  {q.required && <span className="ml-1 text-[var(--dash-danger)]">*</span>}
                 </p>
 
                 {q.type === "scale" && (
@@ -501,7 +501,7 @@ function PhonePreview({
                     {[1, 2, 3, 4, 5].map((n) => (
                       <div
                         key={n}
-                        className="flex h-7 w-7 items-center justify-center rounded-full border border-stone-200 text-[10px] text-stone-400"
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--dash-line)] text-[10px] text-[var(--dash-ink-ghost)]"
                       >
                         {n}
                       </div>
@@ -514,7 +514,7 @@ function PhonePreview({
                     {["Yes", "No"].map((opt) => (
                       <div
                         key={opt}
-                        className="rounded-full border border-stone-200 px-4 py-1 text-xs text-stone-400"
+                        className="rounded-full border border-[var(--dash-line)] px-4 py-1 text-xs text-[var(--dash-ink-ghost)]"
                       >
                         {opt}
                       </div>
@@ -523,7 +523,7 @@ function PhonePreview({
                 )}
 
                 {q.type === "free_text" && (
-                  <div className="w-full rounded-lg border border-dashed border-stone-200 px-3 py-2 text-[10px] text-stone-300">
+                  <div className="w-full rounded-lg border border-dashed border-[var(--dash-line)] px-3 py-2 text-[10px] text-[var(--dash-ink-ghost)]">
                     Type your answer…
                   </div>
                 )}
@@ -532,8 +532,8 @@ function PhonePreview({
                   <div className="space-y-1">
                     {(q.options ?? ["Option A", "Option B"]).map((opt, j) => (
                       <div key={j} className="flex items-center gap-2">
-                        <div className="h-3 w-3 shrink-0 rounded-full border border-stone-300" />
-                        <span className="text-[10px] text-stone-500">{opt || "Option"}</span>
+                        <div className="h-3 w-3 shrink-0 rounded-full border border-[var(--dash-line-strong)]" />
+                        <span className="text-[10px] text-[var(--dash-ink-faint)]">{opt || "Option"}</span>
                       </div>
                     ))}
                   </div>
@@ -546,14 +546,14 @@ function PhonePreview({
           {questions.length > 0 && (
             <button
               disabled
-              className="mt-6 w-full rounded-full bg-[#1B4332] py-2.5 text-xs font-bold text-white opacity-90"
+              className="mt-6 w-full rounded-full bg-[var(--dash-primary-deep)] py-2.5 text-xs font-bold text-white opacity-90"
             >
               Submit Response
             </button>
           )}
 
           {questions.length === 0 && (
-            <p className="mt-4 text-center text-[11px] text-stone-300">
+            <p className="mt-4 text-center text-[11px] text-[var(--dash-ink-ghost)]">
               Add questions to see preview
             </p>
           )}
@@ -561,7 +561,7 @@ function PhonePreview({
 
         {/* Phone home bar */}
         <div className="flex justify-center bg-white py-2">
-          <div className="h-1 w-20 rounded-full bg-stone-200" />
+          <div className="h-1 w-20 rounded-full bg-[var(--dash-line-soft)]" />
         </div>
       </div>
     </div>
@@ -574,47 +574,47 @@ function TemplateLibrary({ onUse }: { onUse: (name: string) => void }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-[1.5rem] bg-white" style={{ boxShadow: "0 1px 6px -1px rgba(0,0,0,0.06)" }}>
+    <div className="rounded-[1.5rem] bg-white" style={{ boxShadow: "0 1px 2px rgba(15,23,42,0.045)" }}>
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between px-6 py-4"
       >
         <div className="flex items-center gap-3">
-          <span className="text-sm font-bold text-[#1c1b1b]">Templates</span>
-          <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-bold text-stone-500">
+          <span className="text-sm font-bold text-[var(--dash-ink)]">Templates</span>
+          <span className="rounded-full bg-[var(--dash-surface-muted)] px-2 py-0.5 text-[10px] font-bold text-[var(--dash-ink-faint)]">
             {TEMPLATES.length}
           </span>
         </div>
-        <span className="text-stone-400">
+        <span className="text-[var(--dash-ink-ghost)]">
           <ChevronIcon open={open} />
         </span>
       </button>
 
       {open && (
-        <div className="grid grid-cols-1 gap-4 border-t border-stone-100 px-6 pb-6 pt-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 border-t border-[var(--dash-line-soft)] px-6 pb-6 pt-4 sm:grid-cols-3">
           {TEMPLATES.map((t) => (
             <div
               key={t.name}
-              className="flex flex-col justify-between gap-3 rounded-[1rem] bg-[#f6f3f2] p-4"
+              className="flex flex-col justify-between gap-3 rounded-[1rem] bg-[var(--dash-surface-muted)] p-4"
             >
               <div className="space-y-1.5">
-                <p className="font-bold text-sm text-[#1c1b1b]">{t.name}</p>
-                <p className="text-xs text-stone-500 leading-relaxed">{t.description}</p>
+                <p className="font-bold text-sm text-[var(--dash-ink)]">{t.name}</p>
+                <p className="text-xs text-[var(--dash-ink-faint)] leading-relaxed">{t.description}</p>
                 <div className="flex flex-wrap gap-1 pt-1">
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-stone-500">
+                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-[var(--dash-ink-faint)]">
                     {t.questions} questions
                   </span>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-stone-500">
+                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-[var(--dash-ink-faint)]">
                     {t.frequency}
                   </span>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-stone-500">
+                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-[var(--dash-ink-faint)]">
                     {t.anonymous ? "Anonymous" : "Identified"}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => onUse(t.name)}
-                className="self-start rounded-full border border-[#1B4332]/30 px-4 py-1.5 text-xs font-semibold text-[#1B4332] transition-all hover:bg-[#1B4332]/5"
+                className="self-start rounded-full border border-[rgba(11,107,65,0.30)] px-4 py-1.5 text-xs font-semibold text-[var(--dash-primary-deep)] transition-all hover:bg-[rgba(11,107,65,0.05)]"
               >
                 Use Template
               </button>
@@ -682,23 +682,23 @@ export default function SurveyBuilderShell() {
       {/* ── Page header ──────────────────────────────────────── */}
       <header className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div className="space-y-2">
-          <span className="rounded-full bg-[#006841]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[#006841]">
+          <span className="rounded-full bg-[rgba(16,137,79,0.10)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--dash-primary)]">
             Data Collection
           </span>
-          <h1 className="text-3xl font-bold tracking-tighter text-[#1c1b1b] md:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tighter text-[var(--dash-ink)] md:text-4xl">
             Survey Builder
           </h1>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-[var(--dash-ink-faint)]">
             Design pulse questions and sentiment capture flows
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="rounded-full border border-[#1B4332]/30 px-5 py-2.5 text-sm font-semibold text-[#1B4332] transition-all hover:bg-[#1B4332]/5">
+          <button className="rounded-full border border-[rgba(11,107,65,0.30)] px-5 py-2.5 text-sm font-semibold text-[var(--dash-primary-deep)] transition-all hover:bg-[rgba(11,107,65,0.05)]">
             Templates
           </button>
           <button
             onClick={addQuestion}
-            className={`rounded-full bg-[#008454] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
+            className={`rounded-full bg-[var(--dash-primary-deep)] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
           >
             + New Survey
           </button>
@@ -714,7 +714,7 @@ export default function SurveyBuilderShell() {
           {/* Survey header card */}
           <div className={`space-y-4 rounded-[1.5rem] bg-white p-6 ${styles.ambientShadow}`}>
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#2D2D2D]/50">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgba(14,23,38,0.50)]">
                 Survey Settings
               </p>
               <select
@@ -733,9 +733,9 @@ export default function SurveyBuilderShell() {
               value={meta.title}
               onChange={(e) => setMetaField("title", e.target.value)}
               placeholder="Survey title…"
-              className="w-full rounded-lg border border-[#E0E0E0] px-4 py-3 text-base font-semibold text-[#1c1b1b] outline-none transition-colors placeholder:font-normal placeholder:text-stone-400"
-              onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+              className="w-full rounded-lg border border-[var(--dash-line)] px-4 py-3 text-base font-semibold text-[var(--dash-ink)] outline-none transition-colors placeholder:font-normal placeholder:text-[var(--dash-ink-ghost)]"
+              onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
             />
 
             {/* Description */}
@@ -744,9 +744,9 @@ export default function SurveyBuilderShell() {
               onChange={(e) => setMetaField("description", e.target.value)}
               placeholder="Brief description of this survey's purpose…"
               rows={2}
-              className="w-full resize-none rounded-lg border border-[#E0E0E0] px-4 py-3 text-sm text-[#1c1b1b] outline-none transition-colors placeholder:text-stone-400"
-              onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+              className="w-full resize-none rounded-lg border border-[var(--dash-line)] px-4 py-3 text-sm text-[var(--dash-ink)] outline-none transition-colors placeholder:text-[var(--dash-ink-ghost)]"
+              onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
             />
 
             {/* Settings row */}
@@ -761,7 +761,7 @@ export default function SurveyBuilderShell() {
                 onChange={(v) => setMetaField("trigger", v)}
                 options={["Scheduled Pulse", "After Meeting", "After 1:1", "After Project Completion"]}
               />
-              <label className="flex items-center gap-2 text-sm text-stone-600">
+              <label className="flex items-center gap-2 text-sm text-[var(--dash-ink-soft)]">
                 <Toggle
                   checked={meta.anonymous}
                   onChange={(v) => setMetaField("anonymous", v)}
@@ -773,10 +773,10 @@ export default function SurveyBuilderShell() {
 
           {/* Question count */}
           <div className="flex items-center justify-between px-1">
-            <p className="text-xs font-semibold text-stone-400">
+            <p className="text-xs font-semibold text-[var(--dash-ink-ghost)]">
               {questions.length} question{questions.length !== 1 ? "s" : ""}
             </p>
-            <p className="text-xs text-stone-400">
+            <p className="text-xs text-[var(--dash-ink-ghost)]">
               {questions.filter((q) => q.required).length} required
             </p>
           </div>
@@ -800,12 +800,12 @@ export default function SurveyBuilderShell() {
           {/* Add question */}
           <button
             onClick={addQuestion}
-            className="flex w-full items-center justify-center gap-2 rounded-[1rem] border border-dashed border-[#1B4332]/30 py-4 text-sm font-semibold text-[#1B4332] transition-all hover:border-[#1B4332]/60 hover:bg-[#1B4332]/4"
+            className="flex w-full items-center justify-center gap-2 rounded-[1rem] border border-dashed border-[rgba(11,107,65,0.30)] py-4 text-sm font-semibold text-[var(--dash-primary-deep)] transition-all hover:border-[rgba(11,107,65,0.60)] hover:bg-[rgba(11,107,65,0.04)]"
             style={{ background: "transparent" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(27,67,50,0.03)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(16,137,79,0.04)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-[#1B4332]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-[var(--dash-primary-deep)]">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
             Add Question
@@ -814,10 +814,10 @@ export default function SurveyBuilderShell() {
 
         {/* ── RIGHT — Preview (40%) ─────────────────────────────── */}
         <div className="lg:sticky lg:top-6 lg:w-[40%]">
-          <div className={`rounded-[1.5rem] bg-[#f6f3f2] p-6 ${styles.ambientShadow}`}>
+          <div className={`rounded-[1.5rem] bg-[var(--dash-surface-muted)] p-6 ${styles.ambientShadow}`}>
             <div className="mb-5">
-              <p className="font-bold text-[#1c1b1b]">Preview</p>
-              <p className="text-xs text-stone-400">What employees will see</p>
+              <p className="font-bold text-[var(--dash-ink)]">Preview</p>
+              <p className="text-xs text-[var(--dash-ink-ghost)]">What employees will see</p>
             </div>
             <PhonePreview meta={meta} questions={questions} />
           </div>

@@ -52,11 +52,11 @@ const initialManagedAccess: ManagedAccess[] = [
 
 function StatChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.35rem] bg-[#f6f3f2] px-4 py-3">
-      <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-[#3e4941]/65">
+    <div className="rounded-[1.35rem] bg-[var(--dash-surface-muted)] px-4 py-3">
+      <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-[rgba(81,93,108,0.65)]">
         {label}
       </p>
-      <p className="mt-1 text-lg font-bold tracking-tight text-[#1c1b1b]">{value}</p>
+      <p className="mt-1 text-lg font-bold tracking-tight text-[var(--dash-ink)]">{value}</p>
     </div>
   );
 }
@@ -71,12 +71,12 @@ function DashboardCheckbox({
   onChange: () => void;
 }) {
   return (
-    <label className="flex items-center gap-2 text-xs font-semibold text-[#1c1b1b]">
+    <label className="flex items-center gap-2 text-xs font-semibold text-[var(--dash-ink)]">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded border-0 accent-[#006841]"
+        className="h-4 w-4 rounded border-0 accent-[var(--dash-primary)]"
       />
       <span>{label}</span>
     </label>
@@ -95,13 +95,13 @@ function AccessDropdown({
       <select
         value={value}
         onChange={(event) => onChange(event.target.value as AccessLevel)}
-        className="w-full appearance-none rounded-[1rem] bg-white px-3.5 py-2.5 pr-9 text-sm font-semibold capitalize text-[#1c1b1b] outline-none ring-1 ring-[#006841]/8 transition-shadow focus:ring-2 focus:ring-[#006841]/18"
+        className="w-full appearance-none rounded-[1rem] bg-white px-3.5 py-2.5 pr-9 text-sm font-semibold capitalize text-[var(--dash-ink)] outline-none ring-1 ring-[rgba(16,137,79,0.08)] transition-shadow focus:ring-2 focus:ring-[rgba(16,137,79,0.18)]"
       >
         <option value="none">None</option>
         <option value="read">Read</option>
         <option value="write">Write</option>
       </select>
-      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[#3e4941]/55">
+      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[rgba(81,93,108,0.55)]">
         ▾
       </span>
     </div>
@@ -235,13 +235,13 @@ export default function UserManagementShell() {
       <section className={`rounded-[2rem] bg-white p-7 md:p-9 ${styles.ambientShadow}`}>
         <div className="flex flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
           <div className="max-w-2xl space-y-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#006841]/70">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[rgba(16,137,79,0.70)]">
               Admin Controls
             </p>
-            <h2 className="text-[2rem] font-bold tracking-[-0.03em] text-[#1c1b1b]">
+            <h2 className="text-[2rem] font-bold tracking-[-0.03em] text-[var(--dash-ink)]">
               User management
             </h2>
-            <p className="text-sm leading-7 text-[#3e4941]">
+            <p className="text-sm leading-7 text-[var(--dash-ink-soft)]">
               Choose which people appear in this admin list, then shape exactly
               what their dashboard sidebar unlocks. Every person here is pulled
               from the existing Employees directory, so access stays anchored to
@@ -263,23 +263,23 @@ export default function UserManagementShell() {
         </div>
 
         <div className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1.65fr)_minmax(300px,0.95fr)]">
-          <div className="rounded-[1.75rem] bg-[#f6f3f2] p-5 md:p-6">
+          <div className="rounded-[1.75rem] bg-[var(--dash-surface-muted)] p-5 md:p-6">
             <div className="flex items-center gap-3 rounded-[1.35rem] bg-white px-4 py-3">
-              <Search className="h-4 w-4 text-[#3e4941]/55" />
+              <Search className="h-4 w-4 text-[rgba(81,93,108,0.55)]" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search an employee by name, role, or department"
-                className="w-full bg-transparent text-sm text-[#1c1b1b] outline-none placeholder:text-[#3e4941]/45"
+                className="w-full bg-transparent text-sm text-[var(--dash-ink)] outline-none placeholder:text-[rgba(81,93,108,0.45)]"
               />
             </div>
 
             <div className="mt-4 space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                   Add people from Employees
                 </p>
-                <p className="text-xs text-[#3e4941]/60">
+                <p className="text-xs text-[rgba(81,93,108,0.60)]">
                   {availableEmployees.length} available
                 </p>
               </div>
@@ -301,20 +301,20 @@ export default function UserManagementShell() {
                           {getInitials(employee.name)}
                         </div>
                         <div>
-                          <p className="font-semibold text-[#1c1b1b]">{employee.name}</p>
-                          <p className="text-xs text-[#3e4941]/70">
+                          <p className="font-semibold text-[var(--dash-ink)]">{employee.name}</p>
+                          <p className="text-xs text-[rgba(81,93,108,0.70)]">
                             {employee.designation}
                           </p>
                         </div>
                       </div>
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#006841]/10 text-[#006841] transition-colors group-hover:bg-[#006841] group-hover:text-white">
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(16,137,79,0.10)] text-[var(--dash-primary)] transition-colors group-hover:bg-[var(--dash-primary)] group-hover:text-white">
                         <Plus className="h-4 w-4" />
                       </span>
                     </button>
                   ))}
                 </div>
               ) : (
-                <div className="rounded-[1.35rem] bg-white px-4 py-5 text-sm text-[#3e4941]/75">
+                <div className="rounded-[1.35rem] bg-white px-4 py-5 text-sm text-[rgba(81,93,108,0.75)]">
                   {normalizedQuery
                     ? "No additional employees match that search."
                     : "Everyone from the Employees directory is already configured here."}
@@ -323,11 +323,11 @@ export default function UserManagementShell() {
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] bg-[#eef8f2] p-5 md:p-6">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#006841]/70">
+          <div className="rounded-[1.75rem] bg-[var(--dash-primary-soft)] p-5 md:p-6">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(16,137,79,0.70)]">
               Sidebar access logic
             </p>
-            <div className="mt-4 space-y-4 text-sm leading-7 text-[#3e4941]">
+            <div className="mt-4 space-y-4 text-sm leading-7 text-[var(--dash-ink-soft)]">
               <p>
                 Dashboard toggles decide which insight destinations show up in a
                 user&apos;s sidebar.
@@ -345,37 +345,37 @@ export default function UserManagementShell() {
       <section className={`rounded-[2rem] bg-white p-5 md:p-6 ${styles.ambientShadow}`}>
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-[#006841]/70">
+            <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-[rgba(16,137,79,0.70)]">
               Access Matrix
             </p>
-            <h3 className="mt-2 text-2xl font-bold tracking-tight text-[#1c1b1b]">
+            <h3 className="mt-2 text-2xl font-bold tracking-tight text-[var(--dash-ink)]">
               Configured people
             </h3>
           </div>
-          <p className="max-w-xl text-sm text-[#3e4941]">
+          <p className="max-w-xl text-sm text-[var(--dash-ink-soft)]">
             Search above to add more people. The list below only shows employees
             you&apos;ve explicitly added to this admin surface.
           </p>
         </div>
 
-        <div className="mt-6 overflow-hidden rounded-[1.6rem] bg-[#f6f3f2]">
+        <div className="mt-6 overflow-hidden rounded-[1.6rem] bg-[var(--dash-surface-muted)]">
           <div className="overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-0">
               <thead>
-                <tr className="bg-[#eef8f2]">
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                <tr className="bg-[var(--dash-primary-soft)]">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                     Employee
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                     Dashboards
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                     Signals Setup
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                     Survey Builder
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[#3e4941]/65">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-[0.24em] text-[rgba(81,93,108,0.65)]">
                     Sidebar Preview
                   </th>
                 </tr>
@@ -397,7 +397,7 @@ export default function UserManagementShell() {
                   return (
                     <tr
                       key={employee.id}
-                      className={index % 2 === 0 ? "bg-white/75" : "bg-[#f9f7f6]"}
+                      className={index % 2 === 0 ? "bg-white/75" : "bg-[var(--dash-surface-subtle)]"}
                     >
                       <td className="px-5 py-5 align-top">
                         <div className="flex min-w-[240px] items-start gap-4">
@@ -408,13 +408,13 @@ export default function UserManagementShell() {
                             {getInitials(employee.name)}
                           </div>
                           <div className="space-y-1">
-                            <p className="font-bold tracking-tight text-[#1c1b1b]">
+                            <p className="font-bold tracking-tight text-[var(--dash-ink)]">
                               {employee.name}
                             </p>
-                            <p className="text-sm text-[#3e4941]">
+                            <p className="text-sm text-[var(--dash-ink-soft)]">
                               {employee.designation}
                             </p>
-                            <p className="text-xs text-[#3e4941]/70">
+                            <p className="text-xs text-[rgba(81,93,108,0.70)]">
                               {employee.department} · {employee.location}
                             </p>
                           </div>
@@ -466,13 +466,13 @@ export default function UserManagementShell() {
                             sidebarPreview.map((item) => (
                               <span
                                 key={item}
-                                className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-[#1c1b1b]"
+                                className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-[var(--dash-ink)]"
                               >
                                 {item}
                               </span>
                             ))
                           ) : (
-                            <span className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-[#3e4941]/70">
+                            <span className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-[rgba(81,93,108,0.70)]">
                               No access granted
                             </span>
                           )}

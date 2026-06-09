@@ -78,12 +78,12 @@ export default function IntegrationsShell({
             className={`w-full max-w-2xl rounded-[1.75rem] bg-white px-5 py-4 ${styles.ambientShadow}`}
           >
             <div className="flex items-start gap-3">
-              <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[#008454]" />
+              <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[var(--dash-primary-deep)]" />
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-[#1c1b1b]">
+                <p className="text-sm font-semibold text-[var(--dash-ink)]">
                   {toast.title}
                 </p>
-                <p className="text-sm text-[#3e4941]">{toast.message}</p>
+                <p className="text-sm text-[var(--dash-ink-soft)]">{toast.message}</p>
               </div>
             </div>
           </div>
@@ -92,13 +92,13 @@ export default function IntegrationsShell({
 
       <section className="rounded-[2rem] bg-white p-8 md:p-10">
         <div className="max-w-2xl space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#006841]/70">
+          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[rgba(16,137,79,0.70)]">
             Integration Hub
           </p>
-          <h2 className="text-2xl font-bold tracking-tight text-[#1c1b1b]">
+          <h2 className="text-2xl font-bold tracking-tight text-[var(--dash-ink)]">
             Connect your tools
           </h2>
-          <p className="text-sm leading-7 text-[#3e4941]">
+          <p className="text-sm leading-7 text-[var(--dash-ink-soft)]">
             Bring your HRIS, CRM, and revenue systems into Workenvo so your
             signals and scorecards reflect the tools your teams already use
             every day.
@@ -112,7 +112,7 @@ export default function IntegrationsShell({
             return (
               <article
                 key={integration.name}
-                className="flex min-h-[280px] flex-col justify-between rounded-[1.75rem] bg-[#f6f3f2] p-6"
+                className="flex min-h-[280px] flex-col justify-between rounded-[1.75rem] bg-[var(--dash-surface-muted)] p-6"
               >
                 <div className="space-y-5">
                   <div className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] bg-white">
@@ -124,10 +124,10 @@ export default function IntegrationsShell({
                   </div>
 
                   <div className="space-y-2">
-                    <h3 className="text-xl font-bold tracking-tight text-[#1c1b1b]">
+                    <h3 className="text-xl font-bold tracking-tight text-[var(--dash-ink)]">
                       {integration.name}
                     </h3>
-                    <p className="text-sm leading-7 text-[#3e4941]">
+                    <p className="text-sm leading-7 text-[var(--dash-ink-soft)]">
                       {integration.description}
                     </p>
                   </div>
@@ -137,7 +137,7 @@ export default function IntegrationsShell({
                   type="button"
                   onClick={() => handleConnect(integration.name)}
                   disabled={isConnecting}
-                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#008454] px-4 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.01] disabled:cursor-wait disabled:opacity-90"
+                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--dash-primary-deep)] px-4 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.01] disabled:cursor-wait disabled:opacity-90"
                 >
                   {isConnecting ? (
                     <>

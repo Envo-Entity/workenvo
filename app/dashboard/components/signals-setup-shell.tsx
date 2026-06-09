@@ -36,21 +36,21 @@ const NOTIFICATION_TARGETS = ["HR", "Direct Manager", "Leadership", "Both HR & M
 const AUTO_ACTIONS = ["Send Nudge", "Schedule 1:1", "Flag to Manager", "Open Review", "No Action"];
 
 const SEVERITY_COLOR: Record<Severity, string> = {
-  Low: "#006841",
-  Material: "#E6A817",
-  Critical: "#DC3545",
+  Low: "var(--dash-primary)",
+  Material: "var(--dash-warning)",
+  Critical: "var(--dash-danger)",
 };
 
 const SEVERITY_BG: Record<Severity, string> = {
-  Low: "bg-[#006841]/10 text-[#006841]",
-  Material: "bg-[#E6A817]/10 text-[#E6A817]",
-  Critical: "bg-[#DC3545]/10 text-[#DC3545]",
+  Low: "bg-[rgba(16,137,79,0.10)] text-[var(--dash-primary)]",
+  Material: "bg-[rgba(211,138,44,0.10)] text-[var(--dash-warning)]",
+  Critical: "bg-[rgba(226,75,54,0.10)] text-[var(--dash-danger)]",
 };
 
 const STATUS_STYLE: Record<SignalStatus, string> = {
-  Active: "bg-[#006841]/10 text-[#006841]",
-  Paused: "bg-[#E6A817]/10 text-[#E6A817]",
-  Archived: "bg-stone-200 text-stone-500",
+  Active: "bg-[rgba(16,137,79,0.10)] text-[var(--dash-primary)]",
+  Paused: "bg-[rgba(211,138,44,0.10)] text-[var(--dash-warning)]",
+  Archived: "bg-[var(--dash-line-soft)] text-[var(--dash-ink-faint)]",
 };
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -162,15 +162,15 @@ function SignalCard({
     >
       {/* Left — 70% */}
       <div className="flex-1 space-y-2.5 min-w-0">
-        <p className="text-base font-bold text-[#1c1b1b]">{signal.name}</p>
-        <p className="text-sm leading-relaxed text-stone-500">{signal.description}</p>
+        <p className="text-base font-bold text-[var(--dash-ink)]">{signal.name}</p>
+        <p className="text-sm leading-relaxed text-[var(--dash-ink-faint)]">{signal.description}</p>
 
         <div className="flex flex-wrap gap-2 pt-1">
-          <Pill className="border border-[#006841]/30 text-[#006841]">{signal.pillar}</Pill>
+          <Pill className="border border-[rgba(16,137,79,0.30)] text-[var(--dash-primary)]">{signal.pillar}</Pill>
           <Pill className={SEVERITY_BG[signal.severity]}>{signal.severity}</Pill>
-          <Pill className="border border-stone-300 text-stone-500">{signal.confidence}</Pill>
+          <Pill className="border border-[var(--dash-line-strong)] text-[var(--dash-ink-faint)]">{signal.confidence}</Pill>
           {signal.dataSources.map((src) => (
-            <Pill key={src} className="border border-[#2D2D2D]/20 text-[#2D2D2D]">{src}</Pill>
+            <Pill key={src} className="border border-[rgba(14,23,38,0.20)] text-[var(--dash-ink)]">{src}</Pill>
           ))}
         </div>
       </div>
@@ -179,10 +179,10 @@ function SignalCard({
       <div className="flex shrink-0 flex-row items-start justify-between gap-4 sm:w-48 sm:flex-col sm:items-end">
         <div className="space-y-1.5 text-right">
           <Pill className={STATUS_STYLE[signal.status]}>{signal.status}</Pill>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[var(--dash-ink-ghost)]">
             Notifies: {signal.notificationTargets.join(", ")}
           </p>
-          <p className="text-[10px] text-stone-400">
+          <p className="text-[10px] text-[var(--dash-ink-ghost)]">
             Action: {signal.autoActions[0] ?? "None"}
           </p>
         </div>
@@ -191,13 +191,13 @@ function SignalCard({
           <button
             onClick={() => onEdit(signal)}
             title="Edit signal"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-[#006841]/10 hover:text-[#006841]"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--dash-ink-ghost)] transition-colors hover:bg-[rgba(16,137,79,0.10)] hover:text-[var(--dash-primary)]"
           >
             <PencilIcon />
           </button>
           <button
             title="More options"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-stone-100"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-surface-muted)]"
           >
             <DotsIcon />
           </button>
@@ -237,7 +237,7 @@ function CloseIcon() {
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[#2D2D2D]/60 mb-1.5">
+    <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-[rgba(14,23,38,0.60)] mb-1.5">
       {children}
     </label>
   );
@@ -245,7 +245,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="mt-1 text-[11px] text-[#DC3545]">{message}</p>;
+  return <p className="mt-1 text-[11px] text-[var(--dash-danger)]">{message}</p>;
 }
 
 function TextInput({
@@ -266,13 +266,13 @@ function TextInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-lg border px-3 py-3 text-sm text-[#1c1b1b] placeholder:text-stone-400 outline-none transition-colors"
+        className="w-full rounded-lg border px-3 py-3 text-sm text-[var(--dash-ink)] placeholder:text-[var(--dash-ink-ghost)] outline-none transition-colors"
         style={{
-          borderColor: error ? "#DC3545" : "#E0E0E0",
+          borderColor: error ? "var(--dash-danger)" : "var(--dash-line)",
           boxShadow: "none",
         }}
-        onFocus={(e) => { e.currentTarget.style.borderColor = error ? "#DC3545" : "#1B4332"; }}
-        onBlur={(e) => { e.currentTarget.style.borderColor = error ? "#DC3545" : "#E0E0E0"; }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = error ? "var(--dash-danger)" : "var(--dash-primary-deep)"; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = error ? "var(--dash-danger)" : "var(--dash-line)"; }}
       />
       <FieldError message={error} />
     </>
@@ -294,9 +294,9 @@ function TextareaInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-[#E0E0E0] px-3 py-3 text-sm text-[#1c1b1b] placeholder:text-stone-400 outline-none resize-none transition-colors"
-      onFocus={(e) => { e.currentTarget.style.borderColor = "#1B4332"; }}
-      onBlur={(e) => { e.currentTarget.style.borderColor = "#E0E0E0"; }}
+      className="w-full rounded-lg border border-[var(--dash-line)] px-3 py-3 text-sm text-[var(--dash-ink)] placeholder:text-[var(--dash-ink-ghost)] outline-none resize-none transition-colors"
+      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--dash-primary-deep)"; }}
+      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--dash-line)"; }}
     />
   );
 }
@@ -319,10 +319,10 @@ function SelectInput({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border px-3 py-3 text-sm text-[#1c1b1b] outline-none bg-white appearance-none transition-colors"
-        style={{ borderColor: error ? "#DC3545" : "#E0E0E0" }}
-        onFocus={(e) => { e.currentTarget.style.borderColor = error ? "#DC3545" : "#1B4332"; }}
-        onBlur={(e) => { e.currentTarget.style.borderColor = error ? "#DC3545" : "#E0E0E0"; }}
+        className="w-full rounded-lg border px-3 py-3 text-sm text-[var(--dash-ink)] outline-none bg-white appearance-none transition-colors"
+        style={{ borderColor: error ? "var(--dash-danger)" : "var(--dash-line)" }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = error ? "var(--dash-danger)" : "var(--dash-primary-deep)"; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = error ? "var(--dash-danger)" : "var(--dash-line)"; }}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((o) => (
@@ -358,8 +358,8 @@ function CheckboxGroup({
           <div
             className="flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors"
             style={{
-              borderColor: selected.includes(opt) ? "#1B4332" : "#E0E0E0",
-              background: selected.includes(opt) ? "#1B4332" : "white",
+              borderColor: selected.includes(opt) ? "var(--dash-primary-deep)" : "var(--dash-line)",
+              background: selected.includes(opt) ? "var(--dash-primary-deep)" : "white",
             }}
             onClick={() => toggle(opt)}
           >
@@ -369,7 +369,7 @@ function CheckboxGroup({
               </svg>
             )}
           </div>
-          <span className="text-sm text-[#1c1b1b]">{opt}</span>
+          <span className="text-sm text-[var(--dash-ink)]">{opt}</span>
         </label>
       ))}
     </div>
@@ -391,7 +391,7 @@ function RadioGroup({
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => {
         const isSelected = selected === opt;
-        const color = colorMap?.[opt] ?? "#1B4332";
+        const color = colorMap?.[opt] ?? "var(--dash-primary-deep)";
         return (
           <button
             key={opt}
@@ -401,7 +401,7 @@ function RadioGroup({
             style={
               isSelected
                 ? { background: color, color: "white", borderColor: color }
-                : { background: "transparent", color: "#3e4941", borderColor: "#E0E0E0" }
+                : { background: "transparent", color: "var(--dash-ink-soft)", borderColor: "var(--dash-line)" }
             }
           >
             {opt}
@@ -424,7 +424,7 @@ function ToggleSwitch({
       type="button"
       onClick={() => onChange(!checked)}
       className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-      style={{ background: checked ? "#1B4332" : "#E0E0E0" }}
+      style={{ background: checked ? "var(--dash-primary-deep)" : "var(--dash-line)" }}
     >
       <span
         className="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
@@ -479,7 +479,7 @@ function SignalDrawer({
       <div
         className="fixed inset-0 z-40 transition-opacity duration-300"
         style={{
-          background: "rgba(0,0,0,0.3)",
+          background: "rgba(15,23,42,0.30)",
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
         }}
@@ -488,22 +488,25 @@ function SignalDrawer({
 
       {/* Drawer */}
       <div
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[480px] flex-col bg-white shadow-2xl transition-transform duration-300 ease-out"
-        style={{ transform: open ? "translateX(0)" : "translateX(100%)" }}
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[480px] flex-col border-l border-[var(--dash-line-soft)] bg-[var(--dash-surface)] transition-transform duration-300 ease-out"
+        style={{
+          transform: open ? "translateX(0)" : "translateX(100%)",
+          boxShadow: "-12px 0 28px rgba(15, 23, 42, 0.08)",
+        }}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between border-b border-[#E0E0E0]/60 px-6 py-5">
+        <div className="flex items-center justify-between border-b border-[rgba(15,23,42,0.06)] px-6 py-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#2D2D2D]/50">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgba(14,23,38,0.50)]">
               {editingSignal ? "Edit Signal" : "Create Signal"}
             </p>
-            <h2 className="mt-0.5 text-lg font-bold text-[#1c1b1b]">
+            <h2 className="mt-0.5 text-lg font-bold text-[var(--dash-ink)]">
               {editingSignal ? form.name || editingSignal.name : "New Behavioural Signal"}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--dash-ink-ghost)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-[var(--dash-ink-soft)]"
           >
             <CloseIcon />
           </button>
@@ -615,7 +618,7 @@ function SignalDrawer({
                 checked={form.status === "Active"}
                 onChange={(on) => set("status", on ? "Active" : "Paused")}
               />
-              <span className="text-sm font-semibold text-[#1c1b1b]">
+              <span className="text-sm font-semibold text-[var(--dash-ink)]">
                 {form.status === "Active" ? "Active" : "Paused"}
               </span>
             </div>
@@ -626,16 +629,16 @@ function SignalDrawer({
         </div>
 
         {/* Drawer footer */}
-        <div className="flex items-center justify-end gap-3 border-t border-[#E0E0E0]/60 px-6 py-4">
+        <div className="flex items-center justify-end gap-3 border-t border-[rgba(15,23,42,0.06)] px-6 py-4">
           <button
             onClick={onClose}
-            className="px-5 py-2.5 text-sm font-semibold text-stone-500 transition-colors hover:text-[#1c1b1b]"
+            className="px-5 py-2.5 text-sm font-semibold text-[var(--dash-ink-faint)] transition-colors hover:text-[var(--dash-ink)]"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className={`rounded-full bg-[#1B4332] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
+            className={`rounded-full bg-[var(--dash-primary-deep)] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
           >
             Save Signal
           </button>
@@ -685,25 +688,25 @@ export default function SignalsSetupShell() {
       <header className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-[#006841]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[#006841]">
+            <span className="rounded-full bg-[rgba(16,137,79,0.10)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--dash-primary)]">
               Signal Configuration
             </span>
           </div>
-          <h1 className="text-3xl font-bold tracking-tighter text-[#1c1b1b] md:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tighter text-[var(--dash-ink)] md:text-4xl">
             Signals Setup
           </h1>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-[var(--dash-ink-faint)]">
             Define the behavioural signals your organisation tracks
           </p>
         </div>
 
         <div className="flex gap-3">
-          <button className="rounded-full border border-[#1B4332]/30 px-5 py-2.5 text-sm font-semibold text-[#1B4332] transition-all hover:bg-[#1B4332]/5">
+          <button className="rounded-full border border-[rgba(11,107,65,0.30)] px-5 py-2.5 text-sm font-semibold text-[var(--dash-primary-deep)] transition-all hover:bg-[rgba(11,107,65,0.05)]">
             Export Config
           </button>
           <button
             onClick={openCreate}
-            className={`rounded-full bg-[#008454] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
+            className={`rounded-full bg-[var(--dash-primary-deep)] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 ${styles.ambientShadow}`}
           >
             + Create Signal
           </button>
@@ -712,7 +715,7 @@ export default function SignalsSetupShell() {
 
       {/* ── Signal count ────────────────────────────────────── */}
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold text-stone-400">
+        <p className="text-xs font-semibold text-[var(--dash-ink-ghost)]">
           {signals.length} signal{signals.length !== 1 ? "s" : ""} configured
         </p>
         <div className="flex gap-2">
