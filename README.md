@@ -2,6 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+## Dashboard Notes
+
+Culture, Performance, and Sustainability have been removed from the active dashboard navigation. Their old dashboard pages, drilldowns, data, and supporting components were moved to `app/dashboard/_backup-removed-insights` as backup code in case they are needed again later.
+
 First, run the development server:
 
 ```bash

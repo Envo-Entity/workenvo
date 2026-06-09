@@ -1,5 +1,3 @@
-import styles from "../dashboard.module.css";
-
 // 30 days of aggregate emotional sentiment (0–100)
 const emotionalData = [
   68, 70, 72, 69, 65, 61, 58, 62, 67, 70,

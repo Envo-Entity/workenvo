@@ -31,7 +31,7 @@ export default function PerfAppraisalTracker() {
         {/* Connecting line */}
         <div className="absolute left-6 right-6 top-6 h-0.5 bg-[#e5e2e1]" />
 
-        {stages.map((stage, i) => (
+        {stages.map((stage) => (
           <div key={stage.label} className="relative flex flex-col items-center gap-2">
             <div
               className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-full ring-4 ${stage.color} ${stage.ring} ${styles.ambientShadow}`}

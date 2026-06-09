@@ -2,9 +2,9 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 
 const productLinks = [
-  { label: "Culture", href: "/dashboard/envo-culture" },
-  { label: "Performance", href: "/dashboard/envo-performance" },
-  { label: "Sustainability", href: "/dashboard/envo-sustainability" },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Sentiment", href: "/dashboard/envo-sentiment" },
+  { label: "Survey Builder", href: "/dashboard/envo-survey-builder" },
   { label: "Employees", href: "/dashboard/envo-employees" },
 ];
 

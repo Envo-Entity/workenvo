@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+.page {
+  font-family: "Inter", sans-serif;
+  background-color: #fcf9f8;
+  color: #1c1b1b;
+}
+
+.page ::selection {
+  background: rgb(0 132 84 / 0.3);
+}
+
+.materialSymbol {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.glassNav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hideScrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.ambientShadow {
+  box-shadow: 0 10px 48px -4px rgba(0, 104, 65, 0.04);
+}
+
+.displaySerif {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@keyframes timelineItemEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timelineItem {
+  opacity: 0;
+  animation: timelineItemEnter 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes latestPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 132, 84, 0.32);
+  }
+
+  70% {
+    box-shadow: 0 0 0 14px rgba(0, 132, 84, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 132, 84, 0);
+  }
+}
+
+.latestDot {
+  animation: latestPulse 1800ms ease-out infinite;
+}
+
+@keyframes detailSectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detailSection {
+  opacity: 0;
+  animation: detailSectionEnter 200ms ease-out forwards;
+}

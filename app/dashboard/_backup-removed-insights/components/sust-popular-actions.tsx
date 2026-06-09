@@ -1,5 +1,3 @@
-import styles from "../dashboard.module.css";
-
 const actions = [
   { label: "Cycle to work", count: 342 },
   { label: "Meatless Monday pledge", count: 287 },

@@ -11,9 +11,7 @@ const navGroups = [
   {
     label: "INSIGHTS",
     items: [
-      { label: "Culture", icon: "groups", fill: true, href: "/dashboard/envo-culture" },
-      { label: "Performance", icon: "analytics", href: "/dashboard/envo-performance" },
-      { label: "Sustainability", icon: "eco", href: "/dashboard/envo-sustainability" },
+      { label: "Dashboard", icon: "dashboard", href: "/dashboard" },
     ],
   },
   {
@@ -33,6 +31,10 @@ const navGroups = [
     ],
   },
 ];
+
+type NavItem = (typeof navGroups)[number]["items"][number] & {
+  fill?: boolean;
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -76,8 +78,11 @@ export default function Sidebar() {
                 {group.label}
               </p>
               <div className="flex flex-col gap-1">
-                {group.items.map((item) => {
-                  const isActive = pathname.startsWith(item.href);
+                {group.items.map((item: NavItem) => {
+                  const isActive =
+                    item.href === "/dashboard"
+                      ? pathname === item.href
+                      : pathname.startsWith(item.href);
                   return (
                     <Link
                       key={item.label}

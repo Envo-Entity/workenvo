@@ -6,11 +6,15 @@ import DashboardIcon from "./dashboard-icon";
 import styles from "../dashboard.module.css";
 
 const items = [
-  { label: "Culture", icon: "groups", fill: true, href: "/dashboard/envo-culture" },
-  { label: "Performance", icon: "analytics", href: "/dashboard/envo-performance" },
-  { label: "Sustain.", icon: "eco", href: "/dashboard/envo-sustainability" },
+  { label: "Dashboard", icon: "dashboard", href: "/dashboard" },
+  { label: "Sentiment", icon: "heart", href: "/dashboard/envo-sentiment" },
+  { label: "Builder", icon: "assignment", href: "/dashboard/envo-survey-builder" },
   { label: "Employees", icon: "person", href: "/dashboard/envo-employees" },
 ];
+
+type MobileNavItem = (typeof items)[number] & {
+  fill?: boolean;
+};
 
 export default function MobileNav() {
   const pathname = usePathname();
@@ -19,8 +23,11 @@ export default function MobileNav() {
     <div
       className={`fixed right-0 bottom-0 left-0 z-50 flex items-center justify-around border-t border-stone-100 bg-white/80 px-6 py-4 md:hidden ${styles.glassNav}`}
     >
-      {items.map((item) => {
-        const isActive = pathname.startsWith(item.href);
+      {items.map((item: MobileNavItem) => {
+        const isActive =
+          item.href === "/dashboard"
+            ? pathname === item.href
+            : pathname.startsWith(item.href);
         return (
           <Link
             key={item.label}
