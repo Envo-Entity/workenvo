@@ -1293,6 +1293,12 @@
   transform: rotate(22deg);
 }
 
+.beliefVideoFill {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
 .beliefSlider span {
   background: linear-gradient(90deg, rgba(34, 197, 94, 0.85), #4ade80 58%, #86efac);
   width: 50%;

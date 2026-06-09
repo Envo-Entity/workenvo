@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type { CSSProperties } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./configuration-workbench.module.css";
 
 type QuestionType = "scale" | "multiple_choice" | "yes_no" | "free_text";
@@ -109,6 +109,9 @@ const TRIGGER_OPTIONS: Trigger[] = ["Scheduled Pulse", "After Meeting", "After 1
 let idCounter = 10;
 const uid = () => `q${++idCounter}`;
 type CssVars = CSSProperties & Record<string, string>;
+
+const beliefVideoSrc =
+  "https://nqspbtenbeyfvpyqwigb.supabase.co/storage/v1/object/public/envo-public-assets/tree_video.mp4";
 
 const FLAGSHIP_SCREENS = ["welcome", "belonging", "workload", "manager", "belief", "friction", "voice", "done"] as const;
 type FlagshipScreen = (typeof FLAGSHIP_SCREENS)[number];
@@ -688,14 +691,44 @@ function FlagshipManager({ title }: { title: string }) {
 }
 
 function FlagshipBelief({ title }: { title: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleLoaded = () => {
+      video.pause();
+      if (!Number.isNaN(video.duration)) {
+        video.currentTime = video.duration * 0.4;
+      }
+    };
+
+    if (video.readyState >= 1) {
+      handleLoaded();
+    } else {
+      video.addEventListener("loadedmetadata", handleLoaded, { once: true });
+      video.load();
+    }
+
+    return () => {
+      video.removeEventListener("loadedmetadata", handleLoaded);
+    };
+  }, []);
+
   return (
     <FlagshipQuestionShell eyebrow="Sustainability - Belief" title={title} description={flagshipDescriptions.belief}>
       <div className={styles.beliefMini}>
         <div className={styles.plantScene}>
-          <span className={styles.plantStem} />
-          <span className={styles.leafOne} />
-          <span className={styles.leafTwo} />
-          <span className={styles.leafThree} />
+          <video
+            ref={videoRef}
+            src={beliefVideoSrc}
+            preload="auto"
+            muted
+            playsInline
+            crossOrigin="anonymous"
+            className={styles.beliefVideoFill}
+          />
         </div>
         <div>
           <strong>Open, but unconvinced</strong>
