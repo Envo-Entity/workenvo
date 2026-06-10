@@ -135,6 +135,10 @@
   grid-column: span 5;
 }
 
+.col6 {
+  grid-column: span 6;
+}
+
 .col7 {
   grid-column: span 7;
 }
@@ -842,6 +846,191 @@
   margin-top: 7px;
 }
 
+/* ─── Pay Equity Row ─────────────────────────────────── */
+
+.peList {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.peRow {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 110px 1fr 100px;
+}
+
+.peLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.peDept {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.peHead {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.peMid {
+  min-width: 0;
+}
+
+.peTrack {
+  background: var(--surface-3);
+  border-radius: 999px;
+  height: 14px;
+  overflow: visible;
+  position: relative;
+}
+
+.peBar {
+  animation: growW 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  border-radius: 999px;
+  height: 100%;
+  transform-origin: left center;
+}
+
+.peMark {
+  border-left: 1.5px dashed var(--hot);
+  bottom: -3px;
+  position: absolute;
+  top: -3px;
+}
+
+.peRight {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: right;
+}
+
+.peGap {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.peStatus {
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.diagBars {
+  display: flex;
+  flex-direction: column;
+}
+
+.diagLabel {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.diagSub {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.diagPct {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.diagTrack {
+  background: var(--surface-3);
+  border-radius: 999px;
+  height: 20px;
+  overflow: visible;
+  position: relative;
+}
+
+.diagBar {
+  animation: growW 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  border-radius: 999px;
+  height: 100%;
+  transform-origin: left center;
+}
+
+.diagInset {
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 14px;
+}
+
+.diagInsetHead {
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.diagMiniChart {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.diagMiniCol {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.diagMiniPct {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.diagMiniTrack {
+  background: var(--surface-3);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+  justify-content: flex-end;
+  overflow: hidden;
+  width: 100%;
+}
+
+.diagMiniFill {
+  border-radius: 4px 4px 0 0;
+  width: 100%;
+}
+
+.diagMiniLabel {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.diagCaption {
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
 .fadeUp {
   animation: fadeUp 550ms ease both;
 }
@@ -928,6 +1117,7 @@
 
   .col4,
   .col5,
+  .col6,
   .col7,
   .col8 {
     grid-column: span 12;
@@ -962,6 +1152,11 @@
 @media (max-width: 560px) {
   .dashboard {
     gap: 18px;
+  }
+
+  .peRow {
+    gap: 8px;
+    grid-template-columns: 90px 1fr 80px;
   }
 
   .topbar h1 {

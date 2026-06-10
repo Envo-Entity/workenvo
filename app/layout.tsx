@@ -23,6 +23,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://workenvo.com"),
   title: "See workforce problems before they become HR problems",
   description:
     "Workenvo is the early warning system for your workforce. One dashboard that tells HR what needs attention today — before someone resigns, a team burns out, or a grievance lands on your desk.",
@@ -54,6 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${instrumentSerif.variable} ${dmSans.variable} ${montserrat.variable} h-full antialiased relative`}
     >
       <body className="min-h-full flex flex-col bg-white">{children}</body>

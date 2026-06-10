@@ -197,6 +197,22 @@ const D: Data = {
   },
 };
 
+const PAY_GAP_DEPS = [
+  { dept: "Support",     headcount: 178, gap: 7.8 },
+  { dept: "Product",     headcount: 94,  gap: 6.2 },
+  { dept: "Sales",       headcount: 131, gap: 4.1 },
+  { dept: "Engineering", headcount: 206, gap: 3.0 },
+  { dept: "Finance",     headcount: 58,  gap: 2.2 },
+  { dept: "People",      headcount: 33,  gap: 1.3 },
+];
+
+const PIPELINE_LEVELS = [
+  { level: "IC",     share: 47 },
+  { level: "Senior", share: 38 },
+  { level: "Lead",   share: 30 },
+  { level: "Exec",   share: 21 },
+];
+
 const SEV: Record<Severity, { chip: string; rail: string; color: string; bg: string; label: string }> = {
   hot: {
     chip: styles.chipHot,
@@ -270,6 +286,24 @@ function scaleLin(v: number, dmin: number, dmax: number, rmin: number, rmax: num
   return fp(rmin + ((v - dmin) / (dmax - dmin)) * (rmax - rmin));
 }
 
+function gapColor(gap: number) {
+  if (gap > 5) return "var(--hot)";
+  if (gap >= 4) return "var(--warm)";
+  return "var(--f-700)";
+}
+
+function gapStatus(gap: number) {
+  if (gap > 5) return "Action required";
+  if (gap >= 4) return "Watch";
+  return "Within range";
+}
+
+function pipelineColor(share: number) {
+  if (share >= 40) return "var(--f-700)";
+  if (share >= 30) return "var(--f-400)";
+  return "var(--warm)";
+}
+
 function GaugeIcon({ name, size = 14, stroke = 2.2 }: { name: string; size?: number; stroke?: number }) {
   const props = { size, strokeWidth: stroke, "aria-hidden": true };
   if (name === "trendUp") return <TrendingUp {...props} />;
@@ -326,6 +360,8 @@ export default function WorkforceDashboard() {
         <AttritionRisk d={D} />
         <BurnoutHeatmap d={D} />
         <ManagerEffectiveness d={D} />
+        <PayEquityExposure />
+        <PayEquityDiagnosis />
         <EngagementTrend d={D} />
         <Leaderboard d={D} />
         <SignalFeed signals={feed} />
@@ -713,6 +749,118 @@ function WorkforceForecast({ d }: { d: Data }) {
   );
 }
 
+
+function PayEquityExposure() {
+  const TRACK_MAX = 14;
+  const THRESHOLD_PCT = (5 / TRACK_MAX) * 100;
+  return (
+    <div className={`${styles.card} ${styles.col6}`}>
+      <div className={styles.cardHead}>
+        <div>
+          <div className={styles.cardKicker}>Equal pay exposure</div>
+          <h2 className={styles.cardTitle}>Pay gap vs the 5% line</h2>
+        </div>
+        <span className={`${styles.chip} ${styles.chipHot}`}>2 over</span>
+      </div>
+      <div className={styles.peList}>
+        {PAY_GAP_DEPS.map((dep, i) => {
+          const barW = (dep.gap / TRACK_MAX) * 100;
+          const c = gapColor(dep.gap);
+          return (
+            <div className={styles.peRow} key={dep.dept}>
+              <div className={styles.peLeft}>
+                <span className={styles.peDept}>{dep.dept}</span>
+                <span className={styles.peHead}>{dep.headcount} people</span>
+              </div>
+              <div className={styles.peMid}>
+                <div className={styles.peTrack}>
+                  <div
+                    className={styles.peBar}
+                    style={{ width: `${barW}%`, background: c, animationDelay: `${i * 0.05}s` }}
+                  />
+                  <div className={styles.peMark} style={{ left: `${THRESHOLD_PCT}%` }} />
+                </div>
+              </div>
+              <div className={styles.peRight}>
+                <span className={styles.peGap} style={{ color: c }}>{dep.gap}%</span>
+                <span className={styles.peStatus} style={{ color: c }}>{gapStatus(dep.gap)}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className={styles.divider} style={{ margin: "16px 0 10px" }} />
+      <div className={`${styles.flex} ${styles.between}`}>
+        <span className={styles.metricMono}>Like-for-like gap, women vs men</span>
+        <span className={styles.metricMono}>Dashed line = mandatory pay assessment</span>
+      </div>
+    </div>
+  );
+}
+
+function PayEquityDiagnosis() {
+  const TRACK_MAX = 16;
+  const THRESHOLD_PCT = (5 / TRACK_MAX) * 100;
+  return (
+    <div className={`${styles.card} ${styles.col6}`}>
+      <div className={styles.cardHead}>
+        <div>
+          <div className={styles.cardKicker}>What kind of gap</div>
+          <h2 className={styles.cardTitle}>Raw vs like-for-like</h2>
+        </div>
+        <span className={`${styles.chip} ${styles.chipCool}`}>Structural</span>
+      </div>
+      <div className={styles.diagBars}>
+        <div>
+          <div className={`${styles.flex} ${styles.between} ${styles.center}`} style={{ marginBottom: 7 }}>
+            <div>
+              <span className={styles.diagLabel}>Raw gap</span>
+              <span className={styles.diagSub}> all roles pooled</span>
+            </div>
+            <span className={styles.diagPct} style={{ color: "var(--warm)" }}>13.4%</span>
+          </div>
+          <div className={styles.diagTrack}>
+            <div className={styles.diagBar} style={{ width: `${(13.4 / TRACK_MAX) * 100}%`, background: "var(--warm)" }} />
+            <div className={styles.peMark} style={{ left: `${THRESHOLD_PCT}%` }} />
+          </div>
+        </div>
+        <div style={{ marginTop: 16 }}>
+          <div className={`${styles.flex} ${styles.between} ${styles.center}`} style={{ marginBottom: 7 }}>
+            <div>
+              <span className={styles.diagLabel}>Like-for-like gap</span>
+              <span className={styles.diagSub}> same role and level</span>
+            </div>
+            <span className={styles.diagPct} style={{ color: "var(--f-700)" }}>2.9%</span>
+          </div>
+          <div className={styles.diagTrack}>
+            <div className={styles.diagBar} style={{ width: `${(2.9 / TRACK_MAX) * 100}%`, background: "var(--f-700)" }} />
+            <div className={styles.peMark} style={{ left: `${THRESHOLD_PCT}%` }} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.diagInset}>
+        <div className={styles.diagInsetHead}>WHERE IT LEAKS · women&apos;s share by level</div>
+        <div className={styles.diagMiniChart}>
+          {PIPELINE_LEVELS.map((l) => (
+            <div className={styles.diagMiniCol} key={l.level}>
+              <span className={styles.diagMiniPct}>{l.share}%</span>
+              <div className={styles.diagMiniTrack}>
+                <div
+                  className={styles.diagMiniFill}
+                  style={{ height: `${l.share}%`, background: pipelineColor(l.share) }}
+                />
+              </div>
+              <span className={styles.diagMiniLabel}>{l.level}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className={styles.diagCaption}>
+        Pay for the same work is near-equal. The 13% raw gap comes from women thinning out toward senior levels — fix the pipeline, not payroll.
+      </p>
+    </div>
+  );
+}
 
 function ArchBars({ data, width = 560, height = 150, highlight = 3 }: { data: number[]; width?: number; height?: number; highlight?: number }) {
   const n = data.length;
