@@ -11,6 +11,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
+import { Gauge } from "@/components/ui/gauge";
 import styles from "./workforce-dashboard.module.css";
 
 type Tone = "high" | "mid" | "low";
@@ -247,18 +248,6 @@ function fp(n: number) {
   return Number(n.toFixed(4));
 }
 
-function polar(cx: number, cy: number, r: number, deg: number) {
-  const a = ((deg - 90) * Math.PI) / 180;
-  return { x: fp(cx + r * Math.cos(a)), y: fp(cy + r * Math.sin(a)) };
-}
-
-function arcPath(cx: number, cy: number, r: number, startDeg: number, endDeg: number) {
-  const s = polar(cx, cy, r, endDeg);
-  const e = polar(cx, cy, r, startDeg);
-  const large = endDeg - startDeg <= 180 ? 0 : 1;
-  return `M ${s.x} ${s.y} A ${r} ${r} 0 ${large} 0 ${e.x} ${e.y}`;
-}
-
 function smooth(pts: number[][], k = 0.18) {
   if (pts.length < 2) return "";
   let d = `M ${pts[0][0]} ${pts[0][1]}`;
@@ -378,7 +367,7 @@ function HealthScore({ d }: { d: Data }) {
 
       <div className={styles.scoreBody}>
         <div className={styles.gaugeWrap}>
-          <RadialGauge value={d.healthScore} size={216} />
+          <Gauge value={d.healthScore} max={100} size={216} strokeWidth={9} showValue={false} primary="success" />
           <div className={styles.gaugeCenter}>
             <div className={styles.gaugeMain}>
               <div className={styles.gaugeValue}>{d.healthScore}</div>
@@ -724,63 +713,6 @@ function WorkforceForecast({ d }: { d: Data }) {
   );
 }
 
-function RadialGauge({ value, max = 100, size = 220 }: { value: number; max?: number; size?: number }) {
-  const [t, setT] = useState(0);
-  useEffect(() => {
-    let raf = 0;
-    let t0 = 0;
-    const dur = 1100;
-    const step = (now: number) => {
-      if (!t0) t0 = now;
-      const p = Math.min(1, (now - t0) / dur);
-      setT(1 - Math.pow(1 - p, 3));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [value]);
-
-  const cx = size / 2;
-  const cy = size / 2;
-  const r = size / 2 - 16;
-  const START = -150;
-  const SWEEP = 300;
-  const f = (value / max) * t;
-  const ticks = 44;
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <defs>
-        <linearGradient id="gaugeGrad" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--f-400)" />
-          <stop offset="0.55" stopColor="var(--f-700)" />
-          <stop offset="1" stopColor="var(--f-900)" />
-        </linearGradient>
-      </defs>
-      {Array.from({ length: ticks }).map((_, i) => {
-        const deg = START + (SWEEP * i) / (ticks - 1);
-        const on = i / (ticks - 1) <= value / max;
-        const o1 = polar(cx, cy, r + 9, deg);
-        const o2 = polar(cx, cy, r + 13, deg);
-        return (
-          <line
-            key={i}
-            x1={o1.x}
-            y1={o1.y}
-            x2={o2.x}
-            y2={o2.y}
-            stroke={on ? "var(--f-700)" : "var(--line-strong)"}
-            strokeWidth={1.6}
-            strokeLinecap="round"
-            opacity={on ? 0.5 : 1}
-          />
-        );
-      })}
-      <path d={arcPath(cx, cy, r, START, START + SWEEP)} fill="none" stroke="var(--surface-3)" strokeWidth={16} strokeLinecap="round" />
-      <path d={arcPath(cx, cy, r, START, START + SWEEP * f)} fill="none" stroke="url(#gaugeGrad)" strokeWidth={16} strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function ArchBars({ data, width = 560, height = 150, highlight = 3 }: { data: number[]; width?: number; height?: number; highlight?: number }) {
   const n = data.length;
