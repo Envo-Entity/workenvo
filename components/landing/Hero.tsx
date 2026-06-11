@@ -76,7 +76,7 @@ export default function Hero() {
             width: "min(820px, 88vw)",
             height: "min(740px, 90vh)",
             background:
-              "radial-gradient(ellipse at 28% 50%, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.22) 48%, transparent 72%)",
+              "radial-gradient(ellipse at 28% 50%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.18) 48%, transparent 72%)",
             backdropFilter: "blur(18px)",
             WebkitBackdropFilter: "blur(18px)",
             WebkitMaskImage:
