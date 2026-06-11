@@ -66,6 +66,28 @@ export default function Hero() {
           paddingTop: "clamp(80px, 10vh, 120px)",
         }}
       >
+        {/* Soft glass aura — radial fade, no hard edges */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            transform: "translateY(-50%)",
+            width: "min(820px, 88vw)",
+            height: "min(740px, 90vh)",
+            background:
+              "radial-gradient(ellipse at 28% 50%, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.22) 48%, transparent 72%)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse at 28% 50%, black 0%, black 44%, transparent 70%)",
+            maskImage:
+              "radial-gradient(ellipse at 28% 50%, black 0%, black 44%, transparent 70%)",
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        />
+
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 28 }}
