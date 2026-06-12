@@ -25,12 +25,19 @@ export default function Hero() {
         backgroundColor: "#000",
       }}
     >
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-video { object-position: 75% center !important; }
+          .hero-glass-aura { display: none !important; }
+        }
+      `}</style>
       {/* Fullscreen looping video */}
       <video
         ref={videoRef}
         muted
         loop
         playsInline
+        className="hero-video"
         style={{
           position: "absolute",
           inset: 0,
@@ -68,6 +75,7 @@ export default function Hero() {
       >
         {/* Soft glass aura — radial fade, no hard edges */}
         <div
+          className="hero-glass-aura"
           style={{
             position: "absolute",
             top: "50%",
