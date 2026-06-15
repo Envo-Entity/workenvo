@@ -1,6 +1,9 @@
+"use client";
+
 import BrandLogo from "@/components/BrandLogo";
 import { SignalRings } from "./SignalRings";
 import { ScrollReveal } from "./ScrollReveal";
+import { RegisterTrigger } from "./RegisterTrigger";
 
 export function RegisterCTA() {
   return (
@@ -57,12 +60,9 @@ export function RegisterCTA() {
         </ScrollReveal>
 
         <ScrollReveal delay={300}>
-          <a
-            href="#"
-            className="webinar-cta-btn inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-white text-lg tracking-wide hover:-translate-y-1 [box-shadow:0_0_36px_rgba(22,133,91,0.4)] hover:[box-shadow:0_0_56px_rgba(22,133,91,0.6)]"
-          >
+          <RegisterTrigger className="webinar-cta-btn inline-block px-10 py-5 rounded-full font-webinar-heading font-bold text-white text-lg tracking-wide hover:-translate-y-1 [box-shadow:0_0_36px_rgba(22,133,91,0.4)] hover:[box-shadow:0_0_56px_rgba(22,133,91,0.6)] cursor-pointer">
             Register For the Webinar
-          </a>
+          </RegisterTrigger>
         </ScrollReveal>
 
         <ScrollReveal delay={380}>

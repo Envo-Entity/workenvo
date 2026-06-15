@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { InsightCards } from "./InsightCards";
+import { RegisterTrigger } from "./RegisterTrigger";
 
 const DECEL_STEPS: [rate: number, offset: number][] = [
   [0.3, 0],
@@ -186,12 +187,9 @@ export function Hero() {
               transition: "opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s",
             }}
           >
-            <a
-              href="#register"
-              className="webinar-cta-btn px-8 py-4 rounded-full font-semibold text-white text-sm tracking-wide [box-shadow:0_0_24px_rgba(22,133,91,0.35)] hover:[box-shadow:0_0_40px_rgba(22,133,91,0.55)] hover:-translate-y-0.5"
-            >
+            <RegisterTrigger className="webinar-cta-btn px-8 py-4 rounded-full font-semibold text-white text-sm tracking-wide [box-shadow:0_0_24px_rgba(22,133,91,0.35)] hover:[box-shadow:0_0_40px_rgba(22,133,91,0.55)] hover:-translate-y-0.5 cursor-pointer">
               Reserve My Spot
-            </a>
+            </RegisterTrigger>
             <a
               href="#learn"
               className="px-8 py-4 rounded-full font-semibold text-sm text-webinar-ink-dim border border-webinar-wire hover:border-webinar-accent/40 hover:text-webinar-ink transition-all duration-200"

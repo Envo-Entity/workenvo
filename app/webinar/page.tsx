@@ -5,19 +5,16 @@ import { Problem } from "./_components/Problem";
 import { Learn } from "./_components/Learn";
 import { Audience } from "./_components/Audience";
 import { Why } from "./_components/Why";
+import { RegisterCTA } from "./_components/RegisterCTA";
+import { WebinarRegister } from "./_components/WebinarRegister";
 import Footer from "@/components/landing/Footer";
 import { JourneyThread } from "./_components/JourneyThread";
 
 export default function Page() {
   return (
     <>
-      {/* Fixed navigation */}
       <Nav />
-
-      {/* Journey progress sidebar — xl screens only */}
       <JourneyThread />
-
-      {/* Page body */}
       <main>
         <Hero />
         <Speakers />
@@ -25,9 +22,10 @@ export default function Page() {
         <Learn />
         <Audience />
         <Why />
+        <RegisterCTA />
       </main>
-
       <Footer />
+      <WebinarRegister />
     </>
   );
 }

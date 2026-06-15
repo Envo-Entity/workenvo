@@ -3,6 +3,7 @@
 import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { RegisterTrigger } from "./RegisterTrigger";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,12 +33,9 @@ export function Nav() {
           />
         </Link>
 
-        <a
-          href="#register"
-          className="text-sm font-semibold px-5 py-2.5 rounded-full bg-webinar-accent text-white transition-all duration-200 hover:bg-webinar-violet [box-shadow:0_0_20px_rgba(22,133,91,0.3)] hover:[box-shadow:0_0_28px_rgba(22,133,91,0.45)]"
-        >
+        <RegisterTrigger className="text-sm font-semibold px-5 py-2.5 rounded-full bg-webinar-accent text-white transition-all duration-200 hover:bg-webinar-violet [box-shadow:0_0_20px_rgba(22,133,91,0.3)] hover:[box-shadow:0_0_28px_rgba(22,133,91,0.45)] cursor-pointer">
           Register Now
-        </a>
+        </RegisterTrigger>
       </div>
     </header>
   );
