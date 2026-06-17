@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 const SCOPES = [
   "channels:read",
   "channels:history",
+  "channels:join",
   "users:read",
   "team:read",
 ].join(",");

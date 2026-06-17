@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1",
+    "@google/genai": "^2.8.0",
     "@next/third-parties": "^16.2.6",
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
