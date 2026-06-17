@@ -89,16 +89,18 @@ function Panel({
   children,
   delay = 0,
   style,
+  active = true,
 }: {
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
+  active?: boolean;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.38, delay, ease: "easeOut" }}
+      transition={{ duration: active ? 0.38 : 0, delay: active ? delay : 0, ease: "easeOut" }}
       style={style}
     >
       {children}
@@ -112,15 +114,18 @@ const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 function ScrambleText({
   text,
   style,
+  active = true,
 }: {
   text: string;
   style?: React.CSSProperties;
+  active?: boolean;
 }) {
   // Initialize with the real text so SSR and the first client render match.
   // The scramble animation kicks in after mount via the useEffect below.
   const [displayed, setDisplayed] = useState(text);
 
   useEffect(() => {
+    if (!active) return;
     let frame = 0;
     const totalFrames = 20;
     const id = setInterval(() => {
@@ -143,7 +148,7 @@ function ScrambleText({
       );
     }, 32);
     return () => clearInterval(id);
-  }, [text]);
+  }, [active, text]);
 
   return <span style={style}>{displayed}</span>;
 }
@@ -1567,7 +1572,8 @@ function ManagersContent() {
 }
 
 // ─── Leadership tab content ───────────────────────────────────────────────────
-function LeadershipContent() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function LegacyLeadershipContent() {
   const barHeights = [40, 55, 45, 70, 65, 85, 95, 90, 75, 60];
   const barColors = [
     "rgba(0,104,65,0.10)",
@@ -2174,6 +2180,386 @@ function LeadershipContent() {
   );
 }
 
+const commandPillars = [
+  { name: "Engagement", value: 84, tone: C.primaryContainer },
+  { name: "Burnout", value: 72, tone: "#e58b30" },
+  { name: "Manager quality", value: 88, tone: C.primaryContainer },
+  { name: "Retention", value: 79, tone: C.primaryContainer },
+  { name: "Survey signal", value: 69, tone: "#e58b30" },
+];
+
+const commandRisks = [
+  {
+    rank: "01",
+    title: "Support burnout rising",
+    why: "Late-week load and after-hours pings are compounding.",
+    color: "#ef4b3f",
+    spark: [24, 28, 27, 35, 40, 44, 52, 58],
+  },
+  {
+    rank: "02",
+    title: "Product attrition cluster",
+    why: "High performers show lower belonging and manager trust.",
+    color: "#ef4b3f",
+    spark: [18, 24, 28, 27, 35, 46, 51, 55],
+  },
+];
+
+const heatRows = [
+  { team: "Support", level: "High", values: [0.32, 0.44, 0.55, 0.62, 0.68, 0.73, 0.84, 0.92] },
+  { team: "Product", level: "High", values: [0.22, 0.31, 0.42, 0.5, 0.56, 0.62, 0.69, 0.76] },
+  { team: "Sales", level: "Medium", values: [0.16, 0.2, 0.29, 0.34, 0.42, 0.48, 0.44, 0.51] },
+  { team: "Engineering", level: "Medium", values: [0.24, 0.27, 0.31, 0.39, 0.45, 0.5, 0.49, 0.54] },
+  { team: "People", level: "Low", values: [0.13, 0.17, 0.19, 0.18, 0.23, 0.25, 0.24, 0.22] },
+  { team: "Finance", level: "Low", values: [0.18, 0.19, 0.22, 0.24, 0.23, 0.27, 0.28, 0.31] },
+];
+
+const managers = [
+  { name: "Maya Iyer", team: "Product", value: 15, delta: "+7" },
+  { name: "Daniel Cho", team: "Sales", value: 11, delta: "+5" },
+  { name: "Avery Stone", team: "People", value: 9, delta: "+3" },
+  { name: "Noah Kim", team: "Engineering", value: -6, delta: "-2" },
+  { name: "Rhea Kapoor", team: "Support", value: -13, delta: "-6" },
+];
+
+function landingHeatColor(value: number) {
+  if (value > 0.74) return "#d86b54";
+  if (value > 0.56) return "#e2b14f";
+  if (value > 0.34) return "#b9c895";
+  if (value > 0.22) return "#a9d2b7";
+  return "#d8ebdf";
+}
+
+function CommandCard({
+  children,
+  style,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      style={{
+        background: C.white,
+        border: "1px solid rgba(15,23,42,0.10)",
+        borderRadius: "0.55rem",
+        boxShadow: "0 0.08rem 0.2rem rgba(15,23,42,0.045)",
+        minWidth: 0,
+        overflow: "hidden",
+        padding: "1.18rem",
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function CommandKicker({ children, color }: { children: React.ReactNode; color?: string }) {
+  return (
+    <div
+      style={{
+        color: color ?? "#8a94a2",
+        fontFamily: "SFMono-Regular, Consolas, monospace",
+        fontSize: "0.58rem",
+        fontWeight: 800,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function CommandTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2
+      style={{
+        color: "#0e1726",
+        fontFamily: "Inter, sans-serif",
+        fontSize: "1.04rem",
+        fontWeight: 820,
+        lineHeight: 1.13,
+        margin: "0.28rem 0 0",
+      }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+function CommandNote({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      style={{
+        color: "#515d6c",
+        fontFamily: "Inter, sans-serif",
+        fontSize: "0.7rem",
+        lineHeight: 1.46,
+        margin: "0.45rem 0 0",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+function SparklinePreview({ data, color }: { data: number[]; color: string }) {
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const points = data.map((value, index) => {
+    const x = 4 + (index / (data.length - 1)) * 90;
+    const y = 36 - ((value - min) / (max - min || 1)) * 28;
+    return [x, y];
+  });
+  const d = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ");
+  const last = points[points.length - 1];
+
+  return (
+    <svg viewBox="0 0 100 42" style={{ display: "block", width: "5.2rem" }}>
+      <path d={`${d} L ${last[0]} 40 L 4 40 Z`} fill={color} opacity="0.08" />
+      <path d={d} fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" />
+      <circle cx={last[0]} cy={last[1]} fill={color} r="2.8" />
+    </svg>
+  );
+}
+
+function HealthGaugePreview({ active }: { active: boolean }) {
+  const circumference = 283;
+  return (
+    <div style={{ display: "grid", height: "12.8rem", placeItems: "center", position: "relative" }}>
+      <svg viewBox="0 0 180 180" style={{ height: "100%", overflow: "visible", width: "100%" }}>
+        <path d="M 36 126 A 66 66 0 1 1 144 126" fill="none" stroke="#e5e7eb" strokeLinecap="round" strokeWidth="16" />
+        <motion.path
+          d="M 36 126 A 66 66 0 1 1 144 126"
+          fill="none"
+          initial={{ strokeDashoffset: circumference }}
+          animate={active ? { strokeDashoffset: circumference * 0.18 } : { strokeDashoffset: circumference }}
+          stroke="url(#healthGradient)"
+          strokeDasharray={circumference}
+          strokeLinecap="round"
+          strokeWidth="16"
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <defs>
+          <linearGradient id="healthGradient" x1="20" x2="160" y1="120" y2="40">
+            <stop stopColor="#72dba3" />
+            <stop offset="1" stopColor="#00c86b" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div style={{ alignItems: "center", display: "flex", flexDirection: "column", gap: "0.36rem", left: "50%", position: "absolute", top: "48%", transform: "translate(-50%, -50%)", width: "8.2rem" }}>
+        <div style={{ alignItems: "baseline", display: "flex", gap: "0.25rem" }}>
+          <span style={{ color: "#0b6b41", fontSize: "3.35rem", fontWeight: 900, lineHeight: 0.9 }}>82</span>
+          <span style={{ color: "#8a94a2", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850 }}>/ 100</span>
+        </div>
+        <span style={{ color: "#0b6b41", fontSize: "0.7rem", fontWeight: 850 }}>↗ +6 pts</span>
+      </div>
+    </div>
+  );
+}
+
+function LeadershipContent({ active = true }: { active?: boolean }) {
+  return (
+    <>
+      <Panel active={active} delay={0.04} style={{ alignItems: "flex-end", display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <CommandKicker>Organisation-wide insights</CommandKicker>
+          <h1
+            style={{
+              color: "#0e1726",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "2rem",
+              fontWeight: 860,
+              lineHeight: 1.02,
+              margin: "0.5rem 0 0.45rem",
+            }}
+          >
+            <ScrambleText active={active} text="Workforce command center" />
+          </h1>
+          <p style={{ color: "#667282", fontFamily: "Inter, sans-serif", fontSize: "0.86rem", margin: 0 }}>
+            Live people health, retention risk, manager effect, and recommended actions.
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: "0.62rem" }}>
+          <button style={{ background: C.white, border: "1px solid rgba(15,23,42,0.10)", borderRadius: "999px", color: "#515d6c", fontFamily: "Inter, sans-serif", fontSize: "0.8rem", fontWeight: 760, padding: "0.85rem 1.25rem" }}>
+            Export
+          </button>
+          <button style={{ background: "#0b6b41", border: 0, borderRadius: "999px", color: C.white, fontFamily: "Inter, sans-serif", fontSize: "0.8rem", fontWeight: 780, padding: "0.85rem 1.3rem" }}>
+            Generate AI view
+          </button>
+        </div>
+      </Panel>
+
+      <div style={{ display: "grid", flex: "0 0 auto", gap: "0.9rem", gridTemplateColumns: "repeat(12, minmax(0, 1fr))", gridTemplateRows: "19.1rem 18.3rem", minHeight: 0, overflow: "hidden" }}>
+        <Panel active={active} delay={0.1} style={{ gridColumn: "span 7", minHeight: 0 }}>
+          <CommandCard style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+            <div style={{ alignItems: "flex-start", display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <CommandKicker>Workforce Health</CommandKicker>
+                <CommandTitle>The company&apos;s health, in one number</CommandTitle>
+                <CommandNote>Engagement, burnout, manager quality, retention and survey signal, composited live.</CommandNote>
+              </div>
+              <span style={{ alignItems: "center", background: "#eafbf2", borderRadius: "999px", color: "#0b6b41", display: "inline-flex", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850, gap: "0.35rem", padding: "0.45rem 0.55rem", textTransform: "uppercase" }}>
+                <span style={{ background: "rgba(16,137,79,0.16)", borderRadius: "999px", display: "grid", height: "0.82rem", placeItems: "center", width: "0.82rem" }}>
+                  <span style={{ background: "#10894f", borderRadius: "999px", height: "0.35rem", width: "0.35rem" }} />
+                </span>
+                Live
+              </span>
+            </div>
+            <div style={{ alignItems: "center", display: "grid", flex: 1, gap: "1.6rem", gridTemplateColumns: "30% 1fr", marginTop: "0.9rem", minHeight: 0 }}>
+              <HealthGaugePreview active={active} />
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.78rem" }}>
+                {commandPillars.map((pillar, index) => (
+                  <div key={pillar.name} style={{ alignItems: "center", display: "grid", gap: "0.75rem", gridTemplateColumns: "8.2rem 1fr 2rem" }}>
+                    <span style={{ color: "#515d6c", fontSize: "0.75rem", fontWeight: 760 }}>{pillar.name}</span>
+                    <div style={{ background: "#f2f5f3", borderRadius: "999px", height: "0.52rem", overflow: "hidden" }}>
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={active ? { scaleX: 1 } : { scaleX: 0 }}
+                        transition={{ duration: 0.8, delay: 0.18 + index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ background: pillar.tone, borderRadius: "inherit", height: "100%", transformOrigin: "left center", width: `${pillar.value}%` }}
+                      />
+                    </div>
+                    <span style={{ color: "#0e1726", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.68rem", fontWeight: 850, textAlign: "right" }}>{pillar.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CommandCard>
+        </Panel>
+
+        <Panel active={active} delay={0.14} style={{ gridColumn: "span 5", minHeight: 0 }}>
+          <CommandCard style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+            <div style={{ alignItems: "flex-start", display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <CommandKicker color="#ef4b3f">Requires attention</CommandKicker>
+                <CommandTitle>Top risks right now</CommandTitle>
+              </div>
+              <span style={{ background: "#fdede9", borderRadius: "999px", color: "#ef4b3f", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850, padding: "0.45rem 0.65rem", textTransform: "uppercase" }}>2 active</span>
+            </div>
+            <div style={{ display: "flex", flex: 1, flexDirection: "column", gap: "0.8rem", justifyContent: "center", minHeight: 0, paddingTop: "0.45rem" }}>
+              {commandRisks.map((risk) => (
+                <div key={risk.rank} style={{ alignItems: "center", background: "#fbfcfd", border: "1px solid rgba(15,23,42,0.06)", borderRadius: "0.55rem", display: "grid", gap: "0.72rem", gridTemplateColumns: "0.3rem 1.85rem 1fr auto", minHeight: "4.3rem", overflow: "hidden", padding: "0.64rem 0.78rem 0.64rem 0" }}>
+                  <span style={{ alignSelf: "stretch", background: risk.color, borderRadius: "999px" }} />
+                  <span style={{ color: "#c3cad3", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.68rem", fontWeight: 900 }}>{risk.rank}</span>
+                  <div>
+                    <div style={{ color: "#0e1726", fontSize: "0.78rem", fontWeight: 840 }}>{risk.title}</div>
+                    <div style={{ color: "#515d6c", fontSize: "0.66rem", lineHeight: 1.38, marginTop: "0.22rem" }}>{risk.why}</div>
+                  </div>
+                  <SparklinePreview color={risk.color} data={risk.spark} />
+                </div>
+              ))}
+            </div>
+          </CommandCard>
+        </Panel>
+
+        <Panel active={active} delay={0.18} style={{ gridColumn: "span 4", minHeight: 0 }}>
+          <CommandCard style={{ height: "100%" }}>
+            <div style={{ alignItems: "flex-start", display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <CommandKicker>Flight risk</CommandKicker>
+                <CommandTitle>Attrition risk</CommandTitle>
+              </div>
+              <span style={{ background: "#f2f5f3", borderRadius: "999px", color: "#515d6c", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850, padding: "0.45rem 0.65rem", textTransform: "uppercase" }}>178 people</span>
+            </div>
+            <div style={{ display: "grid", gap: "0.5rem", gridTemplateColumns: "repeat(3, 1fr)", marginTop: "1rem" }}>
+              {[
+                ["18", "High risk", "#ef4b3f", "#e8c9be"],
+                ["34", "Moderate", "#e58b30", "#ecd8b0"],
+                ["126", "Stable", "#515d6c", "rgba(15,23,42,0.10)"],
+              ].map(([value, label, color, border]) => (
+                <div key={label} style={{ border: `1px solid ${border}`, borderRadius: "0.5rem", padding: "0.65rem" }}>
+                  <div style={{ color, fontSize: "1.45rem", fontWeight: 900, lineHeight: 1 }}>{value}</div>
+                  <div style={{ color: "#8a94a2", fontSize: "0.58rem", fontWeight: 850, marginTop: "0.3rem", textTransform: "uppercase" }}>{label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "grid", gap: "0.42rem", gridTemplateColumns: "repeat(24, 1fr)", marginTop: "1rem" }}>
+              {Array.from({ length: 144 }).map((_, index) => {
+                const color = index < 18 ? "#ef7f72" : index < 52 ? "#e2b14f" : "#d8ebdf";
+                return <span key={index} style={{ aspectRatio: "1", background: color, borderRadius: "999px", opacity: index > 105 ? 0.55 : 1 }} />;
+              })}
+            </div>
+          </CommandCard>
+        </Panel>
+
+        <Panel active={active} delay={0.22} style={{ gridColumn: "span 4", minHeight: 0 }}>
+          <CommandCard style={{ height: "100%" }}>
+            <div style={{ alignItems: "flex-start", display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <CommandKicker>Where it&apos;s building</CommandKicker>
+                <CommandTitle>Burnout heatmap</CommandTitle>
+              </div>
+              <span style={{ background: "#eafbf2", borderRadius: "999px", color: "#0b6b41", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850, padding: "0.45rem 0.65rem", textTransform: "uppercase" }}>8 wks</span>
+            </div>
+            <div style={{ display: "grid", gap: "0.48rem", marginTop: "1.35rem" }}>
+              {heatRows.map((row) => (
+                <div key={row.team} style={{ alignItems: "center", display: "grid", gap: "0.7rem", gridTemplateColumns: "5.8rem 1fr 3.3rem" }}>
+                  <span style={{ color: "#515d6c", fontSize: "0.7rem", fontWeight: 800 }}>{row.team}</span>
+                  <div style={{ display: "grid", gap: "0.28rem", gridTemplateColumns: "repeat(8, 1fr)" }}>
+                    {row.values.map((value, index) => (
+                      <span key={index} style={{ background: landingHeatColor(value), borderRadius: "0.22rem", height: "1.02rem" }} />
+                    ))}
+                  </div>
+                  <span style={{ background: row.level === "High" ? "#fdede9" : row.level === "Medium" ? "#fbf2dd" : "#eafbf2", borderRadius: "999px", color: row.level === "High" ? "#ef4b3f" : row.level === "Medium" ? "#d38a2c" : "#0b6b41", fontSize: "0.52rem", fontWeight: 850, padding: "0.38rem 0.45rem", textAlign: "center", textTransform: "uppercase" }}>{row.level}</span>
+                </div>
+              ))}
+            </div>
+          </CommandCard>
+        </Panel>
+
+        <Panel active={active} delay={0.26} style={{ gridColumn: "span 4", minHeight: 0 }}>
+          <CommandCard style={{ height: "100%" }}>
+            <div style={{ alignItems: "flex-start", display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <CommandKicker>Who lifts, who drags</CommandKicker>
+                <CommandTitle>Manager effectiveness</CommandTitle>
+              </div>
+              <span style={{ background: "#f2f5f3", borderRadius: "999px", color: "#515d6c", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.58rem", fontWeight: 850, padding: "0.45rem 0.65rem", textTransform: "uppercase" }}>Effect on perf.</span>
+            </div>
+            <div style={{ display: "grid", gap: "0.6rem", marginTop: "2.2rem" }}>
+              {managers.map((manager, index) => {
+                const positive = manager.value >= 0;
+                return (
+                  <div key={manager.name} style={{ alignItems: "center", display: "grid", gap: "0.7rem", gridTemplateColumns: "7.4rem 1fr 2.2rem" }}>
+                    <div>
+                      <div style={{ color: "#0e1726", fontSize: "0.72rem", fontWeight: 840 }}>{manager.name}</div>
+                      <div style={{ color: "#8a94a2", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.55rem", fontWeight: 850, textTransform: "uppercase" }}>{manager.team}</div>
+                    </div>
+                    <div style={{ height: "1.2rem", position: "relative" }}>
+                      <span style={{ background: "rgba(15,23,42,0.15)", bottom: "-0.2rem", left: "50%", position: "absolute", top: "-0.2rem", width: 1 }} />
+                      <motion.span
+                        initial={{ scaleX: 0 }}
+                        animate={active ? { scaleX: 1 } : { scaleX: 0 }}
+                        transition={{ duration: 0.7, delay: 0.32 + index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                        style={{
+                          background: positive ? "linear-gradient(90deg,#449268,#10894f)" : "linear-gradient(90deg,#d86b54,#ef4b3f)",
+                          borderRadius: "0.32rem",
+                          height: "0.9rem",
+                          left: positive ? "50%" : undefined,
+                          position: "absolute",
+                          right: positive ? undefined : "50%",
+                          top: "0.14rem",
+                          transformOrigin: positive ? "left center" : "right center",
+                          width: `${Math.abs(manager.value) * 3.2}%`,
+                        }}
+                      />
+                    </div>
+                    <span style={{ color: positive ? "#10894f" : "#ef4b3f", fontFamily: "SFMono-Regular, Consolas, monospace", fontSize: "0.72rem", fontWeight: 900, textAlign: "right" }}>{manager.delta}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </CommandCard>
+        </Panel>
+
+      </div>
+    </>
+  );
+}
+
 // ─── Sidebar nav config ────────────────────────────────────────────────────────
 const NAV_CONFIG: Record<
   "employees" | "managers" | "leadership",
@@ -2195,10 +2581,12 @@ const NAV_CONFIG: Record<
   ],
   leadership: [
     { label: "Dashboard", icon: "dashboard" },
-    { label: "Insights", icon: "analytics" },
-    { label: "Teams", icon: "groups" },
-    { label: "ESG Tracking", icon: "eco" },
-    { label: "Settings", icon: "settings" },
+    { label: "Sentiment", icon: "settings" },
+    { label: "Signals Setup", icon: "analytics" },
+    { label: "Survey Builder", icon: "poll" },
+    { label: "Employees", icon: "groups" },
+    { label: "Reports", icon: "analytics" },
+    { label: "Integrations", icon: "settings" },
   ],
 };
 
@@ -2219,6 +2607,7 @@ export default function WorkenvoDashboard({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -2230,15 +2619,37 @@ export default function WorkenvoDashboard({
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.28 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const navItems = NAV_CONFIG[activeTab];
   const user = USER_CONFIG[activeTab];
+  const canvasHeight = activeTab === "leadership" ? 760 : DH;
+  const leadershipGroups = [
+    { label: "Insights", items: navItems.slice(0, 1) },
+    { label: "Configure", items: navItems.slice(1, 4) },
+    { label: "Manage", items: navItems.slice(4) },
+  ];
 
   return (
     <div
       ref={containerRef}
       style={{
         width: "100%",
-        aspectRatio: "16/9",
+        aspectRatio: activeTab === "leadership" ? `${DW} / ${canvasHeight}` : "16/9",
         position: "relative",
         overflow: "hidden",
       }}
@@ -2249,7 +2660,7 @@ export default function WorkenvoDashboard({
           top: 0,
           left: 0,
           width: DW,
-          height: DH,
+          height: canvasHeight,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
           background: C.surface,
@@ -2263,7 +2674,7 @@ export default function WorkenvoDashboard({
               style={{
                 width: 280,
                 minWidth: 280,
-                height: DH,
+                height: canvasHeight,
                 background: C.surfaceLow,
                 display: "flex",
                 flexDirection: "column",
@@ -2279,59 +2690,142 @@ export default function WorkenvoDashboard({
                 />
               </div>
 
-              {/* Nav label */}
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: C.onSurfaceVariant,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  fontFamily: "Inter, sans-serif",
-                  marginBottom: 8,
-                }}
-              >
-                Main Menu
-              </div>
-
-              {/* Nav items */}
-              <nav
-                style={{ display: "flex", flexDirection: "column", gap: 4 }}
-              >
-                {navItems.map((item, i) => (
+              {activeTab === "leadership" ? (
+                <nav style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+                  {leadershipGroups.map((group) => (
+                    <div key={group.label}>
+                      <div
+                        style={{
+                          color: "#c3cad3",
+                          fontFamily: "Inter, sans-serif",
+                          fontSize: 10,
+                          fontWeight: 800,
+                          letterSpacing: "0.22em",
+                          marginBottom: 8,
+                          paddingLeft: 12,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {group.label}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                        {group.items.map((item) => {
+                          const active = item.label === "Dashboard";
+                          return (
+                            <div
+                              key={item.label}
+                              style={{
+                                alignItems: "center",
+                                background: active ? "#007a48" : "transparent",
+                                borderRadius: 18,
+                                color: active ? C.white : "#5d6976",
+                                cursor: "default",
+                                display: "flex",
+                                fontFamily: "Inter, sans-serif",
+                                fontSize: 14,
+                                fontWeight: 720,
+                                gap: 12,
+                                height: 46,
+                                padding: "0 16px",
+                              }}
+                            >
+                              <Icon name={item.icon} size={19} color={active ? C.white : "#5d6976"} />
+                              {item.label}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </nav>
+              ) : (
+                <>
+                  {/* Nav label */}
                   <div
-                    key={item.label}
                     style={{
-                      height: 48,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      padding: "0 16px",
-                      borderRadius: 16,
-                      fontSize: 14,
-                      fontWeight: 600,
-                      color: i === 0 ? C.white : "#57665e",
-                      background:
-                        i === 0 ? C.primaryContainer : "transparent",
-                      cursor: "default",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: C.onSurfaceVariant,
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
                       fontFamily: "Inter, sans-serif",
+                      marginBottom: 8,
                     }}
                   >
-                    <Icon
-                      name={item.icon}
-                      size={20}
-                      color={i === 0 ? C.white : "#57665e"}
-                    />
-                    {item.label}
+                    Main Menu
                   </div>
-                ))}
-              </nav>
+
+                  {/* Nav items */}
+                  <nav
+                    style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                  >
+                    {navItems.map((item, i) => (
+                      <div
+                        key={item.label}
+                        style={{
+                          height: 48,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12,
+                          padding: "0 16px",
+                          borderRadius: 16,
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: i === 0 ? C.white : "#57665e",
+                          background:
+                            i === 0 ? C.primaryContainer : "transparent",
+                          cursor: "default",
+                          fontFamily: "Inter, sans-serif",
+                        }}
+                      >
+                        <Icon
+                          name={item.icon}
+                          size={20}
+                          color={i === 0 ? C.white : "#57665e"}
+                        />
+                        {item.label}
+                      </div>
+                    ))}
+                  </nav>
+                </>
+              )}
+
+              {activeTab === "leadership" && (
+                <div style={{ display: "grid", gap: 12, marginTop: "auto" }}>
+                  {[
+                    { label: "Settings", icon: "settings", color: "#515d6c" },
+                    { label: "Export Insights", icon: "analytics", color: C.primary },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      style={{
+                        alignItems: "center",
+                        background: C.white,
+                        border: "1px solid rgba(15,23,42,0.10)",
+                        borderRadius: 22,
+                        color: item.color,
+                        display: "flex",
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: 13,
+                        fontWeight: 720,
+                        gap: 10,
+                        height: 46,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon name={item.icon} size={17} color={item.color} />
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* User profile */}
               <div
                 style={{
-                  marginTop: "auto",
-                  background: C.surfaceHighest,
+                  marginTop: activeTab === "leadership" ? 12 : "auto",
+                  background: activeTab === "leadership" ? C.white : C.surfaceHighest,
+                  border: activeTab === "leadership" ? "1px solid rgba(15,23,42,0.08)" : 0,
                   borderRadius: 32,
                   padding: "12px 16px",
                   display: "flex",
@@ -2344,7 +2838,7 @@ export default function WorkenvoDashboard({
                     width: 40,
                     height: 40,
                     borderRadius: "50%",
-                    background: C.primaryContainer,
+                    background: activeTab === "leadership" ? "#e69a5d" : C.primaryContainer,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -2395,7 +2889,7 @@ export default function WorkenvoDashboard({
               {/* key remounts only this div — sidebar stays mounted, no flash */}
               {activeTab === "employees" && <EmployeesContent key="employees" />}
               {activeTab === "managers" && <ManagersContent key="managers" />}
-              {activeTab === "leadership" && <LeadershipContent key="leadership" />}
+              {activeTab === "leadership" && <LeadershipContent active={isInView} key="leadership" />}
             </div>
         </div>
       </div>
