@@ -11,9 +11,9 @@ const navGroups = [
   {
     label: "LEGACY INSIGHTS",
     items: [
-      { label: "ENVO Culture", icon: "groups", href: "/legacy/dashboard/envo-culture" },
-      { label: "ENVO Performance", icon: "analytics", href: "/legacy/dashboard/envo-performance" },
-      { label: "ENVO Sustainability", icon: "eco", href: "/legacy/dashboard/envo-sustainability" },
+      { label: "Envo Culture", icon: "groups", href: "/legacy/dashboard/envo-culture" },
+      { label: "Envo Performance", icon: "analytics", href: "/legacy/dashboard/envo-performance" },
+      { label: "Envo Sustainability", icon: "eco", href: "/legacy/dashboard/envo-sustainability" },
     ],
   },
   {
@@ -73,17 +73,6 @@ export default function LegacySidebar() {
           </div>
         </div>
 
-        {/* Legacy banner */}
-        <div className="mt-4 rounded-[0.75rem] border border-amber-200 bg-amber-50 px-3 py-2">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">Legacy View</p>
-          <p className="mt-0.5 text-[11px] text-amber-600">This is the previous dashboard.</p>
-          <Link
-            href="/dashboard"
-            className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--dash-primary-deep)] underline underline-offset-2"
-          >
-            Go to new dashboard →
-          </Link>
-        </div>
 
         <nav className="mt-6 space-y-6 pb-8">
           {navGroups.map((group) => (
