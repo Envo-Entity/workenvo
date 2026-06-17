@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+.page {
+  --dash-canvas: #F5F4F0;
+  --dash-surface: #FFFFFF;
+  --dash-surface-subtle: #EDECEA;
+  --dash-surface-muted: #E4E2DD;
+  --dash-ink: #0E1726;
+  --dash-ink-soft: #515D6C;
+  --dash-ink-faint: #8A94A2;
+  --dash-ink-ghost: #C3CAD3;
+  --dash-line: rgba(15, 23, 42, 0.1);
+  --dash-line-soft: rgba(15, 23, 42, 0.06);
+  --dash-line-strong: rgba(15, 23, 42, 0.15);
+  --dash-primary: #10894F;
+  --dash-primary-deep: #0B6B41;
+  --dash-primary-dark: #0A5234;
+  --dash-primary-soft: #EAFBF2;
+  --dash-primary-faint: #F4FDF8;
+  --dash-danger: #E24B36;
+  --dash-danger-soft: #FDEDE9;
+  --dash-warning: #D38A2C;
+  --dash-warning-soft: #FBF2DD;
+
+  font-family: "Inter", sans-serif;
+  background-color: var(--dash-canvas);
+  color: var(--dash-ink);
+}
+
+.page ::selection {
+  background: #D8F5E5;
+  color: var(--dash-primary-dark);
+}
+
+.materialSymbol {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.glassNav {
+  background: var(--dash-surface);
+  border: 1px solid var(--dash-line-soft);
+}
+
+.hideScrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.ambientShadow {
+  border: 1px solid var(--dash-line);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.045);
+}
+
+.displaySerif {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@keyframes timelineItemEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timelineItem {
+  opacity: 0;
+  animation: timelineItemEnter 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes latestPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 137, 79, 0.32);
+  }
+
+  70% {
+    box-shadow: 0 0 0 14px rgba(16, 137, 79, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 137, 79, 0);
+  }
+}
+
+.latestDot {
+  animation: latestPulse 1800ms ease-out infinite;
+}
+
+@keyframes detailSectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detailSection {
+  opacity: 0;
+  animation: detailSectionEnter 200ms ease-out forwards;
+}

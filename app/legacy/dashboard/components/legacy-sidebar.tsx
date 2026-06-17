@@ -4,14 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import BrandLogo from "@/components/BrandLogo";
-import DashboardIcon from "./dashboard-icon";
-import styles from "../dashboard.module.css";
+import DashboardIcon from "@/app/dashboard/_backup-removed-insights/components/dashboard-icon";
+import styles from "./legacy-dashboard.module.css";
 
 const navGroups = [
   {
-    label: "INSIGHTS",
+    label: "LEGACY INSIGHTS",
     items: [
-      { label: "Dashboard", icon: "dashboard", href: "/dashboard" },
+      { label: "ENVO Culture", icon: "groups", href: "/legacy/dashboard/envo-culture" },
+      { label: "ENVO Performance", icon: "analytics", href: "/legacy/dashboard/envo-performance" },
+      { label: "ENVO Sustainability", icon: "eco", href: "/legacy/dashboard/envo-sustainability" },
     ],
   },
   {
@@ -36,7 +38,7 @@ type NavItem = (typeof navGroups)[number]["items"][number] & {
   fill?: boolean;
 };
 
-export default function Sidebar() {
+export default function LegacySidebar() {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const expandedClass = isExpanded ? "md:w-64 md:p-6" : "md:w-20 md:p-4";
@@ -71,6 +73,18 @@ export default function Sidebar() {
           </div>
         </div>
 
+        {/* Legacy banner */}
+        <div className="mt-4 rounded-[0.75rem] border border-amber-200 bg-amber-50 px-3 py-2">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">Legacy View</p>
+          <p className="mt-0.5 text-[11px] text-amber-600">This is the previous dashboard.</p>
+          <Link
+            href="/dashboard"
+            className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--dash-primary-deep)] underline underline-offset-2"
+          >
+            Go to new dashboard →
+          </Link>
+        </div>
+
         <nav className="mt-6 space-y-6 pb-8">
           {navGroups.map((group) => (
             <div key={group.label}>
@@ -79,10 +93,7 @@ export default function Sidebar() {
               </p>
               <div className="flex flex-col gap-1">
                 {group.items.map((item: NavItem) => {
-                  const isActive =
-                    item.href === "/dashboard"
-                      ? pathname === item.href
-                      : pathname.startsWith(item.href);
+                  const isActive = pathname.startsWith(item.href);
                   return (
                     <Link
                       key={item.label}
@@ -110,15 +121,6 @@ export default function Sidebar() {
 
         <div className="mt-auto space-y-4 pb-2 pt-6">
           <Link
-            href="/legacy/dashboard"
-            className="flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-700 transition-colors hover:bg-amber-100"
-            title="Legacy Dashboard"
-          >
-            <DashboardIcon name="dashboard" className="text-[18px]" />
-            <span className={`${showLabelsClass} min-w-0 truncate`}>Legacy Dashboard</span>
-          </Link>
-
-          <Link
             href="/dashboard/envo-settings"
             className={
               pathname.startsWith("/dashboard/envo-settings")
@@ -130,14 +132,6 @@ export default function Sidebar() {
             <DashboardIcon name="settings" className="text-[20px]" />
             <span className={`${showLabelsClass} min-w-0 truncate`}>Settings</span>
           </Link>
-
-          <button
-            className="flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-[var(--dash-line)] bg-[var(--dash-surface)] px-4 py-3 text-sm font-medium text-[var(--dash-primary-deep)] transition-colors hover:border-[rgba(11,107,65,0.30)] hover:bg-[var(--dash-surface-muted)]"
-            title="Export Insights"
-          >
-            <DashboardIcon name="download" className="text-[20px]" />
-            <span className={`${showLabelsClass} min-w-0 truncate`}>Export Insights</span>
-          </button>
 
           <div className={`flex items-center gap-3 rounded-[1.25rem] bg-[var(--dash-surface)] p-4 ${isExpanded ? "" : "md:justify-center md:p-3 xl:justify-start xl:p-4"} ${styles.glassNav}`}>
             <div className="h-10 w-10 rounded-full bg-[var(--dash-line-strong)]">
