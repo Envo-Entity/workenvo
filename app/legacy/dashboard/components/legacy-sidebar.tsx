@@ -9,7 +9,7 @@ import styles from "./legacy-dashboard.module.css";
 
 const navGroups = [
   {
-    label: "LEGACY INSIGHTS",
+    label: "Insights",
     items: [
       { label: "Envo Culture", icon: "groups", href: "/legacy/dashboard/envo-culture" },
       { label: "Envo Performance", icon: "analytics", href: "/legacy/dashboard/envo-performance" },
@@ -77,7 +77,7 @@ export default function LegacySidebar() {
         <nav className="mt-6 space-y-6 pb-8">
           {navGroups.map((group) => (
             <div key={group.label}>
-              <p className={`mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--dash-ink-ghost)] ${showLabelsClass}`}>
+              <p className={`mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--dash-ink-faint)] ${showLabelsClass}`}>
                 {group.label}
               </p>
               <div className="flex flex-col gap-1">
