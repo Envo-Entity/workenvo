@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import type { MotionStyle, MotionValue } from "motion/react";
@@ -35,6 +36,7 @@ type SignalCard = {
   iconColor: string;
   statusLabel: string;
   Icon: ElementType;
+  image: string;
   dataPoints: DataPoint[];
 };
 
@@ -43,13 +45,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "01",
     label: "Sales team engagement dropping",
     sub: "The Monday pipeline still looks fine, but the team energy is quietly thinning.",
-    bg: "oklch(0.94 0.035 155)",
-    border: "oklch(0.82 0.045 155)",
-    ink: "oklch(0.27 0.035 165)",
-    iconBg: "oklch(0.88 0.055 155)",
-    iconColor: "oklch(0.44 0.12 158)",
+    bg: "oklch(0.97 0.014 155)",
+    border: "oklch(0.88 0.028 155)",
+    ink: "oklch(0.20 0.045 158)",
+    iconBg: "oklch(0.92 0.024 155)",
+    iconColor: "oklch(0.36 0.11 155)",
     statusLabel: "ENGAGEMENT",
     Icon: TrendingDown,
+    image: "/images/card_01_employee-at-desk.webp",
     dataPoints: [
       { Icon: TrendingDown, text: "Participation, tone, and response velocity start moving together." },
       { Icon: Clock, text: "Workenvo flags the drift before it shows up as missed targets." },
@@ -59,13 +62,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "02",
     label: "A new manager creating negative sentiment",
     sub: "One leadership change can alter how safe a team feels in a matter of weeks.",
-    bg: "oklch(0.94 0.035 35)",
-    border: "oklch(0.82 0.045 35)",
-    ink: "oklch(0.29 0.04 32)",
-    iconBg: "oklch(0.88 0.055 35)",
-    iconColor: "oklch(0.5 0.13 30)",
+    bg: "oklch(0.97 0.012 142)",
+    border: "oklch(0.88 0.026 142)",
+    ink: "oklch(0.20 0.042 144)",
+    iconBg: "oklch(0.92 0.022 142)",
+    iconColor: "oklch(0.35 0.1 142)",
     statusLabel: "MANAGER RISK",
     Icon: AlertTriangle,
+    image: "/images/card_02_team-meeting.webp",
     dataPoints: [
       { Icon: AlertTriangle, text: "Sentiment drops around one team, one reporting line, or one manager." },
       { Icon: BarChart2, text: "Patterns become visible while coaching is still possible." },
@@ -75,13 +79,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "03",
     label: "A high performer showing burnout signals",
     sub: "Your strongest people often stay functional right up until they are done.",
-    bg: "oklch(0.94 0.042 72)",
-    border: "oklch(0.82 0.052 72)",
-    ink: "oklch(0.3 0.04 62)",
-    iconBg: "oklch(0.88 0.065 72)",
-    iconColor: "oklch(0.54 0.13 62)",
+    bg: "oklch(0.97 0.015 172)",
+    border: "oklch(0.88 0.030 172)",
+    ink: "oklch(0.20 0.046 172)",
+    iconBg: "oklch(0.92 0.026 172)",
+    iconColor: "oklch(0.37 0.12 172)",
     statusLabel: "BURNOUT",
     Icon: Flame,
+    image: "/images/card_03_overworked-employee.webp",
     dataPoints: [
       { Icon: Flame, text: "Signals shift from committed to stretched before the person asks for help." },
       { Icon: Heart, text: "HR sees where support is needed without waiting for a crisis." },
@@ -91,13 +96,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "04",
     label: "Team meetings becoming less productive",
     sub: "A calendar can look full while collaboration is quietly losing its usefulness.",
-    bg: "oklch(0.94 0.032 215)",
-    border: "oklch(0.82 0.046 215)",
-    ink: "oklch(0.27 0.04 220)",
-    iconBg: "oklch(0.88 0.055 215)",
-    iconColor: "oklch(0.46 0.12 215)",
+    bg: "oklch(0.97 0.013 125)",
+    border: "oklch(0.88 0.027 125)",
+    ink: "oklch(0.20 0.042 127)",
+    iconBg: "oklch(0.92 0.023 125)",
+    iconColor: "oklch(0.35 0.1 127)",
     statusLabel: "MEETING DRIFT",
     Icon: Clock,
+    image: "/images/card_04_hr-manager.webp",
     dataPoints: [
       { Icon: Clock, text: "Frequency, attendance, and follow-through stop matching team outcomes." },
       { Icon: TrendingDown, text: "The signal appears before frustration becomes resignation language." },
@@ -107,13 +113,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "05",
     label: "An employee at risk of leaving",
     sub: "Attrition has a long shadow. The resignation letter is usually the final symptom.",
-    bg: "oklch(0.94 0.034 330)",
-    border: "oklch(0.82 0.045 330)",
-    ink: "oklch(0.29 0.04 325)",
-    iconBg: "oklch(0.89 0.055 330)",
-    iconColor: "oklch(0.48 0.12 325)",
+    bg: "oklch(0.97 0.013 160)",
+    border: "oklch(0.88 0.027 160)",
+    ink: "oklch(0.20 0.043 160)",
+    iconBg: "oklch(0.92 0.023 160)",
+    iconColor: "oklch(0.36 0.11 160)",
     statusLabel: "RETENTION",
     Icon: UserMinus,
+    image: "/images/card_05_executive.webp",
     dataPoints: [
       { Icon: UserMinus, text: "Engagement, support, and activity signals combine into a leaving-risk view." },
       { Icon: AlertTriangle, text: "Managers get time to act before an exit interview explains it." },
@@ -123,13 +130,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "06",
     label: "A sudden drop in performance",
     sub: "Performance issues are easier to resolve when you can see what changed around them.",
-    bg: "oklch(0.94 0.032 255)",
-    border: "oklch(0.82 0.045 255)",
-    ink: "oklch(0.27 0.04 255)",
-    iconBg: "oklch(0.88 0.052 255)",
-    iconColor: "oklch(0.46 0.12 255)",
+    bg: "oklch(0.97 0.014 165)",
+    border: "oklch(0.88 0.028 165)",
+    ink: "oklch(0.20 0.044 165)",
+    iconBg: "oklch(0.92 0.024 165)",
+    iconColor: "oklch(0.36 0.11 165)",
     statusLabel: "PERFORMANCE",
     Icon: BarChart2,
+    image: "/images/card_06_sales-engagement.webp",
     dataPoints: [
       { Icon: BarChart2, text: "Output dips are connected to workload, team climate, and manager context." },
       { Icon: Clock, text: "The conversation starts earlier, with more useful context." },
@@ -139,13 +147,14 @@ const SIGNAL_CARDS: SignalCard[] = [
     number: "07",
     label: "An employee feeling unsupported",
     sub: "Support gaps are quiet at first. They become expensive when people stop believing help is coming.",
-    bg: "oklch(0.94 0.036 105)",
-    border: "oklch(0.82 0.047 105)",
-    ink: "oklch(0.28 0.04 110)",
-    iconBg: "oklch(0.88 0.058 105)",
-    iconColor: "oklch(0.44 0.12 112)",
+    bg: "oklch(0.97 0.012 133)",
+    border: "oklch(0.88 0.025 133)",
+    ink: "oklch(0.20 0.040 133)",
+    iconBg: "oklch(0.92 0.022 133)",
+    iconColor: "oklch(0.34 0.09 133)",
     statusLabel: "SUPPORT",
     Icon: Heart,
+    image: "/images/card_07_new-manager.webp",
     dataPoints: [
       { Icon: Heart, text: "Low support signals surface before the employee disengages from the team." },
       { Icon: AlertTriangle, text: "HR can intervene while the fix is still human and practical." },
@@ -153,9 +162,8 @@ const SIGNAL_CARDS: SignalCard[] = [
   },
 ];
 
-function CardIconPanel({ card, mobile }: { card: SignalCard; mobile: boolean }) {
-  const Icon = card.Icon;
-
+function CardImagePanel({ card, mobile }: { card: SignalCard; mobile: boolean }) {
+  const size = mobile ? "188px" : `${CARD_H - 44}px`;
   return (
     <div
       style={{
@@ -163,37 +171,18 @@ function CardIconPanel({ card, mobile }: { card: SignalCard; mobile: boolean }) 
         height: mobile ? "168px" : `${CARD_H - 44}px`,
         flexShrink: 0,
         borderRadius: mobile ? "22px" : "26px",
-        background: card.iconBg,
         border: `1px solid ${card.border}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          inset: "18px",
-          borderRadius: "999px",
-          border: `1px solid color-mix(in srgb, ${card.iconColor} 22%, transparent 78%)`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          width: mobile ? "96px" : "150px",
-          height: mobile ? "96px" : "150px",
-          borderRadius: "999px",
-          background: `color-mix(in srgb, ${card.iconColor} 12%, transparent 88%)`,
-        }}
-      />
-      <Icon
-        size={mobile ? 68 : 112}
-        color={card.iconColor}
-        strokeWidth={1.7}
-        style={{ position: "relative", zIndex: 1 }}
+      <Image
+        src={card.image}
+        alt={card.label}
+        fill
+        sizes={`${size}`}
+        quality={88}
+        style={{ objectFit: "cover" }}
       />
     </div>
   );
@@ -240,7 +229,7 @@ function SignalProblemCard({
           position: "relative",
         }}
       >
-        {!mobile && <CardIconPanel card={card} mobile={false} />}
+        {!mobile && <CardImagePanel card={card} mobile={false} />}
 
         <div
           style={{
@@ -376,7 +365,7 @@ function SignalProblemCard({
           </div>
         </div>
 
-        {mobile && <CardIconPanel card={card} mobile />}
+        {mobile && <CardImagePanel card={card} mobile />}
       </div>
     </motion.div>
   );
