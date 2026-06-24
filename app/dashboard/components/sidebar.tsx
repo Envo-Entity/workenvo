@@ -110,15 +110,6 @@ export default function Sidebar() {
 
         <div className="mt-auto space-y-4 pb-2 pt-6">
           <Link
-            href="/legacy/dashboard"
-            className="flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-700 transition-colors hover:bg-amber-100"
-            title="Legacy Dashboard"
-          >
-            <DashboardIcon name="dashboard" className="text-[18px]" />
-            <span className={`${showLabelsClass} min-w-0 truncate`}>Legacy Dashboard</span>
-          </Link>
-
-          <Link
             href="/dashboard/envo-settings"
             className={
               pathname.startsWith("/dashboard/envo-settings")
