@@ -6,6 +6,14 @@ import { useState } from "react";
 import BrandLogo from "@/components/BrandLogo";
 import DashboardIcon from "./dashboard-icon";
 import styles from "../dashboard.module.css";
+import { signOut } from "@/app/auth/actions";
+
+const ROLE_LABELS: Record<string, string> = {
+  super_admin: "Super Admin",
+  org_admin: "Admin",
+  hr: "HR Manager",
+  manager: "Manager",
+};
 
 const navGroups = [
   {
@@ -36,7 +44,14 @@ type NavItem = (typeof navGroups)[number]["items"][number] & {
   fill?: boolean;
 };
 
-export default function Sidebar() {
+interface UserProfile {
+  fullName: string | null;
+  email: string;
+  avatarUrl: string | null;
+  role: string;
+}
+
+export default function Sidebar({ userProfile }: { userProfile: UserProfile }) {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const expandedClass = isExpanded ? "md:w-64 md:p-6" : "md:w-20 md:p-4";
@@ -131,17 +146,49 @@ export default function Sidebar() {
           </button>
 
           <div className={`flex items-center gap-3 rounded-[1.25rem] bg-[var(--dash-surface)] p-4 ${isExpanded ? "" : "md:justify-center md:p-3 xl:justify-start xl:p-4"} ${styles.glassNav}`}>
-            <div className="h-10 w-10 rounded-full bg-[var(--dash-line-strong)]">
-              <img
-                alt="Profile"
-                className="h-full w-full rounded-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9A36ue4mTCpIwF7EdZZrM0_LHYoRdRRChk_ZhULg8p_LQBPk8N5D--Vexd0l5LtH-fBKezxK31nuOmOjrwolLhudo-e-EsN0m9NYS4Z528eEQAlPQ41SDwU6IaHwaesVe0o0t1m5Px5kunbVZBWIROzbnLAtX-OaH1sWxhKKy-9fAVAhFaThalGGELAU6jZD6YMRuE2n7riKDjPxvIWyq4rhA3miNogy4maqO7cmk7uDIQA-_Yesc_0nOjwxbWrdB-4nmdViJFg"
-              />
+            {/* Avatar */}
+            <div className="relative h-10 w-10 shrink-0">
+              {userProfile.avatarUrl ? (
+                <img
+                  alt={userProfile.fullName ?? userProfile.email}
+                  className="h-full w-full rounded-full object-cover"
+                  src={userProfile.avatarUrl}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--dash-primary-deep)] text-[13px] font-bold text-white">
+                  {(userProfile.fullName ?? userProfile.email).charAt(0).toUpperCase()}
+                </div>
+              )}
             </div>
-            <div className={`${showLabelsClass} min-w-0`}>
-              <p className="text-xs font-bold text-[var(--dash-ink)]">Alex Mercer</p>
-              <p className="truncate text-[10px] text-[var(--dash-ink-soft)]">Chief HR Officer</p>
+
+            {/* Name + role */}
+            <div className={`${showLabelsClass} min-w-0 flex-1`}>
+              <p className="truncate text-xs font-bold text-[var(--dash-ink)]">
+                {userProfile.fullName ?? userProfile.email.split("@")[0]}
+              </p>
+              <p className="truncate text-[10px] text-[var(--dash-ink-soft)]">
+                {ROLE_LABELS[userProfile.role] ?? userProfile.role}
+              </p>
             </div>
+
+            {/* Logout */}
+            <form action={signOut} className={`${showLabelsClass} shrink-0`}>
+              <button
+                type="submit"
+                title="Log out"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-[var(--dash-ink-soft)] transition-colors hover:bg-[var(--dash-surface-muted)] hover:text-red-500"
+              >
+                <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+                  <path
+                    d="M7 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h3M13 14l3-4-3-4M16 10H7"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </form>
           </div>
         </div>
       </div>

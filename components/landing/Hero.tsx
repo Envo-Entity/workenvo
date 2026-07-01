@@ -17,6 +17,7 @@ export default function Hero() {
 
   return (
     <section
+      suppressHydrationWarning
       style={{
         position: "relative",
         width: "100%",

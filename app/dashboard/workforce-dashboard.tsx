@@ -74,129 +74,6 @@ type Data = {
   };
 };
 
-const D: Data = {
-  healthScore: 82,
-  healthDelta: 6,
-  pillars: [
-    { name: "Engagement", val: 84, tone: "high" },
-    { name: "Burnout", val: 72, tone: "mid" },
-    { name: "Manager quality", val: 88, tone: "high" },
-    { name: "Retention", val: 79, tone: "high" },
-    { name: "Survey signal", val: 69, tone: "mid" },
-  ],
-  healthTrend: [66, 69, 71, 70, 73, 75, 74, 77, 79, 80, 81, 82],
-  topRisks: [
-    {
-      rank: "01",
-      title: "Support burnout rising",
-      why: "Late-week load and after-hours pings are compounding.",
-      sev: "hot",
-      spark: [28, 31, 30, 36, 40, 43, 49, 54],
-      dir: "up",
-    },
-    {
-      rank: "02",
-      title: "Product attrition cluster",
-      why: "High performers show lower belonging and manager trust.",
-      sev: "hot",
-      spark: [18, 22, 24, 23, 28, 34, 36, 39],
-      dir: "up",
-    },
-    {
-      rank: "03",
-      title: "Engineering meeting load",
-      why: "Focus blocks dropped 14 percent across two squads.",
-      sev: "warm",
-      spark: [44, 42, 43, 45, 47, 46, 51, 50],
-      dir: "up",
-    },
-  ],
-  attrition: {
-    high: 18,
-    moderate: 34,
-    stable: 126,
-    mostAffected: "Product",
-  },
-  heatTeams: [
-    { team: "Support", row: [0.39, 0.48, 0.56, 0.62, 0.68, 0.73, 0.82, 0.9], level: "High" },
-    { team: "Product", row: [0.32, 0.36, 0.43, 0.51, 0.57, 0.64, 0.7, 0.76], level: "High" },
-    { team: "Sales", row: [0.2, 0.22, 0.3, 0.37, 0.4, 0.45, 0.44, 0.48], level: "Medium" },
-    { team: "Engineering", row: [0.26, 0.28, 0.31, 0.4, 0.44, 0.5, 0.49, 0.52], level: "Medium" },
-    { team: "People", row: [0.14, 0.18, 0.2, 0.19, 0.23, 0.25, 0.24, 0.22], level: "Low" },
-    { team: "Finance", row: [0.18, 0.2, 0.21, 0.25, 0.24, 0.27, 0.29, 0.31], level: "Low" },
-  ],
-  managers: [
-    { name: "Maya Iyer", team: "Product", effect: 15, delta: 7 },
-    { name: "Daniel Cho", team: "Sales", effect: 11, delta: 5 },
-    { name: "Avery Stone", team: "People", effect: 9, delta: 3 },
-    { name: "Noah Kim", team: "Engineering", effect: -6, delta: -2 },
-    { name: "Rhea Kapoor", team: "Support", effect: -13, delta: -6 },
-  ],
-  engagement: {
-    months: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    company: [68, 69, 70, 71, 70, 72, 73, 74, 75, 76, 76, 77],
-    team: [64, 66, 67, 69, 68, 70, 73, 74, 76, 78, 79, 82],
-    benchmark: [66, 66, 67, 67, 68, 68, 69, 69, 70, 70, 70, 71],
-  },
-  leaderboard: [
-    { team: "People Ops", score: 91, trend: "up" },
-    { team: "Design", score: 87, trend: "up" },
-    { team: "Engineering", score: 81, trend: "flat" },
-    { team: "Sales", score: 76, trend: "up" },
-    { team: "Product", score: 69, trend: "down" },
-    { team: "Support", score: 63, trend: "down" },
-  ],
-  signalPool: [
-    { title: "Pulse response spike", meta: "People Ops, +18 responses in 20 min", sev: "cool" },
-    { title: "Burnout language detected", meta: "Support comments mention weekend load", sev: "hot" },
-    { title: "Manager trust improved", meta: "Design weekly confidence +9 pts", sev: "cool" },
-    { title: "Attrition model moved", meta: "Product risk cohort crossed threshold", sev: "hot" },
-    { title: "Meeting density alert", meta: "Engineering focus blocks below target", sev: "warm" },
-    { title: "Recognition momentum", meta: "Sales peer praise doubled this week", sev: "cool" },
-    { title: "Sentiment drift", meta: "Finance comments trending neutral", sev: "warm" },
-    { title: "Recovery pattern", meta: "Support PTO planning opened by HRBP", sev: "cool" },
-    { title: "Manager nudge queued", meta: "Rhea Kapoor, 3:1 backlog detected", sev: "warm" },
-    { title: "Survey anomaly", meta: "Product belonging score down 7 pts", sev: "hot" },
-  ],
-  actions: [
-    {
-      title: "Open Support recovery sprint",
-      meta: "Reduce weekend coverage and add manager check-ins.",
-      impact: "+8 health",
-      done: false,
-    },
-    {
-      title: "Schedule Product stay interviews",
-      meta: "Prioritize high-performing flight-risk cohort.",
-      impact: "-12 risk",
-      done: false,
-    },
-    {
-      title: "Protect Engineering focus blocks",
-      meta: "Move recurring meetings from Tuesday and Thursday.",
-      impact: "+5 focus",
-      done: true,
-    },
-    {
-      title: "Amplify Design manager rituals",
-      meta: "Copy the 1:1 cadence into Sales pods.",
-      impact: "+4 trust",
-      done: false,
-    },
-  ],
-  forecast: {
-    actual: [82, 81, 80, 79, 78, 77],
-    projected: [77, 75, 73, 70, 68],
-    bandHi: [79, 78, 77, 75, 73],
-    bandLo: [75, 72, 69, 65, 62],
-    stats: [
-      { label: "Attrition risk", value: "+11%", tone: "hot" },
-      { label: "Burnout load", value: "+18%", tone: "hot" },
-      { label: "Engagement", value: "-7 pts", tone: "warm" },
-    ],
-  },
-};
-
 const PAY_GAP_DEPS = [
   { dept: "Support",     headcount: 178, gap: 7.8 },
   { dept: "Product",     headcount: 94,  gap: 6.2 },
@@ -316,8 +193,8 @@ function GaugeIcon({ name, size = 14, stroke = 2.2 }: { name: string; size?: num
   return <Activity {...props} />;
 }
 
-export default function WorkforceDashboard() {
-  const seed = D.signalPool.slice(0, 6).map((s, i) => ({ ...s, id: i, bornSec: -(i * 47 + 8) }));
+export default function WorkforceDashboard({ data }: { data: Data }) {
+  const seed = data.signalPool.slice(0, 6).map((s, i) => ({ ...s, id: i, bornSec: -(i * 47 + 8) }));
   const [signals, setSignals] = useState(seed);
   const [sec, setSec] = useState(0);
   const idRef = useRef(seed.length);
@@ -328,7 +205,7 @@ export default function WorkforceDashboard() {
       setSec((s) => {
         const ns = s + 1;
         if (ns % 6 === 0) {
-          const next = D.signalPool[poolRef.current % D.signalPool.length];
+          const next = data.signalPool[poolRef.current % data.signalPool.length];
           poolRef.current += 1;
           setSignals((prev) => [{ ...next, id: idRef.current++, bornSec: ns }, ...prev].slice(0, 8));
         }
@@ -336,7 +213,7 @@ export default function WorkforceDashboard() {
       });
     }, 1000);
     return () => window.clearInterval(iv);
-  }, []);
+  }, [data.signalPool]);
 
   const fmt = (age: number) => {
     if (age < 5) return "now";
@@ -346,7 +223,7 @@ export default function WorkforceDashboard() {
 
   const feed = signals.map((s) => ({ ...s, time: fmt(sec - (s.bornSec ?? 0)) }));
 
-  const [actions, setActions] = useState(D.actions);
+  const [actions, setActions] = useState(data.actions);
   const toggle = (i: number) => {
     setActions((a) => a.map((x, j) => (j === i ? { ...x, done: !x.done } : x)));
   };
@@ -355,18 +232,18 @@ export default function WorkforceDashboard() {
     <section className={styles.dashboard}>
       <TopBar />
       <div className={styles.grid}>
-        <HealthScore d={D} />
-        <TopRisks d={D} />
-        <AttritionRisk d={D} />
-        <BurnoutHeatmap d={D} />
-        <ManagerEffectiveness d={D} />
+        <HealthScore d={data} />
+        <TopRisks d={data} />
+        <AttritionRisk d={data} />
+        <BurnoutHeatmap d={data} />
+        <ManagerEffectiveness d={data} />
         <PayEquityExposure />
         <PayEquityDiagnosis />
-        <EngagementTrend d={D} />
-        <Leaderboard d={D} />
+        <EngagementTrend d={data} />
+        <Leaderboard d={data} />
         <SignalFeed signals={feed} />
         <RecommendedActions actions={actions} onToggle={toggle} />
-        <WorkforceForecast d={D} />
+        <WorkforceForecast d={data} />
       </div>
     </section>
   );

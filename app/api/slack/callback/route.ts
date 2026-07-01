@@ -1,13 +1,12 @@
 import { type NextRequest } from "next/server";
+import { encrypt } from "@/lib/crypto";
+import { ensureOrg, upsertSlackIntegration } from "@/lib/db";
+import { syncSlackWorkspace } from "@/lib/slack-sync";
 
 function getOrigin(request: NextRequest): string {
-  // When behind ngrok/proxies, x-forwarded-host has the real public domain.
   const forwardedHost = request.headers.get("x-forwarded-host");
-  const forwardedProto =
-    request.headers.get("x-forwarded-proto")?.split(",")[0] ?? "https";
-  if (forwardedHost) {
-    return `${forwardedProto}://${forwardedHost}`;
-  }
+  const forwardedProto = request.headers.get("x-forwarded-proto")?.split(",")[0] ?? "https";
+  if (forwardedHost) return `${forwardedProto}://${forwardedHost}`;
   const { protocol, host } = new URL(request.url);
   return `${protocol}//${host}`;
 }
@@ -15,12 +14,16 @@ function getOrigin(request: NextRequest): string {
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const error = request.nextUrl.searchParams.get("error");
+  const state = request.nextUrl.searchParams.get("state");
+
+  // If the install request came from localhost, redirect back there so the
+  // user's existing session (scoped to localhost) is still valid.
+  const redirectOrigin = (state && /^https?:\/\/localhost/.test(state))
+    ? state
+    : getOrigin(request);
 
   if (error || !code) {
-    const reason = error ?? "missing_code";
-    return Response.redirect(
-      `${getOrigin(request)}/slack-test?error=${reason}`
-    );
+    return Response.redirect(`${redirectOrigin}/dashboard/envo-integrations?error=${error ?? "missing_code"}`);
   }
 
   const tokenRes = await fetch("https://slack.com/api/oauth.v2.access", {
@@ -35,28 +38,34 @@ export async function GET(request: NextRequest) {
   });
 
   const data = await tokenRes.json();
-
   if (!data.ok) {
-    return Response.redirect(
-      `${getOrigin(request)}/slack-test?error=${data.error}`
-    );
+    return Response.redirect(`${getOrigin(request)}/dashboard/envo-integrations?error=${data.error}`);
   }
 
-  const params = new URLSearchParams({
-    connected: "true",
-    workspace: data.team.name,
-    team_id: data.team.id,
-    bot_user_id: data.bot_user_id ?? "",
-    scope: data.scope ?? "",
-  });
+  const orgId = process.env.DEV_ORG_ID!;
+  const workspaceName: string = data.team?.name ?? "Workspace";
+  const teamId: string = data.team?.id ?? "unknown";
+  const scopes: string = data.scope ?? "";
+  const botToken: string = data.access_token;
 
-  // cookies().set() doesn't attach to a manually-returned Response in Route Handlers,
-  // so we set the Set-Cookie header directly on the redirect response.
-  return new Response(null, {
-    status: 302,
-    headers: {
-      Location: `${getOrigin(request)}/slack-test?${params}`,
-      "Set-Cookie": `slack_test_token=${encodeURIComponent(data.access_token)}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax`,
-    },
-  });
+  try {
+    // Ensure org exists (idempotent)
+    await ensureOrg(orgId, workspaceName);
+
+    // Persist encrypted token
+    const encryptedToken = encrypt(botToken);
+    await upsertSlackIntegration(orgId, teamId, encryptedToken, workspaceName, scopes);
+
+    // Sync workspace users + teams in the background (fire-and-forget, don't block redirect)
+    syncSlackWorkspace(orgId, botToken).catch(err =>
+      console.error("[slack-sync] Initial workspace sync failed:", err),
+    );
+  } catch (err) {
+    console.error("Failed to save Slack integration:", err);
+    return Response.redirect(`${redirectOrigin}/dashboard/envo-integrations?error=db_error`);
+  }
+
+  return Response.redirect(
+    `${redirectOrigin}/dashboard/envo-integrations?connected=true&workspace=${encodeURIComponent(workspaceName)}`,
+  );
 }
