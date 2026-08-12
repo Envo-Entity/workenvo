@@ -24,6 +24,15 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/dashboard-access",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, nocache",
+          },
+        ],
+      },
     ];
   },
 };
